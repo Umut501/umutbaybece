@@ -299,28 +299,16 @@ body {
 
 .about-title {
     font-family: 'Playwrite AU SA', serif;
-    font-size: 4rem;
+    font-size: 9.2rem;
     margin-bottom: 3rem;
     color: #fff;
-    text-align: center;
 }
 
 .about-grid {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: repeat(1, 1fr);
     gap: 4rem;
     align-items: start;
-}
-
-.about-image {
-    position: relative;
-}
-
-.profile-image {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 .about-subtitle {
