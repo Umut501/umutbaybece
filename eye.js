@@ -76,8 +76,6 @@ class EyeAnimation {
         }
         );
                 
-
-
     }
 
     createEye() {
@@ -146,10 +144,6 @@ class EyeAnimation {
         const eyeScale = 1 - Math.min(scrollPosition / 400, 1);
         this.eyeball.scale.set(eyeScale, eyeScale, eyeScale);
 
-
-        
-
-
         // Update eye pupil scale based on scroll position
         const pupilScale = 1 + Math.min(scrollPosition / 100, 1);
         this.pupil.scale.set(pupilScale, pupilScale, 1);
@@ -158,14 +152,11 @@ class EyeAnimation {
         const irisScale = 1.2 + Math.min(scrollPosition / 100, 1);
         this.iris.scale.set(irisScale, irisScale, 1);
 
-
-
         // Update pupil position based on mouse position
         const targetX = this.mouse.x * 0.3;
         const targetY = this.mouse.y * 0.3;
         this.pupil.position.x = targetX;
         this.pupil.position.y = targetY;
-
         
         // Update eye rotation based on mouse position
         const targetRotationX = this.mouse.y * Math.PI / -4;

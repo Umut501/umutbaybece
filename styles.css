@@ -37,7 +37,7 @@ body {
     flex-flow: column wrap;
 }
 
-.headerContainer{
+.headerContainer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -190,14 +190,12 @@ body {
 }
 
 /* Scroll down animation arrow end */
-
-
 .eye-text {
     position: relative;
     display: inline-block;
 }
 
-.eye-text > span {
+.eye-text>span {
     transition: opacity 0.2s ease-out;
 }
 
@@ -209,4 +207,81 @@ body {
 .eye-container {
     opacity: 1 !important;
     pointer-events: auto;
+}
+
+.about-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    background-color: #000;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 2rem;
+}
+
+.about-content {
+    max-width: 800px;
+    height: 100%;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
+    animation-delay: 0.2s;
+}
+
+.about-content h2 {
+    font-family: 'Playwrite AU SA', serif;
+    font-size: 18rem;
+    margin-bottom: 2rem;
+    color: #fff;
+}
+
+.about-text {
+    font-family: 'Playwrite AU SA', serif;
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+.about-text p {
+    margin-bottom: 1.5rem;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .about-content h2 {
+        font-size: 3rem;
+    }
+    
+    .about-text {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-content h2 {
+        font-size: 2.5rem;
+    }
+    
+    .about-section {
+        padding: 3rem 1.5rem;
+    }
 }

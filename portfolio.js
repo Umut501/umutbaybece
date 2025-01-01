@@ -112,9 +112,11 @@ const updateTextFade = (scrollProgress) => {
 };
 
 let scrollProgress = 0;
+// Update the scroll event listener
 window.addEventListener('scroll', () => {
     const scrollMax = getMaxScroll();
     scrollProgress = Math.min(1, window.scrollY * 1.2 / scrollMax * 6);
+    const aboutSection = document.querySelector('.about-section');
 
     if (!ticking) {
         requestAnimationFrame(() => {
@@ -123,10 +125,18 @@ window.addEventListener('scroll', () => {
             if (scrollProgress > 0.44) {
                 threeContainer.style.opacity = '0';
                 contentWrapper.style.opacity = '0';
+                if (aboutSection) {
+                    aboutSection.style.opacity = '1';
+                    aboutSection.style.visibility = 'visible';
+                }
                 currentScale = 1;
             } else {
                 threeContainer.style.opacity = '1';
                 contentWrapper.style.opacity = '1';
+                if (aboutSection) {
+                    aboutSection.style.opacity = '0';
+                    aboutSection.style.visibility = 'hidden';
+                }
             }
 
             ticking = false;
