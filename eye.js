@@ -9,7 +9,7 @@ class EyeAnimation {
         this.container.className = 'eye-container';
         
         // Find the 'o' in discover and add eye anchor
-        const discoverText = document.querySelector('.carousel-text');
+        const discoverText = document.querySelector('.eye-text');
         const eyeAnchor = document.createElement('div');
         eyeAnchor.className = 'eye-anchor';
         discoverText.appendChild(eyeAnchor);
@@ -55,10 +55,8 @@ class EyeAnimation {
             });
 
             const textMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0xffffff,
-                transparent: true,
-                opacity: 0.7
-            });
+                color: 0xffffff    
+             });
 
             this.text = new THREE.Mesh(textGeometry, textMaterial);
             
@@ -70,6 +68,16 @@ class EyeAnimation {
             // Add text to eyeball so it moves with it
             this.eyeball.add(this.text);
         });
+                // update text transparency based on scroll position 
+        document.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            const textOpacity = 0.3 - Math.min(scrollPosition / 100, 1);
+            this.text.material.opacity = textOpacity;
+        }
+        );
+                
+
+
     }
 
     createEye() {
@@ -84,7 +92,7 @@ class EyeAnimation {
         this.eyeball = new THREE.Mesh(geometry, material);
         
         // Create iris
-        const irisGeometry = new THREE.CircleGeometry(0.5, 3);
+        const irisGeometry = new THREE.CircleGeometry(0.5, 32);
         const irisMaterial = new THREE.MeshPhongMaterial({
             color: 0x000000,
             specular: 0x333333,
@@ -94,7 +102,7 @@ class EyeAnimation {
         this.iris.position.z = 0.9;
         
         // Create pupil
-        const pupilGeometry = new THREE.CircleGeometry(0.4, 32);
+        const pupilGeometry = new THREE.CircleGeometry(0.24, 32);
         const pupilMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
         this.pupil = new THREE.Mesh(pupilGeometry, pupilMaterial);
         this.pupil.position.z = 1;
@@ -126,6 +134,38 @@ class EyeAnimation {
 
     animate() {
         requestAnimationFrame(() => this.animate());
+
+        // eye gets blurry when scrolling
+        const scrollPosition = window.scrollY;
+        // and transparent when scrolling
+        const transparency = 1 - Math.min(scrollPosition / 100, 1);
+        this.eyeball.material.opacity = transparency;
+        this.iris.material.opacity = transparency;
+        this.pupil.material.opacity = transparency;
+        // on top of that, the eye gets smaller when scrolling
+        const eyeScale = 1 - Math.min(scrollPosition / 400, 1);
+        this.eyeball.scale.set(eyeScale, eyeScale, eyeScale);
+
+
+        
+
+
+        // Update eye pupil scale based on scroll position
+        const pupilScale = 1 + Math.min(scrollPosition / 100, 1);
+        this.pupil.scale.set(pupilScale, pupilScale, 1);
+
+        // Update eye iris scale based on scroll position
+        const irisScale = 1.2 + Math.min(scrollPosition / 100, 1);
+        this.iris.scale.set(irisScale, irisScale, 1);
+
+
+
+        // Update pupil position based on mouse position
+        const targetX = this.mouse.x * 0.3;
+        const targetY = this.mouse.y * 0.3;
+        this.pupil.position.x = targetX;
+        this.pupil.position.y = targetY;
+
         
         // Update eye rotation based on mouse position
         const targetRotationX = this.mouse.y * Math.PI / -4;

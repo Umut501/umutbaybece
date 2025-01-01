@@ -6,46 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UMUT BAYBECE - Portfolio</title>
     <link rel="stylesheet" href="styles.css">
-
 </head>
 
 <body>
     <div id="three-container"></div>
     <div class="content-wrapper">
-        <div class="name-container">
+        <header class="headerContainer">
             <h1 class="name-text playwrite-au-sa " id="firstname" style="display: inline;">
-
-                <span id="text-carousel" style="display: inline-block;">
-                    <span class="glitch carousel-text">portf<span
-                            style="color: rgba(240, 248, 255, 0);">o</span>lio</span>
+                <span style="display: inline-block; position: relative;">
+                    <span class="eye-text">portf<span style="color: rgba(240, 248, 255, 0);">o</span>lio</span>
                 </span>
             </h1>
-            <script>
-                const texts = document.querySelectorAll('.carousel-text');
-                let currentIndex = 0;
+        </header>
 
-                function showNextText() {
-                    texts[currentIndex].style.display = 'none';
-                    currentIndex = (currentIndex + 1) % texts.length;
-                    texts[currentIndex].style.display = 'block';
-                }
-
-                texts.forEach((text, index) => {
-                    if (index !== 0) text.style.display = 'none';
-                });
-
-                setInterval(showNextText, 4000);
-            </script>
+        <div class="scroll-down">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-    </div>
-    <div class="grid-container">
-        <svg id="grid"></svg>
-    </div>
-    <div class="portal-container">
-        <div class="portal">
-            <div class="content">
-                ABOUT ME<br><br>
-            </div>
+        <div style="color: #ffffff92; margin-top: 10%; position: absolute;
+    bottom: 3%;">
+            Scroll down to see beyond the surface.
         </div>
     </div>
     <div class="scroll-container"></div>
