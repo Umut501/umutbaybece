@@ -11,6 +11,10 @@ import {
     Vector3
 } from 'https://unpkg.com/three@0.121.1/build/three.module.js';
 
+import ProjectsPrisms from './ProjectsPrisms.js';
+import FallingPrisms from './fallingPrisms.js';
+
+
 // Three.js setup
 const rowCount = 46;
 const columnCount = 40;
@@ -117,25 +121,46 @@ window.addEventListener('scroll', () => {
     const scrollMax = getMaxScroll();
     scrollProgress = Math.min(1, window.scrollY * 1.2 / scrollMax * 6);
     const aboutSection = document.querySelector('.about-section');
+    const projectsSection = document.querySelector('.projects-section');
 
     if (!ticking) {
         requestAnimationFrame(() => {
             updateTextFade(scrollProgress);
 
-            if (scrollProgress > 0.44) {
+            // Update section visibility with transitions
+            if (scrollProgress > 0.44 && scrollProgress < 0.8) {
+                // Transition to about section
                 threeContainer.style.opacity = '0';
                 contentWrapper.style.opacity = '0';
+                
                 if (aboutSection) {
-                    aboutSection.style.opacity = '1';
-                    aboutSection.style.visibility = 'visible';
+                    aboutSection.classList.add('active');
+                    aboutSection.classList.remove('exit');
                 }
-                currentScale = 1;
+                if (projectsSection) {
+                    projectsSection.classList.remove('active');
+                    projectsSection.classList.add('exit');
+                }
+            } else if (scrollProgress >= 0.8) {
+                // Transition to projects section
+                if (aboutSection) {
+                    aboutSection.classList.remove('active');
+                    aboutSection.classList.add('exit');
+                }
+                if (projectsSection) {
+                    projectsSection.classList.add('active');
+                    projectsSection.classList.remove('exit');
+                }
             } else {
+                // Return to initial state
                 threeContainer.style.opacity = '1';
                 contentWrapper.style.opacity = '1';
+                
                 if (aboutSection) {
-                    aboutSection.style.opacity = '0';
-                    aboutSection.style.visibility = 'hidden';
+                    aboutSection.classList.remove('active', 'exit');
+                }
+                if (projectsSection) {
+                    projectsSection.classList.remove('active', 'exit');
                 }
             }
 
@@ -204,19 +229,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Smooth scroll functionality for about section
-document.querySelector('a[href="#about"]').addEventListener('click', function(e) {
-    e.preventDefault();
-    const maxScroll = getMaxScroll();
-    const targetScroll = maxScroll * 0.45; // Adjust this value to match when about section becomes visible
-    
-    window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth'
-    });
-});
-
-// Smooth scroll functionality for about section
 document.querySelector('a[href="#about"]').addEventListener('click', function(e) {
     e.preventDefault();
     const maxScroll = getMaxScroll();
@@ -225,9 +237,19 @@ document.querySelector('a[href="#about"]').addEventListener('click', function(e)
     window.scrollTo({
         top: targetScroll,
         behavior: 'smooth',
-        // Add additional options for slower scroll
-        duration: 2000 // Chrome and Firefox will use their own duration,
-                      // but this tells the browser we want a slower scroll
+        duration: 1500 // Longer duration for smoother transition
+    });
+});
+
+document.querySelector('a[href="#projects"]').addEventListener('click', function(e) {
+    e.preventDefault();
+    const maxScroll = getMaxScroll();
+    const targetScroll = maxScroll * 0.8;
+    
+    window.scrollTo({
+        top: targetScroll,
+        behavior: 'smooth',
+        duration: 1500
     });
 });
 
@@ -241,7 +263,6 @@ document.querySelector('a[href="#home"]').addEventListener('click', function(e) 
     });
 });
 
-import FallingPrisms from './fallingPrisms.js';
 
 // Initialize falling prisms when about section becomes visible
 const aboutSection = document.querySelector('.about-section');
@@ -256,3 +277,17 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 observer.observe(aboutSection);
+
+// Initialize projects prisms when projects section becomes visible
+const projectsSection = document.querySelector('.projects-section');
+let projectsPrismsInstance = null;
+
+const projectsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !projectsPrismsInstance) {
+            projectsPrismsInstance = new ProjectsPrisms('projects-prisms-container');
+        }
+    });
+}, { threshold: 0.1 });
+
+projectsObserver.observe(projectsSection);
