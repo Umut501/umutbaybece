@@ -68,7 +68,8 @@ class FallingPrisms {
         const edgesGeometry = new EdgesGeometry(geometry);
         const edgesMaterial = new LineBasicMaterial({ 
             color: 0xffffff,  // White edges
-            linewidth: 2      // Note: linewidth > 1 only works in Firefox
+            linewidth: 1  
+
         });
 
         // Create multiple prisms with random positions
