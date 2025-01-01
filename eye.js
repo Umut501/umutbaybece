@@ -133,7 +133,7 @@ class EyeAnimation {
     animate() {
         requestAnimationFrame(() => this.animate());
 
-        // eye gets blurry when scrolling
+
         const scrollPosition = window.scrollY;
         // and transparent when scrolling
         const transparency = 1 - Math.min(scrollPosition / 100, 1);
@@ -145,11 +145,11 @@ class EyeAnimation {
         this.eyeball.scale.set(eyeScale, eyeScale, eyeScale);
 
         // Update eye pupil scale based on scroll position
-        const pupilScale = 1 + Math.min(scrollPosition / 100, 1);
+        const pupilScale = 1.8 + Math.min(scrollPosition / 100, 1);
         this.pupil.scale.set(pupilScale, pupilScale, 1);
 
         // Update eye iris scale based on scroll position
-        const irisScale = 1.2 + Math.min(scrollPosition / 100, 1);
+        const irisScale = 0 + Math.min(scrollPosition / 100, 1);
         this.iris.scale.set(irisScale, irisScale, 1);
 
         // Update pupil position based on mouse position
