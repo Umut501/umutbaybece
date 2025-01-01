@@ -1,10 +1,12 @@
-// fallingPrisms.js
 import {
     Scene,
     WebGLRenderer,
     PerspectiveCamera,
     BoxGeometry,
     MeshStandardMaterial,
+    LineSegments,
+    EdgesGeometry,
+    LineBasicMaterial,
     Mesh,
     DirectionalLight,
     AmbientLight,
@@ -57,14 +59,26 @@ class FallingPrisms {
     createPrisms() {
         const geometry = new BoxGeometry(1, 2, 1);
         const material = new MeshStandardMaterial({ 
-            color: 0xffffff,
-            metalness: 0.5,
-            roughness: 0.1
+            color: 0x000000,  // Black fill
+            metalness: 0.1,
+            roughness: 0.8
+        });
+
+        // Create edges geometry and material
+        const edgesGeometry = new EdgesGeometry(geometry);
+        const edgesMaterial = new LineBasicMaterial({ 
+            color: 0xffffff,  // White edges
+            linewidth: 2      // Note: linewidth > 1 only works in Firefox
         });
 
         // Create multiple prisms with random positions
         for (let i = 0; i < 50; i++) {
+            // Create the main prism mesh
             const prism = new Mesh(geometry, material);
+            
+            // Create the edges mesh
+            const edges = new LineSegments(edgesGeometry, edgesMaterial);
+            prism.add(edges);  // Add edges as a child of the prism
             
             // Random starting position above the viewport
             prism.position.x = (Math.random() - 0.5) * 20;
