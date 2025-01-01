@@ -11,12 +11,11 @@
 <body>
     <nav class="navbar">
         <div class="navbar-logo">
-            <img src="githublogo.png" alt="githublogo" class="github-logo" 
-            style="width: 50px; height: 50px; margin-right: 10px;   margin-top: 10px;
+            <img src="githublogo.png" alt="githublogo" class="github-logo" style="width: 50px; height: 50px; margin-right: 10px;   margin-top: 10px;
             margin-bottom: 10px;
             margin-left: 10px;
             ">
-            <img src="linkedinlogo.png" alt="linkedinlogo" class="linkedin-logo"style="width: 60px; height: 60px; margin-right: 10px;   margin-top: 10px;
+            <img src="linkedinlogo.png" alt="linkedinlogo" class="linkedin-logo" style="width: 60px; height: 60px; margin-right: 10px;   margin-top: 10px;
             margin-bottom: 10px;
             margin-left: 10px;
             ">
@@ -31,7 +30,7 @@
     <div id="three-container"></div>
     <div class="content-wrapper">
         <header class="headerContainer">
-            <h1 class="name-text playwrite-au-sa " id="firstname" style="display: inline;">
+            <h1 class="name-text playwrite-au-sa " style="display: inline;">
                 <span style="display: inline-block; position: relative;">
                     <span class="eye-text">portf<span style="color: rgba(240, 248, 255, 0);">o</span>lio</span>
                 </span>
@@ -43,21 +42,58 @@
             <span></span>
             <span></span>
         </div>
-        <div style="color: #ffffff92; margin-top: 10%; position: absolute; bottom: 3%;" class="scroll-text">
-            Scroll down to see beyond the surface.
+
+        <div class="article" style="color: #ffffff92; margin-top: 10%; position: absolute; bottom: 3%;"
+            class="scroll-text">
+            <p class="glowIn">Scroll&nbsp;down&nbsp;to&nbsp;see&nbsp;beyond&nbsp;the&nbsp;surface.</p>
         </div>
+        <script>
+            let glowInTexts = document.querySelectorAll(".glowIn");
+            glowInTexts.forEach(glowInText => {
+                let letters = glowInText.textContent.split("");
+                glowInText.textContent = "";
+                letters.forEach((letter, i) => {
+                    let span = document.createElement("span");
+                    span.textContent = letter;
+                    span.style.animationDelay = `${i * 0.02}s`;
+                    glowInText.append(span);
+                });
+            });
+        </script>
     </div>
     <div class="scroll-container"></div>
-    <!-- Add this after the scroll-container div in your HTML -->
-<div class="about-section">
-    <div class="about-content">
-        <h2>About Me</h2>
-        <div class="about-text">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<!-- about section  -->
+    <div class="about-section" id="about">
+        <div id="falling-prisms-container" class="falling-prisms-bg"></div>
+        <div class="about-content">
+            <h2 class="about-title">About Me</h2>
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="/api/placeholder/400/400" alt="Profile" class="profile-image" />
+                </div>
+                <div class="about-text">
+                    <h3 class="about-subtitle">Hello, I'm Umut</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris.</p>
+                    <div class="skills-section">
+                        <h4 class="skills-title">Skills</h4>
+                        <div class="skills-grid">
+                            <div class="skill-item">
+                                <span class="skill-name">ABC</span>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">ABC</span>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">ABC</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
     <script type="module" src="portfolio.js"></script>
     <script type="module" src="eye.js"></script>
 </body>

@@ -38,7 +38,7 @@ body {
     color: #fff;
     width: 50%;
     text-align: right;
-    display: flex;  
+    display: flex;
 }
 
 .navbar-menu {
@@ -59,6 +59,7 @@ body {
 .navbar-menu a:hover {
     color: #f00;
 }
+
 /* Navbar styles end */
 
 #three-container {
@@ -201,10 +202,11 @@ body {
 
 .scroll-text {
     font-family: 'Playwrite AU SA', serif;
-    font-size: 1.2rem;
-    color: #fff;
+    font-size: 0.8rem;
+    color: #c8c7c7b6 !important;
     margin-top: 1rem;
 }
+
 .scroll-down {
     position: absolute;
     bottom: 10%;
@@ -265,27 +267,29 @@ body {
     pointer-events: auto;
 }
 
+/* About section styles */
+
 .about-section {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    min-height: 100vh;
     z-index: 3;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s ease, visibility 0.5s ease;
     background-color: #000;
     color: #fff;
-    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 4rem 2rem;
+    padding: 6rem 2rem;
 }
 
 .about-content {
-    max-width: 800px;
-    height: 100%;
+    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
     opacity: 0;
     transform: translateY(30px);
@@ -293,21 +297,87 @@ body {
     animation-delay: 0.2s;
 }
 
-.about-content h2 {
+.about-title {
     font-family: 'Playwrite AU SA', serif;
-    font-size: 18rem;
-    margin-bottom: 2rem;
+    font-size: 4rem;
+    margin-bottom: 3rem;
+    color: #fff;
+    text-align: center;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+.about-image {
+    position: relative;
+}
+
+.profile-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.about-subtitle {
+    font-family: 'Playwrite AU SA', serif;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
     color: #fff;
 }
 
-.about-text {
+.about-text p {
     font-family: 'Playwrite AU SA', serif;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     line-height: 1.8;
+    margin-bottom: 2rem;
 }
 
-.about-text p {
+.skills-section {
+    margin-top: 2rem;
+}
+
+.skills-title {
+    font-family: 'Playwrite AU SA', serif;
+    font-size: 1.5rem;
     margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+.skills-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.skill-item {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.skill-name {
+    font-family: 'Playwrite AU SA', serif;
+    font-size: 1rem;
+    color: #fff;
+}
+
+
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .about-title {
+        font-size: 3rem;
+    }
+
+    .about-subtitle {
+        font-size: 1.5rem;
+    }
 }
 
 @keyframes fadeInUp {
@@ -315,30 +385,91 @@ body {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
-    .about-content h2 {
-        font-size: 3rem;
-    }
-    
-    .about-text {
-        font-size: 1rem;
-    }
+/* About section styles end */
+
+
+/* Article section styles */
+.article {
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-@media (max-width: 480px) {
-    .about-content h2 {
-        font-size: 2.5rem;
-    }
-    
-    .about-section {
-        padding: 3rem 1.5rem;
-    }
+.article h1,
+.article p {
+    line-height: 1.8;
+    font-family: "Lora", serif;
 }
 
+.glowIn {
+    color: white;
+}
+
+.glowIn span {
+    display: inline-block;
+    animation: glow-in 4s infinite;
+}
+
+@keyframes glow-in {
+    0% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    10% {
+        opacity: 1;
+        text-shadow: none;
+    }
+
+    40% {
+        opacity: 1;
+        text-shadow: 0 0 20px white;
+    }
+
+    50% {
+        opacity: 0.7;
+        text-shadow: none;
+    }
+
+    60% {
+        opacity: 1;
+        text-shadow: 0 0 20px white;
+    }
+
+    90% {
+        opacity: 1;
+        text-shadow: none;
+    }
+
+    100% {
+        opacity: 0;
+        text-shadow: none;
+    }
+}
+/* Article section styles end */
+
+/* Falling prisms background styles */
+
+.falling-prisms-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: auto;
+}
+
+.about-section {
+    background: transparent !important;
+}
+/* Falling prisms background styles end */

@@ -202,3 +202,57 @@ function render(time) {
 document.addEventListener('DOMContentLoaded', () => {
     animate(0);
 });
+
+
+// Smooth scroll functionality for about section
+document.querySelector('a[href="#about"]').addEventListener('click', function(e) {
+    e.preventDefault();
+    const maxScroll = getMaxScroll();
+    const targetScroll = maxScroll * 0.45; // Adjust this value to match when about section becomes visible
+    
+    window.scrollTo({
+        top: targetScroll,
+        behavior: 'smooth'
+    });
+});
+
+// Smooth scroll functionality for about section
+document.querySelector('a[href="#about"]').addEventListener('click', function(e) {
+    e.preventDefault();
+    const maxScroll = getMaxScroll();
+    const targetScroll = maxScroll * 0.45;
+    
+    window.scrollTo({
+        top: targetScroll,
+        behavior: 'smooth',
+        // Add additional options for slower scroll
+        duration: 2000 // Chrome and Firefox will use their own duration,
+                      // but this tells the browser we want a slower scroll
+    });
+});
+
+// Smooth scroll functionality for home section
+document.querySelector('a[href="#home"]').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+        duration: 2000
+    });
+});
+
+import FallingPrisms from './fallingPrisms.js';
+
+// Initialize falling prisms when about section becomes visible
+const aboutSection = document.querySelector('.about-section');
+let fallingPrismsInstance = null;
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !fallingPrismsInstance) {
+            fallingPrismsInstance = new FallingPrisms('falling-prisms-container');
+        }
+    });
+}, { threshold: 0.1 });
+
+observer.observe(aboutSection);
