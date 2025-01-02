@@ -116,10 +116,12 @@ const updateTextFade = (scrollProgress) => {
 };
 
 let scrollProgress = 0;
-// Update the scroll event listener
+// Update the scroll event listener// Update scroll event listener
 window.addEventListener('scroll', () => {
     const scrollMax = getMaxScroll();
-    scrollProgress = Math.min(1, window.scrollY * 1.2 / scrollMax * 6);
+    // Adjust scroll progress calculation to be more gradual
+    scrollProgress = Math.min(1, window.scrollY / scrollMax);
+    
     const aboutSection = document.querySelector('.about-section');
     const projectsSection = document.querySelector('.projects-section');
 
@@ -127,9 +129,20 @@ window.addEventListener('scroll', () => {
         requestAnimationFrame(() => {
             updateTextFade(scrollProgress);
 
-            // Update section visibility with transitions
-            if (scrollProgress > 0.44 && scrollProgress < 0.8) {
-                // Transition to about section
+            // Divide scroll into three equal sections
+            if (scrollProgress <= 0.33) {
+                // Home section
+                threeContainer.style.opacity = '1';
+                contentWrapper.style.opacity = '1';
+                
+                if (aboutSection) {
+                    aboutSection.classList.remove('active', 'exit');
+                }
+                if (projectsSection) {
+                    projectsSection.classList.remove('active', 'exit');
+                }
+            } else if (scrollProgress <= 0.66) {
+                // About section
                 threeContainer.style.opacity = '0';
                 contentWrapper.style.opacity = '0';
                 
@@ -141,8 +154,8 @@ window.addEventListener('scroll', () => {
                     projectsSection.classList.remove('active');
                     projectsSection.classList.add('exit');
                 }
-            } else if (scrollProgress >= 0.8) {
-                // Transition to projects section
+            } else {
+                // Projects section
                 if (aboutSection) {
                     aboutSection.classList.remove('active');
                     aboutSection.classList.add('exit');
@@ -150,17 +163,6 @@ window.addEventListener('scroll', () => {
                 if (projectsSection) {
                     projectsSection.classList.add('active');
                     projectsSection.classList.remove('exit');
-                }
-            } else {
-                // Return to initial state
-                threeContainer.style.opacity = '1';
-                contentWrapper.style.opacity = '1';
-                
-                if (aboutSection) {
-                    aboutSection.classList.remove('active', 'exit');
-                }
-                if (projectsSection) {
-                    projectsSection.classList.remove('active', 'exit');
                 }
             }
 
@@ -229,27 +231,26 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// Update navigation click handlers
 document.querySelector('a[href="#about"]').addEventListener('click', function(e) {
     e.preventDefault();
     const maxScroll = getMaxScroll();
-    const targetScroll = maxScroll * 0.45;
+    const targetScroll = maxScroll * 0.5; // Center of about section
     
     window.scrollTo({
         top: targetScroll,
-        behavior: 'smooth',
-        duration: 1500 // Longer duration for smoother transition
+        behavior: 'smooth'
     });
 });
 
 document.querySelector('a[href="#projects"]').addEventListener('click', function(e) {
     e.preventDefault();
     const maxScroll = getMaxScroll();
-    const targetScroll = maxScroll * 0.8;
+    const targetScroll = maxScroll * 0.8; // Center of projects section
     
     window.scrollTo({
         top: targetScroll,
-        behavior: 'smooth',
-        duration: 1500
+        behavior: 'smooth'
     });
 });
 
