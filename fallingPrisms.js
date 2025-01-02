@@ -83,7 +83,7 @@ class FallingPrisms {
             
             // Random starting position above the viewport
             prism.position.x = (Math.random() - 0.5) * 20;
-            prism.position.y = Math.random() * 50 + 20;
+            prism.position.y = Math.random() * 15 + 10; // Lower starting height
             prism.position.z = (Math.random() - 0.5) * 20;
             
             // Random rotation

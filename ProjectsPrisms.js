@@ -44,7 +44,7 @@ class ProjectsPrisms {
                     this.resetPrisms();
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.01 }); // treshold of 0.1 means the callback will be called when 10% of the element is visible
 
         if (projectsSection) {
             observer.observe(projectsSection);
@@ -127,7 +127,7 @@ class ProjectsPrisms {
 
             // Start positions spread out above the scene
             prism.position.x = (Math.random() - 0.5) * 20;
-            prism.position.y = Math.random() * 30 + 20; // Start higher up
+            prism.position.y = Math.random() * 15 + 10; // Lower starting height
             prism.position.z = (Math.random() - 0.5) * 20;
 
             prism.rotation.x = Math.random() * Math.PI;
