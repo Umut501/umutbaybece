@@ -28,7 +28,7 @@ camera.lookAt(0.3, 0, 0);
 
 const initialCameraPos = new Vector3(6, 7, 0);
 const initialLookAt = new Vector3(0.3, 0, 0);
-const targetCameraPos = new Vector3(0, 0, -5);
+const targetCameraPos = new Vector3(0, 0, -1);
 const targetLookAt = new Vector3(0, -5, 0);
 
 var scene = new Scene();
