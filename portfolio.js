@@ -160,7 +160,7 @@ const maxHoleSize = Math.max(window.innerWidth, window.innerHeight); // Maksimum
                 if (projectsSection) {
                     projectsSection.classList.remove('active', 'exit');
                 }
-            } else if (scrollProgress <= 0.66) {
+            } else if (scrollProgress <= 0.55) {
                 // About section
                 threeContainer.style.opacity = '0';
                 contentWrapper.style.opacity = '0';

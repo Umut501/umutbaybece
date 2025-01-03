@@ -140,26 +140,7 @@ body {
     }
 }
 
-@media (max-width: 1024px) {
-    .name-text {
-        font-size: 300px;
-        line-height: 240px;
-    }
-}
 
-@media (max-width: 768px) {
-    .name-text {
-        font-size: 150px;
-        line-height: 120px;
-    }
-}
-
-@media (max-width: 480px) {
-    .name-text {
-        font-size: 80px;
-        line-height: 64px;
-    }
-}
 
 #three-container,
 .content-wrapper {
@@ -173,22 +154,79 @@ body {
 }
 
 .eye-container {
-    position: absolute;
-    width: 600px !important;
-    height: 600px !important;
+    position: relative;
+    display: inline-block;
+    width: 600px ;
+    height: 600px ;
     pointer-events: none;
     z-index: 1000;
 }
 
 /* Position the eye container relative to the 'o' in discover */
 .eye-anchor {
-    position: absolute;
+    position: absolute;   
     top: 50px;
     /* Adjust based on your text size */
     left: 38%;
     /* Center horizontally */
-    width: 600px !important;
-    height: 600px !important;
+    width: 600px;
+    height: 600px ;
+}
+
+@media (max-width: 1024px) {
+    .eye-anchor {
+        top: -60px;
+        left: 36%;
+    }
+    .eye-text {
+        font-size: 200px;
+        line-height: 240px;
+    }
+    .name-text {
+        font-size: 80px;
+        line-height: 64px;
+    }
+}
+
+@media (max-width: 975px) {
+    .eye-anchor {
+        top: -60px;
+        left: 26%;
+    }
+    .eye-text {
+        font-size: 140px;
+        line-height: 290px;
+    }
+    .name-text {
+        font-size: 80px;
+        line-height: 64px;
+    }
+}
+@media (max-width: 768px) {
+    .eye-anchor {
+        top: -60px;
+        left: 26%;
+    }
+    .eye-text {
+        font-size: 140px;
+    }
+    .name-text {
+        font-size: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .eye-anchor {
+        top: -60px;
+        left: 36%;
+    }
+    .eye-text {
+        font-size: 80px;
+    }
+    .name-text {
+        font-size: 80px;
+        line-height: 64px;
+    }
 }
 
 .playwrite-au-sa {
