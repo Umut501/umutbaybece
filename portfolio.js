@@ -125,9 +125,28 @@ window.addEventListener('scroll', () => {
     const aboutSection = document.querySelector('.about-section');
     const projectsSection = document.querySelector('.projects-section');
 
+    // Overlay delik boyutunu güncelle
+const overlay = document.querySelector('.scroll-overlay');
+const minHoleSize = 200; // Başlangıç delik boyutu
+const maxHoleSize = Math.max(window.innerWidth, window.innerHeight); // Maksimum delik boyutu
+
+
     if (!ticking) {
         requestAnimationFrame(() => {
+            
             updateTextFade(scrollProgress);
+                        // Overlay kontrolü
+                        if (scrollProgress <= 0.33) { // Sadece ilk bölümde göster
+                            const minHoleSize = 180;
+                            const maxHoleSize = Math.max(window.innerWidth, window.innerHeight);
+                            const scrollFactor = scrollProgress * 3; // 0-1 arası değer için 
+                            const currentHoleSize = minHoleSize + (scrollFactor * (maxHoleSize - minHoleSize));
+                            
+                            overlay.style.opacity = '1';
+                            overlay.style.setProperty('--hole-size', `${currentHoleSize}px`);
+                        } else {
+                            overlay.style.opacity = '0';
+                        }
 
             // Divide scroll into three equal sections
             if (scrollProgress <= 0.33) {
@@ -182,8 +201,9 @@ function onWindowResize() {
     renderer.setSize(innerWidth, innerHeight);
 }
 
+// to slow down everything uniformly, modify the animate function
 function animate(time) {
-    render(time / 1000);
+    render((time / 1000) * 0.25); // Multiply by 0.5 to make it half speed
     requestAnimationFrame(animate);
 }
 

@@ -613,3 +613,30 @@ body {
     opacity: 1;
     transform: translateY(0);
 }
+
+.scroll-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 1); 
+    z-index: 3; /* three-container'ın üstünde olmalı */
+    pointer-events: none; /* Alt katmandaki elementlere tıklamayı engellememesi için */
+    -webkit-mask: radial-gradient(circle at center, transparent var(--hole-size, 200px), black calc(var(--hole-size, 200px) + 100px));
+    mask: radial-gradient(circle at center, transparent var(--hole-size, 200px), black calc(var(--hole-size, 200px) + 100px));
+    transition: --hole-size 0.3s ease; /* Smooth geçiş efekti */
+}
+
+/* Z-index düzenlemeleri */
+#three-container {
+    z-index: 1;
+}
+
+.content-wrapper {
+    z-index: 4; /* Overlay'in üstünde olmalı */
+}
+
+.navbar {
+    z-index: 5; /* Her şeyin üstünde olmalı */
+}
