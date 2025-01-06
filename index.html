@@ -1,111 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UMUT BAYBECE - Portfolio</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <nav class="navbar">
-        <div class="navbar-logo">
-            <img src="githublogo.png" alt="githublogo" class="github-logo" style="width: 50px; height: 50px; margin-right: 10px;   margin-top: 10px;
-            margin-bottom: 10px;
-            margin-left: 10px;
-            ">
-            <img src="linkedinlogo.png" alt="linkedinlogo" class="linkedin-logo" style="width: 60px; height: 60px; margin-right: 10px;   margin-top: 10px;
-            margin-bottom: 10px;
-            margin-left: 10px;
-            ">
-        </div>
-        <ul class="navbar-menu">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-    <div class="scroll-overlay"></div>
-    <div id="three-container"></div>
-    <div class="content-wrapper">
-        <header class="headerContainer">
-            <h1 class="name-text playwrite-au-sa " style="display: inline;">
-                <span style="display: inline-block; position: relative;">
-                    <span class="eye-text">portf<span style="color: rgba(240, 248, 255, 0);">o</span>lio</span>
-                </span>
-            </h1>
-        </header>
-
-        <div class="scroll-down">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
-        <div class="article" style="color: #ffffff92; margin-top: 10%; position: absolute; bottom: 3%;"
-            class="scroll-text">
-            <p class="glowIn">Scroll&nbsp;down&nbsp;to&nbsp;see&nbsp;beyond&nbsp;the&nbsp;surface.</p>
-        </div>
-        <script>
-            let glowInTexts = document.querySelectorAll(".glowIn");
-            glowInTexts.forEach(glowInText => {
-                let letters = glowInText.textContent.split("");
-                glowInText.textContent = "";
-                letters.forEach((letter, i) => {
-                    let span = document.createElement("span");
-                    span.textContent = letter;
-                    span.style.animationDelay = `${i * 0.02}s`;
-                    glowInText.append(span);
-                });
-            });
-        </script>
-    </div>
-    <div class="scroll-container"></div>
-<!-- about section  -->
-    <div class="about-section" id="about">
-        <div id="falling-prisms-container" class="falling-prisms-bg"></div>
-        <div class="about-content">
-            <h2 class="about-title">Hello, I'm Umut</h2>
-            <div class="about-grid">
-                <div class="about-text">
-                    <h3 class="about-subtitle">A Passionate Front-end Developer </h3>
-                    <p>
-                        I am a front-end developer with a passion for creating beautiful and user-friendly websites.
-                    </p>
+    <div class="container">
+        <div class="featured-list">
+            <div class="featured-item">
+                <div class="title-container">
+                    <span class="left-text">Jomor</span>
+                    <div class="image-container">
+                        <img src="https://i0.wp.com/www.yesilist.com/wp-content/uploads/2015/06/Dev-Panda.jpg?fit=600%2C365&ssl=1"alt="Jomor">
+                    </div>
+                    <span class="right-text">Design</span>
                 </div>
             </div>
-            <h2 class="about-title">Hello, I'm Umut</h2>
-            <h2 class="about-title">Hello, I'm Umut</h2>
+            <div class="featured-item">
+                <div class="title-container">
+                    <span class="left-text">La</span>
+                    <div class="image-container">
+                        <img src="https://www.semtpati.com/assets/img/icerik/kedi-anksiyetesi-nedir/1.jpg" alt="La Grange">
+                    </div>
+                    <span class="right-text">Grange</span>
+                </div>
+            </div>
+            <div class="featured-item">
+                <div class="title-container">
+                    <span class="left-text">Deux</span>
+                    <div class="image-container">
+                        <img src="/api/placeholder/400/300" alt="Deux Huit">
+                    </div>
+                    <span class="right-text">Huit</span>
+                </div>
+            </div>
+            <div class="featured-item">
+                <div class="title-container">
+                    <span class="left-text">Nothing</span>
+                    <div class="image-container">
+                        <img src="/api/placeholder/400/300" alt="Nothing Design">
+                    </div>
+                    <span class="right-text">Design</span>
+                </div>
+            </div>
+            <div class="featured-item">
+                <div class="title-container">
+                    <span class="left-text">Mambo</span>
+                    <div class="image-container">
+                        <img src="/api/placeholder/400/300" alt="Mambo">
+                    </div>
+                    <span class="right-text">Mambo</span>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- Projects section -->
-<div class="projects-section" id="projects">
-    <div id="projects-prisms-container"></div>
-    <div class="projects-content">
-        <h2 class="projects-title">Projects</h2>
-        <div class="projects-grid">
-            <div class="project-card">
-                <h3 class="project-title">Project 1</h3>
-                <p class="project-description">
-                    Description of project 1. Click or hover over the prisms below to interact with them!
-                </p>
-            </div>
-            <div class="project-card">
-                <h3 class="project-title">Project 2</h3>
-                <p class="project-description">
-                    Description of project 2. Explore more of my work below.
-                </p>
-            </div>
-            <!-- Add more project cards as needed -->
-        </div>
-    </div>
-</div>
-
-
-    <script type="module" src="portfolio.js"></script>
-    <script type="module" src="eye.js"></script>
 </body>
-
 </html>
