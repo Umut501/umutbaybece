@@ -1,58 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
+
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umut Baybece - Portfolio</title>
+    <style>
+        @font-face {
+            font-family: 'Voyage';
+            src: url('assets/fonts/voyage-regular.otf') format('opentype');
+            font-weight: normal;
+        }
+
+        @font-face {
+            font-family: 'Voyage';
+            src: url('assets/fonts/voyage-bold.otf') format('opentype');
+            font-weight: bold;
+        }
+
+        :root {
+            --color-cream: #F3EEE8;
+            --color-pink: #F6BAC6;
+            --color-red: #D73234;
+            --color-light-pink: #F9E1DB;
+            --color-blue: #7AA0B2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Voyage', sans-serif;
+            background-color: var(--color-cream);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            position: fixed;
+            width: 100%;
+            padding: 2rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: normal;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .menu-btn {
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .menu-btn span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: #333;
+            position: absolute;
+            left: 0;
+        }
+
+        .menu-btn span:nth-child(1) {
+            top: 0;
+        }
+
+        .menu-btn span:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr;
+            background-color: var(--color-cream);
+        }
+
+        .hero-content {
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: var(--color-pink);
+        }
+
+        .hero-title {
+            font-family: 'Voyage', serif;
+            font-weight: normal;
+            font-size: 10vw;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            color: #000;
+
+            span {
+                font-weight: bold;
+            }
+        }
+        .hero-text {
+            font-size: 2rem;
+            color: #000000;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content {
+                padding: 2rem;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+        }
+
+        .hidden-images {
+            display: none;
+        }
+
+        .hero {
+            position: relative;
+        }
+
+        #passion, #profession {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-title {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="featured-list">
-            <div class="featured-item">
-                <div class="title-container">
-                    <span class="left-text">Nothing</span>
-                    <div class="image-container">
-                        <img src="https://i0.wp.com/www.yesilist.com/wp-content/uploads/2015/06/Dev-Panda.jpg?fit=600%2C365&ssl=1"alt="Jomor">
-                    </div>
-                    <span class="right-text">Nothing</span>
-                </div>
-            </div>
-            <div class="featured-item">
-                <div class="title-container">
-                    <span class="left-text">Nothing</span>
-                    <div class="image-container">
-                        <img src="https://www.semtpati.com/assets/img/icerik/kedi-anksiyetesi-nedir/1.jpg" alt="La Grange">
-                    </div>
-                    <span class="right-text">Nothing</span>
-                </div>
-            </div>
-            <div class="featured-item">
-                <div class="title-container">
-                    <span class="left-text">Nothing</span>
-                    <div class="image-container">
-                        <img src="/api/placeholder/400/300" alt="Deux Huit">
-                    </div>
-                    <span class="right-text">Nothing</span>
-                </div>
-            </div>
-            <div class="featured-item">
-                <div class="title-container">
-                    <span class="left-text">Nothing</span>
-                    <div class="image-container">
-                        <img src="/api/placeholder/400/300" alt="Nothing Design">
-                    </div>
-                    <span class="right-text">Nothing</span>
-                </div>
-            </div>
-            <div class="featured-item">
-                <div class="title-container">
-                    <span class="left-text">Nothing</span>
-                    <div class="image-container">
-                        <img src="/api/placeholder/400/300" alt="Mambo">
-                    </div>
-                    <span class="right-text">Nothing</span>
-                </div>
-            </div>
+    <nav class="navbar">
+        <a href="/" class="logo">UB</a>
+        <div class="menu-btn">
+            <span></span>
+            <span></span>
         </div>
-    </div>
+    </nav>
+
+    <main class="hero">
+        <div class="hero-content">
+            <p class="hero-text">design is my</p>
+            <h1 class="hero-title">
+                <span id="passion">passion</span>& 
+                <span id="profession">profession</span>
+            </h1>
+        </div>
+        
+        <div class="hidden-images">
+            <img id="passion-img" src="assets/images/image.png" alt="Passion">
+            <img id="profession-img" src="https://www.shutterstock.com/image-photo/charming-cat-glasses-working-laptop-600nw-2242452731.jpg" alt="Profession">
+        </div>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>
