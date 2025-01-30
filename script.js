@@ -38,7 +38,7 @@ class HoverEffect {
 
     createPlane() {
         // Increase segments for smoother distortion
-        this.geometry = new THREE.PlaneGeometry(3,2, 100, 100);
+        this.geometry = new THREE.PlaneGeometry(3,2, 900, 800);
         this.material = new THREE.ShaderMaterial({
             uniforms: {
                 uTexture: { value: null },

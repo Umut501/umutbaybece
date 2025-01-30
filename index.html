@@ -134,25 +134,70 @@
         }
 
         .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr;
+            background-color: var(--color-cream);
             position: relative;
         }
 
-        #passion, #profession {
-            display: inline-block;
-            cursor: pointer;
+        .hero-content {
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: var(--color-pink);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-family: 'Voyage', serif;
+            font-weight: normal;
+            font-size: 10vw;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            color: #000;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title span {
+            font-weight: bold;
+        }
+
+        .hero-text {
+            font-size: 2rem;
+            color: #000000;
         }
 
         canvas {
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 1;
+            z-index: 2;
             pointer-events: none;
         }
 
-        .hero-title {
+        #passion, #profession {
+            display: inline-block;
+            cursor: pointer;
             position: relative;
-            z-index: 2;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content {
+                padding: 2rem;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
         }
     </style>
 </head>
