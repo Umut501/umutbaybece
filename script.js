@@ -59,7 +59,7 @@ class HoverEffect {
             
             // Enhanced distortion effect
             float wave = sin(uv.y * 5.0 + uTime) * uIntensity;
-            float wave2 = sin(uv.x * 3.0 - uTime * 0.5) * uIntensity;
+            float wave2 = sin(uv.x * 5.0 - uTime * 0.5) * uIntensity;
             
             pos.x += sin(uv.y * 10.0) * uOffset.x * (0.5 + wave);
             pos.y += sin(uv.x * 10.0) * uOffset.y * (0.5 + wave2);
