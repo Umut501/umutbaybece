@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umut Baybece - Portfolio</title>
+    <title>Projects with Hover Effect</title>
     <style>
         @font-face {
             font-family: 'Voyage';
@@ -12,18 +12,9 @@
             font-weight: normal;
         }
 
-        @font-face {
-            font-family: 'Voyage';
-            src: url('assets/fonts/voyage-bold.otf') format('opentype');
-            font-weight: bold;
-        }
-
         :root {
             --color-cream: #F3EEE8;
-            --color-pink: #F6BAC6;
-            --color-red: #D73234;
-            --color-light-pink: #F9E1DB;
-            --color-blue: #7AA0B2;
+            --color-text: #333;
         }
 
         * {
@@ -35,116 +26,54 @@
         body {
             font-family: 'Voyage', sans-serif;
             background-color: var(--color-cream);
-            color: #333;
-            line-height: 1.6;
+            color: var(--color-text);
+            min-height: 100vh;
             overflow-x: hidden;
         }
 
-        .navbar {
+        .hover-effect-container {
             position: fixed;
-            width: 100%;
-            padding: 2rem;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: normal;
-            color: #333;
-            text-decoration: none;
-        }
-
-        .menu-btn {
-            width: 30px;
-            height: 20px;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .menu-btn span {
-            display: block;
-            width: 100%;
-            height: 2px;
-            background: #333;
-            position: absolute;
+            top: 0;
             left: 0;
-        }
-
-        .menu-btn span:nth-child(1) {
-            top: 0;
-        }
-
-        .menu-btn span:nth-child(2) {
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .hero {
-            min-height: 100vh;
-            display: grid;
-            grid-template-columns: 1fr;
-            background-color: var(--color-cream);
-            position: relative;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .background-rose {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            height: 40%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .background-rose img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        .hero-content {
+        .projects-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .projects-list {
+            width: 100%;
             padding: 4rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            position: relative;
             z-index: 2;
         }
 
-        .hero-title {
-            font-family: 'Voyage', serif;
-            font-weight: normal;
-            font-size: 10vw;
-            line-height: 0.9;
-            margin-bottom: 2rem;
-            color: #000;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-text {
+        .project-item {
             font-size: 4rem;
-            color: #000000;
-        }
-
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        #passion, #profession {
-            display: inline-block;
+            margin: 2rem 0;
             cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
             position: relative;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+            border-bottom: 2px solid #000000;
+        }
+
+        .project-item:hover {
+            opacity: 1;
+            color: #000;
+        }
+
+        .project-preview {
+            display: none;
         }
 
         .hidden-images {
@@ -173,136 +102,58 @@
             will-change: transform;
         }
 
+        #view-button::before {
+            content: '𓂀';
+            margin-right: 5px;
+        }
+
         @media (max-width: 768px) {
-            .hero {
-                grid-template-columns: 1fr;
+            .projects-container {
+                flex-direction: column;
             }
 
-            .hero-content {
+            .projects-list {
+                width: 100%;
                 padding: 2rem;
-                text-align: center;
             }
 
-            .hero-title {
-                font-size: 3rem;
+            .project-item {
+                font-size: 2.5rem;
+                margin: 1rem 0;
             }
-        }
 
-                /* Yeni stil tanımlamaları */
-                .skills-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 0 2rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease-out;
-        }
-
-        .skills-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .skill-card {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .skill-icon {
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 1rem;
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0.7;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateX(-50%) translateY(0);
+            .project-preview {
+                width: 100%;
+                height: 50vh;
+                position: sticky;
+                top: 0;
             }
-            40% {
-                transform: translateX(-50%) translateY(-20px);
-            }
-            60% {
-                transform: translateX(-50%) translateY(-10px);
-            }
-        }
-
-        .social-links {
-            position: fixed;
-            right: 2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            z-index: 100;
-        }
-
-        .social-link {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .social-link:hover {
-            transform: scale(1.1);
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar">
-        <a href="/" class="logo">UB</a>
-        <div class="menu-btn">
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
+    <div class="projects-container">
+        <div class="projects-list">
+            <div class="project-item" data-project="project3">Turkcell Gelecegi Yazanlar <b>→</b> Front-end Bootcamp Trainee</div>
+            <div class="project-item" data-project="project1">Kod Yazılım A.Ş. → Full Time Software Developer</div>
+            <div class="project-item" data-project="project2">Middle East Technical University → Teaching Assistant & Master of Science in Computer Engineering</div>
 
-    <main class="hero">
-        <div class="background-rose">
-            <img src="assets/images/rose.png" alt="Background Rose">
+            <div class="project-item" data-project="project4">Adopen Plastik Ve Inş. San. A.Ş. → Computer Engineering Internship</div>
+            <div class="project-item" data-project="project5">Motion Graphics</div>
         </div>
-        <div class="hero-content">
-            <p class="hero-text">design is my</p>
-            <h1 class="hero-title">
-                <span id="passion">passion</span>&
-                <span id="profession">profession</span>
-            </h1>
-        </div>
-        
+
+        <div class="project-preview"></div>
+
         <div class="hidden-images">
-            <img id="passion-img" src="assets/images/image.png" alt="Passion">
-            <img id="profession-img" src="https://www.shutterstock.com/image-photo/charming-cat-glasses-working-laptop-600nw-2242452731.jpg" alt="Profession">
+            <img src="assets/images/veboni.png" alt="Project 1" id="project1-img">
+            <img src="assets/images/odtü.jpg" alt="Project 2" id="project2-img">
+            <img src="assets/images/turkcell.jpg" alt="Project 3" id="project3-img">
+            <img src="assets/images/adopen.jpg" alt="Project 4" id="project4-img">
+            <img src="assets/images/image.png" alt="Project 5" id="project5-img">
         </div>
-    </main>
+    </div>
 
-    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
     <script src="script.js"></script>

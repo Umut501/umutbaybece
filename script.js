@@ -1,10 +1,15 @@
 class HoverEffect {
     constructor() {
-        this.container = document.querySelector('.hero');
+        //full-page container for the canvas
+        this.container = document.createElement('div');
+        this.container.className = 'hover-effect-container';
+        document.body.appendChild(this.container);
+        
+        //view button
         this.viewButton = document.createElement('div');
         this.viewButton.id = 'view-button';
-        this.viewButton.textContent = '𓂀 view';
-        this.container.appendChild(this.viewButton);
+        this.viewButton.textContent = 'view';
+        document.body.appendChild(this.viewButton);
         
         this.mouse = new THREE.Vector2();
         this.previousMousePosition = new THREE.Vector2();
@@ -17,6 +22,7 @@ class HoverEffect {
 
     setupScene() {
         this.scene = new THREE.Scene();
+        this.container.style.zIndex = "1";
 
         const fov = 45;
         const planeAspectRatio = window.innerWidth / window.innerHeight;
@@ -42,7 +48,7 @@ class HoverEffect {
     }
 
     createPlane() {
-        this.geometry = new THREE.PlaneGeometry(3, 2, 900, 800);
+        this.geometry = new THREE.PlaneGeometry(4, 3, 1000, 300);
         this.material = new THREE.ShaderMaterial({
             uniforms: {
                 uTexture: { value: null },
@@ -65,8 +71,8 @@ class HoverEffect {
                     float wave2 = sin(uv.x * 5.0 - uTime * 0.5) * uIntensity;
                     
                     pos.x += sin(uv.y * 10.0) * uOffset.x * (0.5 + wave);
-                    pos.y += sin(uv.x * 10.0) * uOffset.y * (0.5 + wave2);
-                    pos.z += sin(uv.x * 8.0 + uv.y * 8.0) * uIntensity * 0.1;
+                    pos.y += sin(uv.x * 20.0) * uOffset.y * (0.5 + wave2);
+                    pos.z += sin(uv.x * 2.0 + uv.y * 2.0) * uIntensity * 0.1;
         
                     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
                 }
@@ -89,15 +95,18 @@ class HoverEffect {
     }
 
     setupTextures() {
-        const textureLoader = new THREE.TextureLoader();
-
-        this.passionTexture = textureLoader.load(
-            document.getElementById('passion-img').src
-        );
-
-        this.professionTexture = textureLoader.load(
-            document.getElementById('profession-img').src
-        );
+        this.textureLoader = new THREE.TextureLoader();
+        this.textures = {};
+        
+        // Load all project textures
+        const projectItems = document.querySelectorAll('.project-item');
+        projectItems.forEach(item => {
+            const projectId = item.dataset.project;
+            const imgElement = document.getElementById(`${projectId}-img`);
+            if (imgElement) {
+                this.textures[projectId] = this.textureLoader.load(imgElement.src);
+            }
+        });
     }
 
     mouseToScene(mouseX, mouseY) {
@@ -115,19 +124,18 @@ class HoverEffect {
     }
 
     addEventListeners() {
-        const passionText = document.getElementById('passion');
-        const professionText = document.getElementById('profession');
+        const projectItems = document.querySelectorAll('.project-item');
 
-        passionText.addEventListener('mouseenter', () => {
-            this.showImage(this.passionTexture);
-        });
+        projectItems.forEach(item => {
+            const projectId = item.dataset.project;
 
-        professionText.addEventListener('mouseenter', () => {
-            this.showImage(this.professionTexture);
-        });
+            item.addEventListener('mouseenter', () => {
+                if (this.textures[projectId]) {
+                    this.showImage(this.textures[projectId]);
+                }
+            });
 
-        [passionText, professionText].forEach(element => {
-            element.addEventListener('mouseleave', () => {
+            item.addEventListener('mouseleave', () => {
                 this.hideImage();
             });
         });
@@ -153,9 +161,11 @@ class HoverEffect {
     }
 
     updateMousePosition(e) {
+        this.mouse.x = e.clientX;
+        this.mouse.y = e.clientY;
+        
         const pos = this.mouseToScene(e.clientX, e.clientY);
         
-        // Update both plane and button position
         gsap.to(this.plane.position, {
             x: pos.x,
             y: pos.y,
@@ -163,21 +173,19 @@ class HoverEffect {
             ease: 'power2.out'
         });
 
-        // Update button position to follow cursor directly
         this.viewButton.style.transform = `translate(${e.clientX - 40}px, ${e.clientY - 40}px) scale(${this.viewButton.style.opacity === '0' ? '0' : '1'})`;
         this.viewButton.style.left = '0';
         this.viewButton.style.top = '0';
 
-        // Update distortion effect
         const velocity = {
-            x: (e.clientX - this.previousMousePosition.x) * 0.015,
-            y: (e.clientY - this.previousMousePosition.y) * 0.015
+            x: (e.clientX - this.previousMousePosition.x+0.002) * 0.04,
+            y: (e.clientY - this.previousMousePosition.y+0.002) * 0.02
         };
 
         gsap.to(this.material.uniforms.uOffset.value, {
             x: velocity.x,
             y: velocity.y,
-            duration: 0.3
+            duration: 0.1
         });
 
         this.previousMousePosition.x = e.clientX;
@@ -187,7 +195,7 @@ class HoverEffect {
     animate() {
         requestAnimationFrame(this.animate.bind(this));
         if (this.material) {
-            this.material.uniforms.uTime.value += 0.01;
+            this.material.uniforms.uTime.value += 0.08;
         }
         this.renderer.render(this.scene, this.camera);
     }
@@ -196,41 +204,4 @@ class HoverEffect {
 // Initialize effect when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new HoverEffect();
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    new HoverEffect();
-
-    // Intersection Observer for skills section
-    const skillsSection = document.querySelector('.skills-section');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, {
-        threshold: 0.1
-    });
-
-    if (skillsSection) {
-        observer.observe(skillsSection);
-    }
-
-    // Smooth scroll functionality
-    document.querySelector('.scroll-indicator')?.addEventListener('click', () => {
-        window.scrollTo({
-            top: window.innerHeight,
-            behavior: 'smooth'
-        });
-    });
-
-    // Parallax effect for background elements
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const backgroundRose = document.querySelector('.background-rose');
-        if (backgroundRose) {
-            backgroundRose.style.transform = `translateY(${scrolled * 0.5}px)`;
-        }
-    });
 });
