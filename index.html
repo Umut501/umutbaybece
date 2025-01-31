@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects with Hover Effect</title>
+    <title>experience with Hover Effect</title>
     <style>
         @font-face {
             font-family: 'Voyage';
@@ -41,12 +41,12 @@
             z-index: 1;
         }
 
-        .projects-container {
+        .experience-container {
             position: relative;
             z-index: 2;
         }
 
-        .projects-list {
+        .experience-list {
             width: 100%;
             padding-top: 4rem;
             padding-left: 5rem;
@@ -57,7 +57,7 @@
             z-index: 2;
         }
 
-        .project-item {
+        .experience-item {
             font-size: 4rem;
             cursor: pointer;
             transition: color 0.3s ease;
@@ -69,12 +69,20 @@
             border-bottom: 2px solid #000000;
         }
 
-        .project-item:hover {
+        .rightsidetext {
+            display: flex;
+            text-align: center;
+            justify-content: end;
+            font-size: 2rem;
+        }
+
+
+        .experience-item:hover {
             opacity: 1;
             color: #000;
         }
 
-        .project-preview {
+        .experience-preview {
             display: none;
         }
 
@@ -86,7 +94,7 @@
             position: fixed;
             width: 80px;
             height: 80px;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgb(255, 255, 255);
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -104,27 +112,22 @@
             will-change: transform;
         }
 
-        #view-button::before {
-            content: '𓂀';
-            margin-right: 5px;
-        }
-
         @media (max-width: 768px) {
-            .projects-container {
+            .experience-container {
                 flex-direction: column;
             }
 
-            .projects-list {
+            .experience-list {
                 width: 100%;
                 padding: 2rem;
             }
 
-            .project-item {
+            .experience-item {
                 font-size: 2.5rem;
                 margin: 1rem 0;
             }
 
-            .project-preview {
+            .experience-preview {
                 width: 100%;
                 height: 50vh;
                 position: sticky;
@@ -135,24 +138,28 @@
 </head>
 
 <body>
-    <div class="projects-container">
-        <div class="projects-list">
-            <div class="project-item" data-project="project3">Turkcell Gelecegi Yazanlar <b>→</b> Front-end Bootcamp Trainee</div>
-            <div class="project-item" data-project="project1">Kod Yazılım A.Ş. → Full Time Software Developer</div>
-            <div class="project-item" data-project="project2">Middle East Technical University → Teaching Assistant & Master of Science in Computer Engineering</div>
-
-            <div class="project-item" data-project="project4">Adopen Plastik Ve Inş. San. A.Ş. → Computer Engineering Internship</div>
-            <div class="project-item" data-project="project5">Motion Graphics</div>
+    <div class="experience-container">
+        <div class="experience-list">
+            <div class="experience-item" data-experience="experience3">Turkcell Gelecegi Yazanlar <b>→</b> <span
+                    class="rightsidetext">Front-end Bootcamp Trainee</span></div>
+            <div class="experience-item" data-experience="experience1">Kod Yazılım A.Ş. → <span
+                    class="rightsidetext">Full Time Software Developer</span></div>
+            <div class="experience-item" data-experience="experience2">Middle East Technical University → <span
+                    class="rightsidetext">Teaching Assistant & Master of Science in Computer Engineering</span></div>
+            <div class="experience-item" data-experience="experience4">Adopen Plastik Ve Inş. San. A.Ş. → <span
+                    class="rightsidetext">Computer Engineering Internship</span></div>
+            <div class="experience-item" data-experience="experience5">Kod Yazılım A.Ş. → <span
+                    class="rightsidetext">Computer Engineering Internship</span></div>
         </div>
 
-        <div class="project-preview"></div>
+        <div class="experience-preview"></div>
 
         <div class="hidden-images">
-            <img src="assets/images/veboni.png" alt="Project 1" id="project1-img">
-            <img src="assets/images/odtü.jpg" alt="Project 2" id="project2-img">
-            <img src="assets/images/turkcell.jpg" alt="Project 3" id="project3-img">
-            <img src="assets/images/adopen.jpg" alt="Project 4" id="project4-img">
-            <img src="assets/images/image.png" alt="Project 5" id="project5-img">
+            <img src="assets/images/veboni.png" alt="Experience 1" id="experience1-img">
+            <img src="assets/images/odtü.jpg" alt="Experience 2" id="experience2-img">
+            <img src="assets/images/turkcell.jpg" alt="Experience 3" id="experience3-img">
+            <img src="assets/images/adopen.jpg" alt="Experience 4" id="experience4-img">
+            <img src="assets/images/image.png" alt="Experience 5" id="experience5-img">
         </div>
     </div>
 

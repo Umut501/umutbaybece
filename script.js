@@ -48,7 +48,7 @@ class HoverEffect {
     }
 
     createPlane() {
-        this.geometry = new THREE.PlaneGeometry(2.5, 1.8, 1000, 300);
+        this.geometry = new THREE.PlaneGeometry(3.5, 2, 1000, 300);
         this.material = new THREE.ShaderMaterial({
             uniforms: {
                 uTexture: { value: null },
@@ -98,13 +98,13 @@ class HoverEffect {
         this.textureLoader = new THREE.TextureLoader();
         this.textures = {};
         
-        // Load all project textures
-        const projectItems = document.querySelectorAll('.project-item');
-        projectItems.forEach(item => {
-            const projectId = item.dataset.project;
-            const imgElement = document.getElementById(`${projectId}-img`);
+        // Load all experience textures
+        const experienceItems = document.querySelectorAll('.experience-item');
+        experienceItems.forEach(item => {
+            const experienceId = item.dataset.experience;
+            const imgElement = document.getElementById(`${experienceId}-img`);
             if (imgElement) {
-                this.textures[projectId] = this.textureLoader.load(imgElement.src);
+                this.textures[experienceId] = this.textureLoader.load(imgElement.src);
             }
         });
     }
@@ -124,14 +124,14 @@ class HoverEffect {
     }
 
     addEventListeners() {
-        const projectItems = document.querySelectorAll('.project-item');
+        const experienceItems = document.querySelectorAll('.experience-item');
 
-        projectItems.forEach(item => {
-            const projectId = item.dataset.project;
+        experienceItems.forEach(item => {
+            const experienceId = item.dataset.experience;
 
             item.addEventListener('mouseenter', () => {
-                if (this.textures[projectId]) {
-                    this.showImage(this.textures[projectId]);
+                if (this.textures[experienceId]) {
+                    this.showImage(this.textures[experienceId]);
                 }
             });
 
