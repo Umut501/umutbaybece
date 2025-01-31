@@ -48,7 +48,7 @@ class HoverEffect {
     }
 
     createPlane() {
-        this.geometry = new THREE.PlaneGeometry(4, 3, 1000, 300);
+        this.geometry = new THREE.PlaneGeometry(2.5, 1.8, 1000, 300);
         this.material = new THREE.ShaderMaterial({
             uniforms: {
                 uTexture: { value: null },
@@ -70,8 +70,8 @@ class HoverEffect {
                     float wave = sin(uv.y * 5.0 + uTime) * uIntensity;
                     float wave2 = sin(uv.x * 5.0 - uTime * 0.5) * uIntensity;
                     
-                    pos.x += sin(uv.y * 10.0) * uOffset.x * (0.5 + wave);
-                    pos.y += sin(uv.x * 20.0) * uOffset.y * (0.5 + wave2);
+                    pos.x += sin(uv.y * 2.0) * uOffset.x * (0.5 + wave);
+                    pos.y += sin(uv.x * 4.0) * uOffset.y * (0.5 + wave2);
                     pos.z += sin(uv.x * 2.0 + uv.y * 2.0) * uIntensity * 0.1;
         
                     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
@@ -150,7 +150,7 @@ class HoverEffect {
         gsap.to(this.material.uniforms.uAlpha, { value: 1, duration: 0.3 });
         gsap.to(this.material.uniforms.uIntensity, { value: 0.5, duration: 0.3 });
         this.viewButton.style.opacity = '1';
-        this.viewButton.style.transform = `translate(${this.mouse.x - 40}px, ${this.mouse.y - 40}px) scale(1)`;
+        this.viewButton.style.transform = `translate(${this.mouse.x - 20}px, ${this.mouse.y - 20}px) scale(1)`;
     }
 
     hideImage() {
@@ -178,8 +178,8 @@ class HoverEffect {
         this.viewButton.style.top = '0';
 
         const velocity = {
-            x: (e.clientX - this.previousMousePosition.x+0.002) * 0.04,
-            y: (e.clientY - this.previousMousePosition.y+0.002) * 0.02
+            x: (e.clientX - this.previousMousePosition.x+0.02) * 0.04,
+            y: (e.clientY - this.previousMousePosition.y+0.02) * 0.02
         };
 
         gsap.to(this.material.uniforms.uOffset.value, {
