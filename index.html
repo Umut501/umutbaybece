@@ -14,7 +14,7 @@
 
         :root {
             --color-cream: #F3EEE8;
-            --color-text: #333;
+            --color-text: #000000;
         }
 
         * {
@@ -44,10 +44,12 @@
         .experience-container {
             position: relative;
             z-index: 2;
+            display: flex;
+            justify-content: center;
         }
 
         .experience-list {
-            width: 100%;
+            width: 80%;
             padding-top: 4rem;
             padding-left: 5rem;
             padding-right: 5rem;
@@ -60,26 +62,24 @@
         .experience-item {
             font-size: 4rem;
             cursor: pointer;
-            transition: color 0.3s ease;
-            padding-top: 4rem;
-            padding-bottom: 1rem;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
             position: relative;
-            opacity: 0.5;
-            transition: opacity 0.3s ease;
-            border-bottom: 2px solid #000000;
+            border-bottom: 1px solid #00000042;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .rightsidetext {
-            display: flex;
-            text-align: center;
-            justify-content: end;
-            font-size: 2rem;
+            font-size: 1.4rem;
+            margin-left: 1rem;
         }
-
 
         .experience-item:hover {
             opacity: 1;
-            color: #000;
+            color: #00000042;
+            transition: color 0.3s ease-in-out;
         }
 
         .experience-preview {
@@ -140,20 +140,18 @@
 <body>
     <div class="experience-container">
         <div class="experience-list">
-            <div class="experience-item" data-experience="experience3">Turkcell Gelecegi Yazanlar <b>→</b> <span
+            <div class="experience-item" data-experience="experience3">Turkcell Geleceği Yazanlar <span
                     class="rightsidetext">Front-end Bootcamp Trainee</span></div>
-            <div class="experience-item" data-experience="experience1">Kod Yazılım A.Ş. → <span
-                    class="rightsidetext">Full Time Software Developer</span></div>
-            <div class="experience-item" data-experience="experience2">Middle East Technical University → <span
-                    class="rightsidetext">Teaching Assistant & Master of Science in Computer Engineering</span></div>
-            <div class="experience-item" data-experience="experience4">Adopen Plastik Ve Inş. San. A.Ş. → <span
+            <div class="experience-item" data-experience="experience1">Kod Yazılım A.Ş. <span class="rightsidetext">Full
+                    Time Software Developer</span></div>
+            <div class="experience-item" data-experience="experience2">Middle East Technical University <span
+                    class="rightsidetext">Teaching Assistant</span></div>
+            <div class="experience-item" data-experience="experience4">Adopen Plastik Ve Inş. San. A.Ş. <span
                     class="rightsidetext">Computer Engineering Internship</span></div>
-            <div class="experience-item" data-experience="experience5">Kod Yazılım A.Ş. → <span
+            <div class="experience-item" data-experience="experience5">Kod Yazılım A.Ş. <span
                     class="rightsidetext">Computer Engineering Internship</span></div>
         </div>
-
         <div class="experience-preview"></div>
-
         <div class="hidden-images">
             <img src="assets/images/veboni.png" alt="Experience 1" id="experience1-img">
             <img src="assets/images/odtü.jpg" alt="Experience 2" id="experience2-img">
@@ -162,7 +160,6 @@
             <img src="assets/images/image.png" alt="Experience 5" id="experience5-img">
         </div>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
     <script src="script.js"></script>

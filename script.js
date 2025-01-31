@@ -1,18 +1,33 @@
 class HoverEffect {
     constructor() {
-        //full-page container for the canvas
         this.container = document.createElement('div');
         this.container.className = 'hover-effect-container';
         document.body.appendChild(this.container);
         
-        //view button
         this.viewButton = document.createElement('div');
         this.viewButton.id = 'view-button';
-        this.viewButton.textContent = 'view';
+        
+        const eyeIcon = document.createElement('img');
+        eyeIcon.src = './assets/images/eye.png';
+        eyeIcon.alt = 'View';
+        eyeIcon.style.width = '100%';
+        eyeIcon.style.height = '100%';
+        eyeIcon.style.objectFit = 'contain';
+        
+        this.viewButton.appendChild(eyeIcon);
+        this.viewButton.style.display = 'flex';
+        this.viewButton.style.alignItems = 'center';
+        this.viewButton.style.justifyContent = 'center';
+        this.viewButton.style.position = 'fixed';
+        
         document.body.appendChild(this.viewButton);
         
         this.mouse = new THREE.Vector2();
         this.previousMousePosition = new THREE.Vector2();
+        this.currentTexture = null;
+        this.nextTexture = null;
+        this.transitionProgress = 0;
+        
         this.setupScene();
         this.createPlane();
         this.setupTextures();
@@ -51,7 +66,9 @@ class HoverEffect {
         this.geometry = new THREE.PlaneGeometry(3.5, 2, 1000, 300);
         this.material = new THREE.ShaderMaterial({
             uniforms: {
-                uTexture: { value: null },
+                uCurrentTexture: { value: null },
+                uNextTexture: { value: null },
+                uProgress: { value: 0.0 },
                 uOffset: { value: new THREE.Vector2(0.0, 0.0) },
                 uAlpha: { value: 0.0 },
                 uTime: { value: 0 },
@@ -78,13 +95,23 @@ class HoverEffect {
                 }
             `,
             fragmentShader: `
-                uniform sampler2D uTexture;
+                uniform sampler2D uCurrentTexture;
+                uniform sampler2D uNextTexture;
+                uniform float uProgress;
+                uniform float uTime;
                 uniform float uAlpha;
                 varying vec2 vUv;
-        
+
                 void main() {
-                    vec4 tex = texture2D(uTexture, vUv);
-                    gl_FragColor = vec4(tex.rgb, tex.a * uAlpha);
+                    vec2 uv = vUv;
+                    
+                    vec4 currentTex = texture2D(uCurrentTexture, uv);
+                    vec4 nextTex = texture2D(uNextTexture, uv);
+                    
+                    // Simple linear interpolation between textures
+                    vec4 finalColor = mix(currentTex, nextTex, uProgress);
+                    
+                    gl_FragColor = vec4(finalColor.rgb, finalColor.a * uAlpha);
                 }
             `,
             transparent: true
@@ -98,7 +125,6 @@ class HoverEffect {
         this.textureLoader = new THREE.TextureLoader();
         this.textures = {};
         
-        // Load all experience textures
         const experienceItems = document.querySelectorAll('.experience-item');
         experienceItems.forEach(item => {
             const experienceId = item.dataset.experience;
@@ -146,7 +172,27 @@ class HoverEffect {
     }
 
     showImage(texture) {
-        this.material.uniforms.uTexture.value = texture;
+        if (this.material.uniforms.uCurrentTexture.value === null) {
+            // First image
+            this.material.uniforms.uCurrentTexture.value = texture;
+            this.material.uniforms.uNextTexture.value = texture;
+        } else {
+            // Transition to new image
+            this.material.uniforms.uCurrentTexture.value = this.material.uniforms.uNextTexture.value;
+            this.material.uniforms.uNextTexture.value = texture;
+            
+            // Reset and start transition
+            gsap.to(this.material.uniforms.uProgress, {
+                value: 1,
+                duration: 0.5,  // Daha hızlı geçiş
+                ease: "power2.inOut",
+                onComplete: () => {
+                    this.material.uniforms.uProgress.value = 0;
+                    this.material.uniforms.uCurrentTexture.value = texture;
+                }
+            });
+        }
+        
         gsap.to(this.material.uniforms.uAlpha, { value: 1, duration: 0.3 });
         gsap.to(this.material.uniforms.uIntensity, { value: 0.5, duration: 0.3 });
         this.viewButton.style.opacity = '1';
@@ -178,8 +224,8 @@ class HoverEffect {
         this.viewButton.style.top = '0';
 
         const velocity = {
-            x: (e.clientX - this.previousMousePosition.x+0.02) * 0.04,
-            y: (e.clientY - this.previousMousePosition.y+0.02) * 0.02
+            x: (e.clientX - this.previousMousePosition.x + 0.02) * 0.04,
+            y: (e.clientY - this.previousMousePosition.y + 0.02) * 0.02
         };
 
         gsap.to(this.material.uniforms.uOffset.value, {
