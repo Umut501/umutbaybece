@@ -224,8 +224,8 @@ class HoverEffect {
         this.viewButton.style.top = '0';
 
         const velocity = {
-            x: (e.clientX - this.previousMousePosition.x + 0.02) * 0.04,
-            y: (e.clientY - this.previousMousePosition.y + 0.02) * 0.02
+            x: (e.clientX - this.previousMousePosition.x + 0.02) * 0.06,
+            y: (e.clientY - this.previousMousePosition.y + 0.02) * 0.05
         };
 
         gsap.to(this.material.uniforms.uOffset.value, {
