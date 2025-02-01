@@ -24,9 +24,10 @@ class HoverEffect {
         
         this.mouse = new THREE.Vector2();
         this.previousMousePosition = new THREE.Vector2();
-        this.currentTexture = null;
-        this.nextTexture = null;
-        this.transitionProgress = 0;
+        this.activeTexture = null;
+        
+        // Create a GSAP timeline for transitions
+        this.tl = gsap.timeline({ paused: true });
         
         this.setupScene();
         this.createPlane();
@@ -63,7 +64,7 @@ class HoverEffect {
     }
 
     createPlane() {
-        this.geometry = new THREE.PlaneGeometry(3.5, 2, 1000, 300);
+        this.geometry = new THREE.PlaneGeometry(3.5, 2, 800, 800);
         this.material = new THREE.ShaderMaterial({
             uniforms: {
                 uCurrentTexture: { value: null },
@@ -88,7 +89,7 @@ class HoverEffect {
                     float wave2 = sin(uv.x * 5.0 - uTime * 0.5) * uIntensity;
                     
                     pos.x += sin(uv.y * 2.0) * uOffset.x * (0.5 + wave);
-                    pos.y += sin(uv.x * 4.0) * uOffset.y * (0.5 + wave2);
+                    pos.y += sin(uv.x * 2.0) * uOffset.y * (0.5 + wave2);
                     pos.z += sin(uv.x * 2.0 + uv.y * 2.0) * uIntensity * 0.1;
         
                     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
@@ -172,40 +173,82 @@ class HoverEffect {
     }
 
     showImage(texture) {
-        if (this.material.uniforms.uCurrentTexture.value === null) {
-            // First image
+        // If it's the same texture, don't do anything
+        if (this.activeTexture === texture) return;
+        
+        // Kill any ongoing animations
+        gsap.killTweensOf(this.material.uniforms.uAlpha);
+        gsap.killTweensOf(this.material.uniforms.uProgress);
+        gsap.killTweensOf(this.material.uniforms.uIntensity);
+        
+        // If we're showing the first image
+        if (!this.activeTexture) {
             this.material.uniforms.uCurrentTexture.value = texture;
             this.material.uniforms.uNextTexture.value = texture;
+            
+            gsap.to(this.material.uniforms.uAlpha, {
+                value: 1,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+            
+            gsap.to(this.material.uniforms.uIntensity, {
+                value: 0.5,
+                duration: 0.3,
+                ease: "power2.out"
+            });
         } else {
-            // Transition to new image
-            this.material.uniforms.uCurrentTexture.value = this.material.uniforms.uNextTexture.value;
+            // For subsequent images, use transition
+            this.material.uniforms.uCurrentTexture.value = this.activeTexture;
             this.material.uniforms.uNextTexture.value = texture;
             
-            // Reset and start transition
-            gsap.to(this.material.uniforms.uProgress, {
+            // Reset progress
+            this.material.uniforms.uProgress.value = 0;
+            
+            // Create transition timeline
+            const tl = gsap.timeline();
+            tl.to(this.material.uniforms.uProgress, {
                 value: 1,
-                duration: 0.5,  // Daha hızlı geçiş
+                duration: 0.4,
                 ease: "power2.inOut",
                 onComplete: () => {
-                    this.material.uniforms.uProgress.value = 0;
                     this.material.uniforms.uCurrentTexture.value = texture;
+                    this.material.uniforms.uProgress.value = 0;
                 }
             });
         }
         
-        gsap.to(this.material.uniforms.uAlpha, { value: 1, duration: 0.3 });
-        gsap.to(this.material.uniforms.uIntensity, { value: 0.5, duration: 0.3 });
+        this.activeTexture = texture;
         this.viewButton.style.opacity = '1';
         this.viewButton.style.transform = `translate(${this.mouse.x - 20}px, ${this.mouse.y - 20}px) scale(1)`;
     }
 
     hideImage() {
-        gsap.to(this.material.uniforms.uAlpha, { value: 0, duration: 0.3 });
-        gsap.to(this.material.uniforms.uIntensity, { value: 0, duration: 0.3 });
+        if (!this.activeTexture) return;
+        
+        gsap.to(this.material.uniforms.uAlpha, {
+            value: 0,
+            duration: 0.3,
+            ease: "power2.inOut",
+            onComplete: () => {
+                if (this.material.uniforms.uAlpha.value === 0) {
+                    this.material.uniforms.uCurrentTexture.value = null;
+                    this.material.uniforms.uNextTexture.value = null;
+                    this.activeTexture = null;
+                }
+            }
+        });
+        
+        gsap.to(this.material.uniforms.uIntensity, {
+            value: 0,
+            duration: 0.3,
+            ease: "power2.inOut"
+        });
+        
         this.viewButton.style.opacity = '0';
         this.viewButton.style.transform = `translate(${this.mouse.x - 40}px, ${this.mouse.y - 40}px) scale(0)`;
+        this.viewButton.style.pointerEvents = 'none';
     }
-
     updateMousePosition(e) {
         this.mouse.x = e.clientX;
         this.mouse.y = e.clientY;
