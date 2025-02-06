@@ -6,6 +6,7 @@
 
 :root {
     --color-cream: #F3EEE8;
+    --color-blue: #52888D;
     --color-text: #000000;
 }
 
@@ -199,7 +200,7 @@ body {
     position: relative;
     min-height: 120vh;
     min-width: 100%;
-    background-color: var(--color-cream);
+    background-color: var(--color-blue);
     z-index: 2;
     display: flex;
     justify-content: center;
