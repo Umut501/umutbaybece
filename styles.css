@@ -197,6 +197,9 @@ body {
 /* Experience Section */
 .experience-container {
     position: relative;
+    min-height: 120vh;
+    min-width: 100%;
+    background-color: var(--color-cream);
     z-index: 2;
     display: flex;
     justify-content: center;

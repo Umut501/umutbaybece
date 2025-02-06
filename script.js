@@ -310,21 +310,37 @@ class LiquidDistortionEffect {
         this.renderer.render(this.scene, this.camera);
     }
     cleanup() {
-        // Remove cursor element
-        if (this.cursor) {
-            this.cursor.remove();
-            this.cursor = null;
+        // Remove event listeners
+        window.removeEventListener('scroll', this.handleScroll);
+        
+        // Disconnect intersection observer
+        if (this.observer) {
+            this.observer.disconnect();
         }
         
-        // Remove event listeners
-        window.removeEventListener('mousemove', this.updateCursor);
-        if (this.homeSection) {
-            this.homeSection.removeEventListener('mouseenter', this.showCursor);
-            this.homeSection.removeEventListener('mouseleave', this.hideCursor);
+        // Remove any remaining effects
+        this.hideImage();
+        
+        // Clean up Three.js resources
+        if (this.renderer) {
+            this.renderer.dispose();
+        }
+        if (this.geometry) {
+            this.geometry.dispose();
+        }
+        if (this.material) {
+            this.material.dispose();
+        }
+        
+        // Remove DOM elements
+        if (this.container) {
+            this.container.remove();
+        }
+        if (this.viewButton) {
+            this.viewButton.remove();
         }
     }
 }
-
 class HoverEffect {
     constructor() {
         // Create container for the effect
@@ -365,6 +381,16 @@ class HoverEffect {
         this.opacityLerpFactor = 0.15;
         this.minOpacity = 0.8;
         
+        // Mouse tracking properties
+        this.mouseVelocity = { x: 0, y: 0 };
+        this.lastMousePos = { x: 0, y: 0 };
+        this.lastMouseTime = performance.now();
+        this.velocityThreshold = 1.5;
+        
+        // Active item tracking
+        this.activeItem = null;
+        this.isHovering = false;
+        
         // Setup scene and start animation
         this.setupScene();
         this.createPlane();
@@ -390,7 +416,7 @@ class HoverEffect {
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.container.appendChild(this.renderer.domElement);
 
-        // Add resize handler
+        // Handle window resize
         window.addEventListener('resize', () => {
             this.width = window.innerWidth;
             this.height = window.innerHeight;
@@ -476,20 +502,65 @@ class HoverEffect {
         experienceItems.forEach(item => {
             const experienceId = item.dataset.experience;
             
-            item.addEventListener('mouseenter', () => {
+            item.addEventListener('mouseenter', (e) => {
                 if (this.textures[experienceId]) {
+                    this.isHovering = true;
                     this.showImage(this.textures[experienceId]);
+                    this.activeItem = item;
                 }
             });
 
-            item.addEventListener('mouseleave', () => {
-                this.hideImage();
+            item.addEventListener('mouseleave', (e) => {
+                // Check for rapid movement
+                if (Math.abs(this.mouseVelocity.x) > this.velocityThreshold || 
+                    Math.abs(this.mouseVelocity.y) > this.velocityThreshold) {
+                    this.forceHideImage();
+                } else {
+                    this.isHovering = false;
+                    this.hideImage();
+                }
+                this.activeItem = null;
             });
         });
 
+        // Enhanced mouse movement tracking
         document.addEventListener('mousemove', (e) => {
-            this.updateMousePosition(e);
+            const currentTime = performance.now();
+            const deltaTime = (currentTime - this.lastMouseTime) / 1000;
+            
+            // Calculate velocity
+            if (deltaTime > 0) {
+                this.mouseVelocity.x = (e.clientX - this.lastMousePos.x) / deltaTime;
+                this.mouseVelocity.y = (e.clientY - this.lastMousePos.y) / deltaTime;
+            }
+            
+            // Update last position and time
+            this.lastMousePos.x = e.clientX;
+            this.lastMousePos.y = e.clientY;
+            this.lastMouseTime = currentTime;
+
+            // Check if mouse is still over active item
+            if (this.activeItem && !this.isMouseOverActiveItem(e)) {
+                this.forceHideImage();
+                this.isHovering = false;
+                this.activeItem = null;
+            }
+            
+            if (this.isHovering) {
+                this.updateMousePosition(e);
+            }
         });
+    }
+
+    isMouseOverActiveItem(e) {
+        if (!this.activeItem) return false;
+        const rect = this.activeItem.getBoundingClientRect();
+        return (
+            e.clientX >= rect.left &&
+            e.clientX <= rect.right &&
+            e.clientY >= rect.top &&
+            e.clientY <= rect.bottom
+        );
     }
 
     showImage(texture) {
@@ -529,47 +600,67 @@ class HoverEffect {
         this.viewButton.style.opacity = '1';
     }
 
+    forceHideImage() {
+        if (!this.activeTexture) return;
+        
+        // Kill all existing tweens
+        gsap.killTweensOf(this.material.uniforms.uAlpha);
+        gsap.killTweensOf(this.material.uniforms.uIntensity);
+        gsap.killTweensOf(this.material.uniforms.uOffset.value);
+        
+        // Immediately reset all values
+        this.material.uniforms.uAlpha.value = 0;
+        this.material.uniforms.uIntensity.value = 0;
+        this.material.uniforms.uProgress.value = 0;
+        this.material.uniforms.uOffset.value.x = 0;
+        this.material.uniforms.uOffset.value.y = 0;
+        
+        // Clear textures
+        this.material.uniforms.uCurrentTexture.value = null;
+        this.material.uniforms.uNextTexture.value = null;
+        this.activeTexture = null;
+        
+        // Hide view button
+        this.viewButton.style.opacity = '0';
+    }
+
     hideImage() {
         if (!this.activeTexture) return;
         
+        // Immediately hide the view button
+        this.viewButton.style.opacity = '0';
+        
+        gsap.killTweensOf(this.material.uniforms.uAlpha);
+        gsap.killTweensOf(this.material.uniforms.uIntensity);
+        gsap.killTweensOf(this.material.uniforms.uOffset.value);
+        
         gsap.to(this.material.uniforms.uAlpha, {
             value: 0,
-            duration: 0.3,
+            duration: 0.2,
             ease: "power2.inOut",
             onComplete: () => {
-                if (this.material.uniforms.uAlpha.value === 0) {
-                    // Clear both textures when animation completes
-                    this.material.uniforms.uCurrentTexture.value = null;
-                    this.material.uniforms.uNextTexture.value = null;
-                    this.activeTexture = null;
-                }
+                this.material.uniforms.uCurrentTexture.value = null;
+                this.material.uniforms.uNextTexture.value = null;
+                this.activeTexture = null;
             }
         });
         
         gsap.to(this.material.uniforms.uIntensity, {
             value: 0,
-            duration: 0.3,
+            duration: 0.2,
             ease: "power2.inOut"
         });
         
-        // Reset progress
         this.material.uniforms.uProgress.value = 0;
         
-        // Hide view button
-        this.viewButton.style.opacity = '0';
-        
-        // Reset offset
         gsap.to(this.material.uniforms.uOffset.value, {
             x: 0,
             y: 0,
-            duration: 0.3
+            duration: 0.2
         });
     }
 
     updateMousePosition(e) {
-        this.mouse.x = e.clientX;
-        this.mouse.y = e.clientY;
-        
         const pos = this.mouseToScene(e.clientX, e.clientY);
         
         const dx = e.clientX - this.previousMousePosition.x;
@@ -629,12 +720,62 @@ class HoverEffect {
         }
         this.renderer.render(this.scene, this.camera);
     }
-}
 
+    cleanup() {
+        // Kill all GSAP animations
+        gsap.killTweensOf(this.material.uniforms.uAlpha);
+        gsap.killTweensOf(this.material.uniforms.uIntensity);
+        gsap.killTweensOf(this.material.uniforms.uOffset.value);
+        gsap.killTweensOf(this.plane.position);
+        
+        // Clean up Three.js resources
+        if (this.geometry) {
+            this.geometry.dispose();
+        }
+        
+        if (this.material) {
+            this.material.dispose();
+        }
+        
+        if (this.renderer) {
+            this.renderer.dispose();
+        }
+
+        // Clean up textures
+        Object.values(this.textures).forEach(texture => {
+            if (texture) {
+                texture.dispose();
+            }
+        });
+        
+        // Remove DOM elements
+        if (this.container) {
+            this.container.remove();
+        }
+        
+        if (this.viewButton) {
+            this.viewButton.remove();
+        }
+
+        // Remove event listeners
+        const experienceItems = document.querySelectorAll('.experience-item');
+        experienceItems.forEach(item => {
+            item.removeEventListener('mouseenter', this.handleMouseEnter);
+            item.removeEventListener('mouseleave', this.handleMouseLeave);
+        });
+        
+        document.removeEventListener('mousemove', this.handleMouseMove);
+        window.removeEventListener('resize', this.handleResize);
+    }
+}
+document.addEventListener('DOMContentLoaded', () => {
+    const hoverEffect = new HoverEffect();
+});
 // Initialize effect when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+
     new LiquidDistortionEffect();
-    new HoverEffect();
+
         // Optional: Cleanup on page unload
         window.addEventListener('unload', () => {
             effect.cleanup();
