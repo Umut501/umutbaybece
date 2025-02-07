@@ -33,8 +33,8 @@ body {
 .home-section {
     min-height: 100vh;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: right;
+    justify-content: start;
     overflow: hidden;
     background-color: var(--color-text);
     position: fixed;
@@ -74,13 +74,16 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     gap: 4rem;
-    padding: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
 }
 
 .text-content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
 }
 
 .main-title {
@@ -102,7 +105,7 @@ body {
 
 .description {
     display: block;
-    font-size: 3rem;
+    font-size: 2rem;
     color: var(--color-cream);
     margin-top: 8rem;
     text-align: justify;
@@ -471,4 +474,21 @@ body {
         font-size: 1.8rem;
         padding: 0 1rem;
     }
+}
+
+
+.transition-image {
+    position: absolute;
+    width: 60%;
+    height: 100%; /* Resmin yüksekliğine göre ayarlayın */
+    bottom: -26%; /* Resmin başlangıç pozisyonunu ayarlar */
+    right: 0;
+    z-index: 2; /* Home section ile about section arasında */
+    pointer-events: none;
+}
+
+.transition-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

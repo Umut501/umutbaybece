@@ -49,7 +49,7 @@ class LiquidDistortionEffect {
         // Create cursor element
         this.cursor = document.createElement('div');
         this.cursor.className = 'custom-cursor';
-        this.cursor.innerHTML = '<img style="max-height:200px;" src="assets/images/flamingo.png" alt="Pool Float Giant Flamingo">';
+        this.cursor.innerHTML = '<img style="max-height:800px;" src="assets/images/flamingo.png" alt="Pool Float Giant Flamingo">';
         document.body.appendChild(this.cursor);
 
         // Update cursor position
