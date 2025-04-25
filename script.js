@@ -1,346 +1,3 @@
-// First, replace the video-background div with a canvas
-document.querySelector('.video-background').innerHTML = '<canvas id="distortion-canvas"></canvas>';
-class LiquidDistortionEffect {
-    constructor() {
-        this.container = document.querySelector('.video-background');
-        this.homeSection = document.querySelector('.home-section');
-        this.canvas = document.getElementById('distortion-canvas');
-        this.scene = new THREE.Scene();
-        this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);
-        this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
-        this.clock = new THREE.Clock();
-        this.mouse = new THREE.Vector2(0.5, 0.5);
-        this.mouseTarget = new THREE.Vector2(0.5, 0.5);
-        this.lastMousePos = new THREE.Vector2(0.5, 0.5);
-        this.mouseVelocity = new THREE.Vector2(0, 0);
-        this.lastTime = 0;
-        this.trailPoints = [];
-        this.maxTrailPoints = 10;
-        this.cursor = null;
-        
-        this.init();
-        this.setupCursor();
-    }
-
-    setupCursor() {
-        // Create custom cursor style
-        const style = document.createElement('style');
-        style.textContent = `
-            .home-section {
-                cursor: none !important;
-            }
-            .custom-cursor {
-                position: fixed;
-                width: 50px;
-                height: 50px;
-                pointer-events: none;
-                z-index: 9999;
-                font-size: 30px;
-                transform: translate(-50%, -50%);
-                transition: transform 0.1s ease, opacity 0.3s ease;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                opacity: 1;
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Create cursor element
-        this.cursor = document.createElement('div');
-        this.cursor.className = 'custom-cursor';
-        this.cursor.innerHTML = '<img style="max-height:800px;" src="assets/images/flamingo.png" alt="Pool Float Giant Flamingo">';
-        document.body.appendChild(this.cursor);
-
-        // Update cursor position
-        window.addEventListener('mousemove', (e) => {
-            if (this.cursor) {
-                this.cursor.style.left = e.clientX + 'px';
-                this.cursor.style.top = e.clientY + 'px';
-            }
-        });
-
-        // Handle scroll
-        window.addEventListener('scroll', () => {
-            const scrollPosition = window.scrollY;
-            const homeHeight = this.homeSection.offsetHeight;
-            
-            if (scrollPosition > homeHeight -700) { // Adding a small threshold
-                if (this.cursor) {
-                    this.cursor.style.opacity = '0';
-                }
-            } else {
-                if (this.cursor) {
-                    this.cursor.style.opacity = '1';
-                }
-            }
-        });
-
-        // Initial check
-        const initialScroll = window.scrollY;
-        const homeHeight = this.homeSection.offsetHeight;
-        if (initialScroll > homeHeight - 100) {
-            this.cursor.style.opacity = '0';
-        }
-    }
-    isMouseInHomeSection() {
-        const rect = this.homeSection.getBoundingClientRect();
-        const mouseX = this.mouse.x;
-        const mouseY = this.mouse.y;
-        
-        return (
-            mouseX >= rect.left &&
-            mouseX <= rect.right &&
-            mouseY >= rect.top &&
-            mouseY <= rect.bottom
-        );
-    }
-    updateCursor(e) {
-        if (this.cursor) {
-            this.cursor.style.left = e.clientX + 'px';
-            this.cursor.style.top = e.clientY + 'px';
-            
-            // Update cursor visibility based on position
-            if (this.isMouseInHomeSection()) {
-                this.cursor.style.opacity = '1';
-            } else {
-                this.cursor.style.opacity = '0';
-            }
-        }
-    }
-    init() {
-        this.camera.position.z = 1;
-        
-        // Create video texture
-        const video = document.createElement('video');
-        video.src = 'assets/images/banner.mp4';
-        video.loop = true;
-        video.muted = true;
-        video.playbackRate = 0.5;
-        video.play();
-        
-        const videoTexture = new THREE.VideoTexture(video);
-        videoTexture.minFilter = THREE.LinearFilter;
-        videoTexture.magFilter = THREE.LinearFilter;
-        // Create shader material
-        const shaderMaterial = new THREE.ShaderMaterial({
-            uniforms: {
-                uTime: { value: 0 },
-                uTexture: { value: videoTexture },
-                uMouse: { value: new THREE.Vector2(0.5, 0.5) },
-                uMouseVelocity: { value: new THREE.Vector2(0, 0) },
-                uTrailPoints: { value: new Float32Array(20) }, // 10 points × 2 coordinates
-                uTrailCount: { value: 0 },
-                uRadius: { value: 0.15 },
-                uStrength: { value: 0.4 }
-            },
-            vertexShader: `
-                varying vec2 vUv;
-                
-                void main() {
-                    vUv = uv;
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-                }
-            `,
-            fragmentShader: `
-                uniform sampler2D uTexture;
-                uniform float uTime;
-                uniform vec2 uMouse;
-                uniform vec2 uMouseVelocity;
-                uniform float uTrailPoints[20];
-                uniform int uTrailCount;
-                uniform float uRadius;
-                uniform float uStrength;
-                
-                varying vec2 vUv;
-
-                vec2 rotate2D(vec2 v, float a) {
-                    float s = sin(a);
-                    float c = cos(a);
-                    return vec2(v.x * c - v.y * s, v.x * s + v.y * c);
-                }
-
-                float circle(vec2 uv, vec2 center, float radius, float softness) {
-                    float d = length(uv - center);
-                    return smoothstep(radius, radius * (1.0 - softness), d);
-                }
-                
-                void main() {
-                    vec2 uv = vUv;
-                    float velocity = length(uMouseVelocity);
-                    
-                    // Initialize distortion
-                    vec2 totalDistortion = vec2(0.0);
-                    float totalInfluence = 2.0;
-                    
-                    // Main cursor distortion
-                    float mainMask = circle(uv, uMouse, uRadius * (8.0 + velocity * 4.0), 0.5);
-                    vec2 toCenter = uv - uMouse;
-                    float angle = atan(toCenter.y, toCenter.x);
-                    float wobble = sin(angle * 6.0 + uTime * 4.0) * 0.02 * (1.0 + velocity);
-                    
-                    vec2 mainDistortion = vec2(
-                        cos(angle) * wobble,
-                        sin(angle) * wobble
-                    ) * uStrength * mainMask * (1.0 + velocity * 2.0);
-                    
-                    totalDistortion += mainDistortion;
-                    totalInfluence += mainMask;
-                    
-                    // Trail distortions
-                    for(int i = 0; i < 20; i += 2) {
-                        if(i/2 >= uTrailCount) break;
-                        
-                        vec2 trailPos = vec2(uTrailPoints[i], uTrailPoints[i+1]);
-                        float trailMask = circle(uv, trailPos, uRadius * 0.7, 0.5) * 0.5;
-                        
-                        vec2 toTrail = uv - trailPos;
-                        float trailAngle = atan(toTrail.y, toTrail.x);
-                        float trailWobble = sin(trailAngle * 4.0 + uTime * 3.0) * 0.015;
-                        
-                        vec2 trailDistortion = vec2(
-                            cos(trailAngle) * trailWobble,
-                            sin(trailAngle) * trailWobble
-                        ) * uStrength * trailMask;
-                        
-                        totalDistortion += trailDistortion;
-                        totalInfluence += trailMask;
-                    }
-                    
-                    // Apply final distortion
-                    vec2 finalUV = uv - totalDistortion;
-                    gl_FragColor = texture2D(uTexture, finalUV);
-                }
-            `
-        });
-
-        // Create mesh
-        const geometry = new THREE.PlaneGeometry(2, 2);
-        const mesh = new THREE.Mesh(geometry, shaderMaterial);
-        this.scene.add(mesh);
-        
-        // Add event listeners
-        window.addEventListener('mousemove', this.onMouseMove.bind(this));
-        window.addEventListener('resize', this.onResize.bind(this));
-        this.onResize();
-        
-        // Start animation
-        this.animate();
-    }
-
-    updateTrailPoints() {
-        // Add new point
-        this.trailPoints.unshift({
-            x: this.mouse.x,
-            y: this.mouse.y,
-            life: 1.0
-        });
-
-        // Remove excess points
-        if (this.trailPoints.length > this.maxTrailPoints) {
-            this.trailPoints.pop();
-        }
-
-        // Update life and remove dead points
-        this.trailPoints = this.trailPoints.filter(point => {
-            point.life *= 0.95;
-            return point.life > 0.01;
-        });
-
-        // Update shader uniform
-        const trailArray = new Float32Array(20); // 10 points × 2 coordinates
-        this.trailPoints.forEach((point, i) => {
-            if (i < 10) {
-                trailArray[i * 2] = point.x;
-                trailArray[i * 2 + 1] = point.y;
-            }
-        });
-
-        const material = this.scene.children[0].material;
-        material.uniforms.uTrailPoints.value = trailArray;
-        material.uniforms.uTrailCount.value = Math.min(this.trailPoints.length, 10);
-    }
-
-    onMouseMove(event) {
-        const rect = this.canvas.getBoundingClientRect();
-        const currentTime = performance.now();
-        const deltaTime = (currentTime - this.lastTime) / 1000;
-        this.lastTime = currentTime;
-
-        this.lastMousePos.copy(this.mouseTarget);
-        
-        this.mouseTarget.x = (event.clientX - rect.left) / rect.width;
-        this.mouseTarget.y = 1.0 - (event.clientY - rect.top) / rect.height;
-        
-        if (deltaTime > 0) {
-            this.mouseVelocity.x = (this.mouseTarget.x - this.lastMousePos.x) / deltaTime;
-            this.mouseVelocity.y = (this.mouseTarget.y - this.lastMousePos.y) / deltaTime;
-        }
-
-        gsap.to(this.mouse, {
-            x: this.mouseTarget.x,
-            y: this.mouseTarget.y,
-            duration: 0.3,
-            ease: "power2.out",
-            onUpdate: () => {
-                const material = this.scene.children[0].material;
-                material.uniforms.uMouse.value.set(this.mouse.x, this.mouse.y);
-                material.uniforms.uMouseVelocity.value.set(
-                    this.mouseVelocity.x * 0.1,
-                    this.mouseVelocity.y * 0.1
-                );
-            }
-        });
-    }
-
-    onResize() {
-        const { width, height } = this.container.getBoundingClientRect();
-        this.renderer.setSize(width, height);
-    }
-
-    animate() {
-        requestAnimationFrame(this.animate.bind(this));
-        
-        const elapsedTime = this.clock.getElapsedTime();
-        this.scene.children[0].material.uniforms.uTime.value = elapsedTime;
-        
-        this.mouseVelocity.multiplyScalar(0.95);
-        this.updateTrailPoints();
-        
-        this.renderer.render(this.scene, this.camera);
-    }
-    cleanup() {
-        // Remove event listeners
-        window.removeEventListener('scroll', this.handleScroll);
-        
-        // Disconnect intersection observer
-        if (this.observer) {
-            this.observer.disconnect();
-        }
-        
-        // Remove any remaining effects
-        this.hideImage();
-        
-        // Clean up Three.js resources
-        if (this.renderer) {
-            this.renderer.dispose();
-        }
-        if (this.geometry) {
-            this.geometry.dispose();
-        }
-        if (this.material) {
-            this.material.dispose();
-        }
-        
-        // Remove DOM elements
-        if (this.container) {
-            this.container.remove();
-        }
-        if (this.viewButton) {
-            this.viewButton.remove();
-        }
-    }
-}
 class HoverEffect {
     constructor() {
         // Create container for the effect
@@ -768,16 +425,221 @@ class HoverEffect {
         window.removeEventListener('resize', this.handleResize);
     }
 }
+
+// Initialize hover effect when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     const hoverEffect = new HoverEffect();
+    
+    // Optional: Cleanup on page unload
+    window.addEventListener('unload', () => {
+        hoverEffect.cleanup();
+    });
 });
-// Initialize effect when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
 
-    new LiquidDistortionEffect();
-
-        // Optional: Cleanup on page unload
-        window.addEventListener('unload', () => {
-            effect.cleanup();
+// Profesyonel Minimal Animasyon Efekti
+class MinimalAnimation {
+    constructor() {
+        this.canvas = document.createElement('canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.particles = [];
+        this.canvasSize = { width: window.innerWidth, height: window.innerHeight };
+        this.particleCount = Math.floor(window.innerWidth / 15); // Daha az partikül
+        this.colors = ['#e6e6e6', '#d9d9d9', '#cccccc', '#f2f2f2']; // Gri tonları
+        this.mousePosition = { x: 0, y: 0 };
+        this.mouseRadius = 100;
+        
+        this.init();
+        this.createParticles();
+        this.animate();
+    }
+    
+    init() {
+        this.canvas.width = this.canvasSize.width;
+        this.canvas.height = this.canvasSize.height;
+        this.canvas.style.position = 'fixed';
+        this.canvas.style.top = '0';
+        this.canvas.style.left = '0';
+        this.canvas.style.pointerEvents = 'none';
+        this.canvas.style.zIndex = '0'; // Arka planda kalması için düşük z-index
+        document.body.appendChild(this.canvas);
+        
+        // Fare hareketini izleme
+        document.addEventListener('mousemove', (e) => {
+            this.mousePosition.x = e.clientX;
+            this.mousePosition.y = e.clientY;
         });
+        
+        window.addEventListener('resize', () => {
+            this.canvasSize = { width: window.innerWidth, height: window.innerHeight };
+            this.canvas.width = this.canvasSize.width;
+            this.canvas.height = this.canvasSize.height;
+            
+            // Resize olduğunda partikül sayısını da güncelle
+            const newParticleCount = Math.floor(window.innerWidth / 15);
+            if (newParticleCount > this.particleCount) {
+                // Ek partikül ekle
+                for (let i = 0; i < newParticleCount - this.particleCount; i++) {
+                    this.particles.push(this.createParticle());
+                }
+            } else if (newParticleCount < this.particleCount) {
+                // Fazla partikülleri kaldır
+                this.particles = this.particles.slice(0, newParticleCount);
+            }
+            this.particleCount = newParticleCount;
+        });
+    }
+    
+    createParticle() {
+        return {
+            x: Math.random() * this.canvasSize.width,
+            y: Math.random() * this.canvasSize.height,
+            radius: 1 + Math.random() * 2,
+            originalRadius: 1 + Math.random() * 2,
+            color: this.colors[Math.floor(Math.random() * this.colors.length)],
+            speed: 0.2 + Math.random() * 0.3,
+            direction: Math.random() * Math.PI * 2,
+            opacity: 0.1 + Math.random() * 0.4,
+            connectedTo: []
+        };
+    }
+    
+    createParticles() {
+        for (let i = 0; i < this.particleCount; i++) {
+            this.particles.push(this.createParticle());
+        }
+    }
+    
+    findConnections() {
+        // Partiküller arası bağlantıları belirle
+        for (let i = 0; i < this.particles.length; i++) {
+            this.particles[i].connectedTo = [];
+            
+            for (let j = i + 1; j < this.particles.length; j++) {
+                const dx = this.particles[i].x - this.particles[j].x;
+                const dy = this.particles[i].y - this.particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 100) { // Bağlantı mesafesi
+                    this.particles[i].connectedTo.push({
+                        particle: this.particles[j],
+                        distance: distance
+                    });
+                }
+            }
+        }
+    }
+    
+    drawConnections() {
+        // Partiküller arası bağlantıları çiz
+        for (let i = 0; i < this.particles.length; i++) {
+            const particle = this.particles[i];
+            
+            for (let j = 0; j < particle.connectedTo.length; j++) {
+                const connection = particle.connectedTo[j];
+                const opacity = 1 - (connection.distance / 100);
+                
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = `rgba(200, 200, 200, ${opacity * 0.2})`; // Bağlantılar için açık gri
+                this.ctx.lineWidth = 0.5;
+                this.ctx.moveTo(particle.x, particle.y);
+                this.ctx.lineTo(connection.particle.x, connection.particle.y);
+                this.ctx.stroke();
+            }
+        }
+    }
+    
+    drawParticle(particle) {
+        this.ctx.beginPath();
+        this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        this.ctx.fillStyle = `rgba(${this.hexToRgb(particle.color)}, ${particle.opacity})`;
+        this.ctx.fill();
+    }
+    
+    hexToRgb(hex) {
+        // Hex rengi RGB'ye dönüştür
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? 
+            parseInt(result[1], 16) + ',' + parseInt(result[2], 16) + ',' + parseInt(result[3], 16) : 
+            '200,200,200';
+    }
+    
+    updateParticle(particle) {
+        // Partikül hareketini güncelle
+        particle.x += Math.cos(particle.direction) * particle.speed;
+        particle.y += Math.sin(particle.direction) * particle.speed;
+        
+        // Yön değişimini hafifçe rastgele yap
+        particle.direction += (Math.random() - 0.5) * 0.01;
+        
+        // Fare etkileşimi
+        const dx = particle.x - this.mousePosition.x;
+        const dy = particle.y - this.mousePosition.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < this.mouseRadius) {
+            // Fareye yakın partikülleri büyüt ve hızlandır
+            const force = (this.mouseRadius - distance) / this.mouseRadius;
+            particle.radius = particle.originalRadius + (force * 2);
+            
+            // Fareden uzağa itme
+            const angle = Math.atan2(dy, dx);
+            particle.x += Math.cos(angle) * force * 0.5;
+            particle.y += Math.sin(angle) * force * 0.5;
+        } else {
+            // Normal boyuta dön
+            particle.radius = particle.originalRadius;
+        }
+        
+        // Ekrandan çıkınca karşı tarafa getir
+        if (particle.x < 0) {
+            particle.x = this.canvasSize.width;
+        } else if (particle.x > this.canvasSize.width) {
+            particle.x = 0;
+        }
+        
+        if (particle.y < 0) {
+            particle.y = this.canvasSize.height;
+        } else if (particle.y > this.canvasSize.height) {
+            particle.y = 0;
+        }
+    }
+    
+    animate() {
+        this.ctx.clearRect(0, 0, this.canvasSize.width, this.canvasSize.height);
+        
+        // Bağlantıları hesapla
+        this.findConnections();
+        
+        // Önce bağlantıları çiz
+        this.drawConnections();
+        
+        // Sonra partikülleri çiz ve güncelle
+        this.particles.forEach(particle => {
+            this.updateParticle(particle);
+            this.drawParticle(particle);
+        });
+        
+        requestAnimationFrame(() => this.animate());
+    }
+    
+    cleanup() {
+        this.canvas.remove();
+        document.removeEventListener('mousemove', this.handleMouseMove);
+        window.removeEventListener('resize', this.handleResize);
+    }
+}
+
+// Sayfa yüklendiğinde animasyonu başlat
+document.addEventListener('DOMContentLoaded', () => {
+    const minimalAnimation = new MinimalAnimation();
+    
+    // Mevcut hover efektini de çalıştır
+    const hoverEffect = new HoverEffect();
+    
+    // Sayfa kapanırken temizlik yapma
+    window.addEventListener('unload', () => {
+        minimalAnimation.cleanup();
+        hoverEffect.cleanup();
+    });
 });
+

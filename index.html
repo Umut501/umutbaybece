@@ -9,222 +9,32 @@
 </head>
 
 <body>
-    </head>
-    <body>
-        <section class="home-section">
-            <div class="video-background">
-                <video autoplay muted loop playsinline>
-                    <source src="assets/images/banner.mp4" type="video/mp4">
-                </video>
-            </div>
-            <div class="home-content">
-                <div class="text-content">
-                    <h1 class="main-title">
-                        UMUT BAYBECE
+    <a href="#" class="about-link">About</a>
+    
+    <section class="experience-container">
+        <div class="experience-list">
+            <h1 class="about-title">ORGANISATION/COMPANY</h1>
+            <a href="#" class="title-link">TITLE</a>
+        </div>
+        <div class="experience-item" data-experience="experience1" data-date="February 2025 - Present" data-position="Teaching Assistant">Middle East Technical University NCC</div>
+        <div class="experience-item" data-experience="experience2" data-date="December 2024 - Present" data-position="Front-end Bootcamp Trainee">Turkcell Geleceği Yazanlar</div>
+        <div class="experience-item" data-experience="experience3" data-date="August 2023 - February 2025" data-position="Full Time Software Developer">Kod Yazılım A.Ş.</div>
+        <div class="experience-item" data-experience="experience4" data-date="August 2022 - September 2022" data-position="Computer Engineering Internship">Adopen Plastik Ve Inş. San. A.Ş.</div>
+        <div class="experience-item" data-experience="experience5" data-date="February 2022 - March 2022" data-position="Computer Engineering Internship">Kod Yazılım A.Ş.</div>
+        
+        <div class="experience-preview"></div>
+        <div class="hidden-images">
+            <img src="assets/images/odtü.jpg" alt="Middle East Technical University" id="experience1-img">
+            <img src="assets/images/turkcell.jpg" alt="Turkcell Geleceği Yazanlar" id="experience2-img">
+            <img src="assets/images/veboni.png" alt="Kod Yazılım" id="experience3-img">
+            <img src="assets/images/adopen.jpg" alt="Adopen" id="experience4-img">
+            <img src="assets/images/image.png" alt="Kod Yazılım Internship" id="experience5-img">
+        </div>
+    </section>
 
-                        <span class="title-accent">Front-end Developer & Designer</span>
-                    </h1>
-                    <p class="description">
-                        Crafting digital experiences <br> through elegant code & creative solutions.<br> 
-                        Specializing in modern web development <br> & user-centric design.
-                    </p>
-
-                </div>
-                <div class="visual-content">
-
-                </div>
-            </div>
-
-            <div class="scroll-indicator">
-
-                <div id="rotating-cube"></div>
-                <span class="scroll-text">Scroll Down</span>
-            </div>
-
-            <style>
-                #rotating-cube {
-                    width: 100px;
-                    height: 100px;
-                    margin-top: 10px;
-                }
-            </style>
-
-            <script>
-                class RotatingCube {
-                    constructor() {
-                        this.container = document.getElementById('rotating-cube');
-                        this.scene = new THREE.Scene();
-                        this.camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-
-                        this.renderer = new THREE.WebGLRenderer({
-                            alpha: true,
-                            antialias: true
-                        });
-                        this.renderer.setSize(100, 100);
-                        this.container.appendChild(this.renderer.domElement);
-
-                        const geometry = new THREE.BoxGeometry(1, 1, 1);
-                        const material = new THREE.MeshBasicMaterial({
-                            color: 0xF3EEE8,
-                            transparent: true,
-                            opacity: 0.6
-                        });
-
-                        this.cube = new THREE.Mesh(geometry, material);
-                        this.scene.add(this.cube);
-
-                        this.camera.position.z = 2.5;
-
-                        this.animate();
-                    }
-
-                    animate() {
-                        requestAnimationFrame(() => this.animate());
-
-                        this.cube.rotation.x += 0.025;
-                        this.cube.rotation.y += 0.01;
-
-                        this.renderer.render(this.scene, this.camera);
-                    }
-                }
-
-                // Initialize the cube when the DOM is loaded
-                document.addEventListener('DOMContentLoaded', () => {
-                    new RotatingCube();
-                });
-            </script>
-
-        </section>
-
-<div class="transition-image">
-    <img src="./assets/images/poolside.png" alt="Transition decoration">
-</div>
-
-        <section class="about-section">
-            <h1 class="about-title">About Me</h1>
-            <div class="about-content-wrapper">
-                <div class="about-content">
-                    I'm a passionate software developer with expertise in front-end development and a strong foundation
-                    in
-                    computer engineering. My journey in tech has taken me through various roles where I've combined
-                    technical skills with creative problem-solving to deliver impactful solutions.
-                </div>
-                <a href="#" class="learn-more-btn">Learn More <span style="font-size: 100px;">↗</span></a>
-            </div>
-        </section>
-
-        <section class="experience-container">
-            <div class="experience-list">
-                <h1 class="about-title">Experience</h1>
-                <div class="experience-item" data-experience="experience3">Turkcell Geleceği Yazanlar <span
-                        class="rightsidetext">Front-end Bootcamp Trainee</span></div>
-                <div class="experience-item" data-experience="experience1">Kod Yazılım A.Ş. <span
-                        class="rightsidetext">Full
-                        Time Software Developer</span></div>
-                <div class="experience-item" data-experience="experience2">Middle East Technical University <span
-                        class="rightsidetext">Teaching Assistant</span></div>
-                <div class="experience-item" data-experience="experience4">Adopen Plastik Ve Inş. San. A.Ş. <span
-                        class="rightsidetext">Computer Engineering Internship</span></div>
-                <div class="experience-item" data-experience="experience5">Kod Yazılım A.Ş. <span
-                        class="rightsidetext">Computer Engineering Internship</span></div>
-            </div>
-            <div class="experience-preview"></div>
-            <div class="hidden-images">
-                <img src="assets/images/veboni.png" alt="Experience 1" id="experience1-img">
-                <img src="assets/images/odtü.jpg" alt="Experience 2" id="experience2-img">
-                <img src="assets/images/turkcell.jpg" alt="Experience 3" id="experience3-img">
-                <img src="assets/images/adopen.jpg" alt="Experience 4" id="experience4-img">
-                <img src="assets/images/image.png" alt="Experience 5" id="experience5-img">
-            </div>
-        </section>
-
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Contact</h3>
-                    <p>Email: umutbaybece@gmail.com</p>
-                    <p>Tel: +90 541 901 7339</p>
-                    <div class="social-links">
-                        <a href="https://www.linkedin.com/in/umut-baybece-6a1303201" target="_blank"
-                            aria-label="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="https://github.com/Umut501" target="_blank" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Experience</a></li>
-                        <li><a href="#">Certifications</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Location</h3>
-                    <p>Antalya, Turkey</p>
-                    <p><a href="http://umutbaybece.com/" target="_blank">umutbaybece.com</a></p>
-                </div>
-            </div>
-
-            <div class="quote-section">
-                <p class="quote">"Creativity is the greatest rebellion in existence."</p>
-                <p class="quote-author">Osho</p>
-            </div>
-
-            <div class="footer-bottom">
-                <p>&copy; 2025 Umut Baybece. All rights reserved.</p>
-            </div>
-        </footer>
-        <script src="script.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-        <script>
-            // Wait for DOM content to be loaded
-            document.addEventListener('DOMContentLoaded', () => {
-                // Register ScrollTrigger plugin
-                gsap.registerPlugin(ScrollTrigger);
-
-                // Initial animations when page loads
-                gsap.from('.main-title', {
-                    y: 100,
-                    opacity: 0,
-                    duration: 1.2,
-                    ease: 'power3.out'
-                });
-
-                gsap.from('.title-accent', {
-                    y: 50,
-                    opacity: 0,
-                    duration: 1.2,
-                    delay: 0.3,
-                    ease: 'power3.out'
-                });
-
-                gsap.from('.description', {
-                    y: 50,
-                    opacity: 0,
-                    duration: 1.2,
-                    delay: 0.6,
-                    ease: 'power3.out'
-                });
-
-                // Scroll indicator animation
-                gsap.from('.scroll-indicator', {
-                    opacity: 0,
-                    y: -20,
-                    duration: 1,
-                    delay: 1.5,
-                    ease: 'power2.out'
-                });
-
-            });
-        </script>
-
-    </body>
-
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</body>
 </html>
