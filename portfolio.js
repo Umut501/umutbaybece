@@ -12,8 +12,6 @@ import {
 } from 'https://unpkg.com/three@0.121.1/build/three.module.js';
 
 import ProjectsPrisms from './ProjectsPrisms.js';
-import FallingPrisms from './fallingPrisms.js';
-
 
 // Three.js setup
 const rowCount = 46;
@@ -89,7 +87,6 @@ const updateTextFade = (scrollProgress) => {
         opacity = 1;
     }
 
-
     // Update text nodes opacity while preserving eye
     const eyeAnchor = document.querySelector('.eye-anchor');
     if (eyeAnchor) {
@@ -116,72 +113,68 @@ const updateTextFade = (scrollProgress) => {
 };
 
 let scrollProgress = 0;
-// Update the scroll event listener// Update scroll event listener
+
+// Updated scroll event listener for combined section
 window.addEventListener('scroll', () => {
     const scrollMax = getMaxScroll();
-    // Adjust scroll progress calculation to be more gradual
     scrollProgress = Math.min(1, window.scrollY / scrollMax);
-    
-    const aboutSection = document.querySelector('.about-section');
-    const projectsSection = document.querySelector('.projects-section');
 
-    // Overlay delik boyutunu güncelle
-const overlay = document.querySelector('.scroll-overlay');
-const minHoleSize = 200; // Başlangıç delik boyutu
-const maxHoleSize = Math.max(window.innerWidth, window.innerHeight); // Maksimum delik boyutu
-
+    const combinedSection = document.querySelector('.combined-section');
+    const overlay = document.querySelector('.scroll-overlay');
 
     if (!ticking) {
         requestAnimationFrame(() => {
-            
             updateTextFade(scrollProgress);
-                        // Overlay kontrolü
-                        if (scrollProgress <= 0.33) { // Sadece ilk bölümde göster
-                            const minHoleSize = 180;
-                            const maxHoleSize = Math.max(window.innerWidth, window.innerHeight);
-                            const scrollFactor = scrollProgress * 3; // 0-1 arası değer için 
-                            const currentHoleSize = minHoleSize + (scrollFactor * (maxHoleSize - minHoleSize));
-                            
-                            overlay.style.opacity = '1';
-                            overlay.style.setProperty('--hole-size', `${currentHoleSize}px`);
-                        } else {
-                            overlay.style.opacity = '0';
-                        }
 
-            // Divide scroll into three equal sections
-            if (scrollProgress <= 0.33) {
+            // Overlay control - only show in first section
+            if (scrollProgress <= 0.3) {
+                const minHoleSize = 180;
+                const maxHoleSize = Math.max(window.innerWidth, window.innerHeight);
+                const scrollFactor = scrollProgress * 3.33; // 0-1 range for first 30%
+                const currentHoleSize = minHoleSize + (scrollFactor * (maxHoleSize - minHoleSize));
+
+                overlay.style.opacity = '1';
+                overlay.style.setProperty('--hole-size', `${currentHoleSize}px`);
+            } else {
+                overlay.style.opacity = '0';
+            }
+
+            // Switch between home and combined section
+            if (scrollProgress <= 0.3) {
                 // Home section
                 threeContainer.style.opacity = '1';
                 contentWrapper.style.opacity = '1';
-                
-                if (aboutSection) {
-                    aboutSection.classList.remove('active', 'exit');
-                }
-                if (projectsSection) {
-                    projectsSection.classList.remove('active', 'exit');
-                }
-            } else if (scrollProgress <= 0.55) {
-                // About section
-                threeContainer.style.opacity = '0';
-                contentWrapper.style.opacity = '0';
-                
-                if (aboutSection) {
-                    aboutSection.classList.add('active');
-                    aboutSection.classList.remove('exit');
-                }
-                if (projectsSection) {
-                    projectsSection.classList.remove('active');
-                    projectsSection.classList.add('exit');
+
+                if (combinedSection) {
+                    combinedSection.classList.remove('active');
                 }
             } else {
-                // Projects section
-                if (aboutSection) {
-                    aboutSection.classList.remove('active');
-                    aboutSection.classList.add('exit');
-                }
-                if (projectsSection) {
-                    projectsSection.classList.add('active');
-                    projectsSection.classList.remove('exit');
+                // Combined section (About + Projects)
+                threeContainer.style.opacity = '0';
+                contentWrapper.style.opacity = '0';
+
+                if (combinedSection) {
+                    combinedSection.classList.add('active');
+
+                    // Control which part is visible based on scroll
+                    const aboutPart = combinedSection.querySelector('.about-part');
+                    const projectsPart = combinedSection.querySelector('.projects-part');
+
+                    // Calculate position within combined section (30% to 100% maps to 0% to 100%)
+                    const combinedProgress = (scrollProgress - 0.3) / 0.7;
+
+                    // Add immediate scroll responsiveness to about content
+                    if (combinedProgress <= 0.75) {
+                        // Show about part with immediate scroll response
+                        const aboutScrollOffset = Math.min(combinedProgress * 30, 25); // More responsive scroll effect
+                        if (aboutPart) aboutPart.style.transform = `translateY(-${aboutScrollOffset}vh)`;
+                        if (projectsPart) projectsPart.style.transform = 'translateY(50vh)';
+                    } else {
+                        // Transition to projects part
+                        const transitionProgress = (combinedProgress - 0.75) / 0.25;
+                        if (aboutPart) aboutPart.style.transform = `translateY(-${25 + (transitionProgress * 75)}vh)`;
+                        if (projectsPart) projectsPart.style.transform = `translateY(${50 - (transitionProgress * 50)}vh)`;
+                    }
                 }
             }
 
@@ -201,9 +194,9 @@ function onWindowResize() {
     renderer.setSize(innerWidth, innerHeight);
 }
 
-// to slow down everything uniformly, modify the animate function
+// Slow down animation uniformly
 function animate(time) {
-    render((time / 1000) * 0.25); // Multiply by 0.5 to make it half speed
+    render((time / 1000) * 0.25);
     requestAnimationFrame(animate);
 }
 
@@ -250,24 +243,23 @@ document.addEventListener('DOMContentLoaded', () => {
     animate(0);
 });
 
-
-// Update navigation click handlers
-document.querySelector('a[href="#about"]').addEventListener('click', function(e) {
+// Update navigation click handlers for combined section
+document.querySelector('a[href="#about"]').addEventListener('click', function (e) {
     e.preventDefault();
     const maxScroll = getMaxScroll();
-    const targetScroll = maxScroll * 0.5; // Center of about section
-    
+    const targetScroll = maxScroll * 0.4; // Start of about section
+
     window.scrollTo({
         top: targetScroll,
         behavior: 'smooth'
     });
 });
 
-document.querySelector('a[href="#projects"]').addEventListener('click', function(e) {
+document.querySelector('a[href="#projects"]').addEventListener('click', function (e) {
     e.preventDefault();
     const maxScroll = getMaxScroll();
-    const targetScroll = maxScroll * 0.8; // Center of projects section
-    
+    const targetScroll = maxScroll * 0.85; // Start of projects section - later in scroll
+
     window.scrollTo({
         top: targetScroll,
         behavior: 'smooth'
@@ -275,7 +267,7 @@ document.querySelector('a[href="#projects"]').addEventListener('click', function
 });
 
 // Smooth scroll functionality for home section
-document.querySelector('a[href="#home"]').addEventListener('click', function(e) {
+document.querySelector('a[href="#home"]').addEventListener('click', function (e) {
     e.preventDefault();
     window.scrollTo({
         top: 0,
@@ -284,31 +276,165 @@ document.querySelector('a[href="#home"]').addEventListener('click', function(e) 
     });
 });
 
-
-// Initialize falling prisms when about section becomes visible
-const aboutSection = document.querySelector('.about-section');
+// Initialize falling prisms when combined section becomes visible
+const combinedSection = document.querySelector('.combined-section');
 let fallingPrismsInstance = null;
+let projectsPrismsInstance = null;
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting && !fallingPrismsInstance) {
-            fallingPrismsInstance = new FallingPrisms('falling-prisms-container');
+        if (entry.isIntersecting) {
+            // Initialize falling prisms for about section
+            if (!fallingPrismsInstance) {
+                fallingPrismsInstance = new FallingPrisms('falling-prisms-container');
+            }
+            // Initialize projects prisms for projects section
+            if (!projectsPrismsInstance) {
+                projectsPrismsInstance = new ProjectsPrisms('projects-prisms-container');
+            }
         }
     });
 }, { threshold: 0.1 });
 
-observer.observe(aboutSection);
+observer.observe(combinedSection);
 
-// Initialize projects prisms when projects section becomes visible
-const projectsSection = document.querySelector('.projects-section');
-let projectsPrismsInstance = null;
+// Add smooth scrolling within the combined section
+let isScrolling = false;
 
-const projectsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting && !projectsPrismsInstance) {
-            projectsPrismsInstance = new ProjectsPrisms('projects-prisms-container');
+combinedSection.addEventListener('scroll', () => {
+    if (!isScrolling) {
+        window.requestAnimationFrame(() => {
+            // Add any scroll-based animations here if needed
+            isScrolling = false;
+        });
+        isScrolling = true;
+    }
+});
+
+// Add scroll hint functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const scrollHint = document.querySelector('.about-scroll-hint');
+
+    if (scrollHint) {
+        // Hide scroll hint after user starts scrolling in combined section
+        let hintHidden = false;
+
+        const hideScrollHint = () => {
+            if (!hintHidden) {
+                scrollHint.style.opacity = '0';
+                scrollHint.style.transform = 'translateY(20px)';
+                hintHidden = true;
+            }
+        };
+
+        // Hide hint when user scrolls within combined section
+        combinedSection.addEventListener('scroll', hideScrollHint);
+
+        // Also hide after a few seconds
+        setTimeout(hideScrollHint, 5000);
+    }
+});
+
+// Enhanced navigation with section awareness
+const updateActiveNavigation = () => {
+    const navLinks = document.querySelectorAll('.navbar-menu a');
+    const scrollMax = getMaxScroll();
+    const currentProgress = Math.min(1, window.scrollY / scrollMax);
+
+    // Remove active class from all links
+    navLinks.forEach(link => link.classList.remove('active'));
+
+    // Add active class based on scroll progress
+    if (currentProgress <= 0.3) {
+        document.querySelector('a[href="#home"]')?.classList.add('active');
+    } else if (currentProgress <= 0.82) {
+        document.querySelector('a[href="#about"]')?.classList.add('active');
+    } else {
+        document.querySelector('a[href="#projects"]')?.classList.add('active');
+    }
+};
+
+// Add to existing scroll listener
+window.addEventListener('scroll', updateActiveNavigation);
+
+// Add CSS for active navigation state if not already present
+const style = document.createElement('style');
+style.textContent = `
+    .navbar-menu a.active {
+        color: #ff0000 !important;
+        text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    }
+    
+    .about-scroll-hint {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 10;
+        opacity: 0.7;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .scroll-hint-text {
+        font-family: 'Playwrite AU SA', serif;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 0.5rem;
+        text-align: center;
+    }
+    
+    .scroll-hint-arrow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .scroll-hint-arrow span {
+        display: block;
+        width: 15px;
+        height: 15px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+        border-right: 2px solid rgba(255, 255, 255, 0.6);
+        transform: rotate(45deg);
+        margin: -5px;
+        animation: hint-bounce 2s infinite;
+    }
+    
+    .scroll-hint-arrow span:nth-child(2) {
+        animation-delay: -0.2s;
+    }
+    
+    .scroll-hint-arrow span:nth-child(3) {
+        animation-delay: -0.4s;
+    }
+    
+    @keyframes hint-bounce {
+        0% {
+            opacity: 0;
+            transform: rotate(45deg) translate(-10px, -10px);
         }
-    });
-}, { threshold: 0.1 });
-
-projectsObserver.observe(projectsSection);
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .about-scroll-hint {
+            top: 10px;
+            right: 10px;
+        }
+        
+        .scroll-hint-text {
+            font-size: 0.8rem;
+        }
+        
+        .scroll-hint-arrow span {
+            width: 12px;
+            height: 12px;
+        }
+    }
+`;
+document.head.appendChild(style);
