@@ -112,6 +112,7 @@ body {
     font-size: 3rem;
     font-family: 'Rubik Glitch', sans-serif;
     font-weight: 400;
+
     font-style: normal;
     text-align: center;
 }
@@ -121,10 +122,11 @@ body {
 }
 
 .scroll-container {
-    height: 800vh;
+    height: 500vh;
     position: relative;
     z-index: 0;
 }
+
 
 @keyframes fadeIn {
     from {
@@ -138,11 +140,15 @@ body {
     }
 }
 
+
+
 #three-container,
 .content-wrapper {
     transition: all 0.6s ease-out;
 }
 
+
+/* Adjust this value to control scroll distance */
 .scroll-container {
     min-height: 150vh;
 }
@@ -150,18 +156,21 @@ body {
 .eye-container {
     position: relative;
     display: inline-block;
-    width: 600px;
-    height: 600px;
+    width: 600px ;
+    height: 600px ;
     pointer-events: none;
     z-index: 1000;
 }
 
+/* Position the eye container relative to the 'o' in discover */
 .eye-anchor {
-    position: absolute;
+    position: absolute;   
     top: 50px;
+    /* Adjust based on your text size */
     left: 38%;
+    /* Center horizontally */
     width: 600px;
-    height: 600px;
+    height: 600px ;
 }
 
 @media (max-width: 1024px) {
@@ -169,12 +178,10 @@ body {
         top: -60px;
         left: 36%;
     }
-
     .eye-text {
         font-size: 200px;
         line-height: 240px;
     }
-
     .name-text {
         font-size: 80px;
         line-height: 64px;
@@ -186,28 +193,23 @@ body {
         top: -60px;
         left: 26%;
     }
-
     .eye-text {
         font-size: 140px;
         line-height: 290px;
     }
-
     .name-text {
         font-size: 80px;
         line-height: 64px;
     }
 }
-
 @media (max-width: 768px) {
     .eye-anchor {
         top: -60px;
         left: 26%;
     }
-
     .eye-text {
         font-size: 140px;
     }
-
     .name-text {
         font-size: 140px;
     }
@@ -218,11 +220,9 @@ body {
         top: -60px;
         left: 36%;
     }
-
     .eye-text {
         font-size: 80px;
     }
-
     .name-text {
         font-size: 80px;
         line-height: 64px;
@@ -237,6 +237,7 @@ body {
 }
 
 /* Scroll down animation arrow start */
+
 .scroll-text {
     font-family: 'Playwrite AU SA', serif;
     font-size: 0.8rem;
@@ -298,13 +299,15 @@ body {
     pointer-events: auto;
 }
 
+/* Ensure the eye container stays visible */
 .eye-container {
     opacity: 1 !important;
     pointer-events: auto;
 }
 
-/* Combined Section Styles */
-.combined-section {
+/* About section styles */
+
+.about-section {
     position: fixed;
     top: 0;
     left: 0;
@@ -313,24 +316,13 @@ body {
     z-index: 3;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(100%);
-    transition: opacity 0.8s ease, visibility 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.5s ease, visibility 0.5s ease;
     background-color: #000;
     color: #fff;
-    overflow: visible;
-}
-
-.combined-section.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-/* About Part Styles */
-.about-part {
-    min-height: 100vh;
-    padding: 4rem 2rem;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6rem 2rem;
 }
 
 .about-content {
@@ -339,564 +331,95 @@ body {
     margin: 0 auto;
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.combined-section.active .about-content {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* About Intro Section */
-.about-intro {
-    text-align: center;
-    margin-bottom: 4rem;
+    animation: fadeInUp 0.8s ease-out forwards;
+    animation-delay: 0.2s;
 }
 
 .about-title {
     font-family: 'Playwrite AU SA', serif;
-    font-size: clamp(3rem, 8vw, 9.2rem);
-    margin-bottom: 1rem;
+    font-size: 9.2rem;
+    margin-bottom: 3rem;
     color: #fff;
-    background: linear-gradient(135deg, #fff 0%, #ff0000 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
-.about-tagline {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 2rem;
-}
-
-.highlight-text {
-    color: #ff0000;
-    font-weight: 600;
-}
-
-/* Main Content */
-.about-main-content {
-    display: flex;
-    flex-direction: column;
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
     gap: 4rem;
-}
-
-.about-text-section {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
+    align-items: start;
 }
 
 .about-subtitle {
     font-family: 'Playwrite AU SA', serif;
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
-    margin-bottom: 2rem;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
     color: #fff;
-    line-height: 1.3;
 }
 
-.about-description {
+.about-text p {
     font-family: 'Playwrite AU SA', serif;
     font-size: 1.1rem;
     line-height: 1.8;
-    margin-bottom: 1.5rem;
-    color: rgba(255, 255, 255, 0.9);
-    text-align: left;
+    margin-bottom: 2rem;
 }
 
-.about-description strong {
-    color: #ff0000;
-    font-weight: 600;
+.skills-section {
+    margin-top: 2rem;
 }
 
-/* Stats Section */
-.about-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 2rem;
-    margin: 3rem 0;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.stat-item {
-    text-align: center;
-}
-
-.stat-number {
-    font-family: 'Big Shoulders Display', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #ff0000;
-    margin-bottom: 0.5rem;
-}
-
-.stat-label {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.8);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-/* Expertise Section */
-.expertise-title,
-.experience-title,
-.projects-highlight-title,
 .skills-title {
     font-family: 'Playwrite AU SA', serif;
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: #fff;
-    text-align: center;
-    position: relative;
-}
-
-.expertise-title::after,
-.experience-title::after,
-.projects-highlight-title::after,
-.skills-title::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #ff0000, transparent);
-}
-
-.expertise-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-}
-
-.expertise-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 2rem;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    text-align: center;
-}
-
-.expertise-card:hover {
-    transform: translateY(-10px);
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 0, 0, 0.3);
-}
-
-.expertise-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.expertise-card h4 {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    color: #ff0000;
-}
-
-.expertise-card p {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-/* Timeline Section */
-.experience-timeline {
-    position: relative;
-    margin: 2rem 0 4rem 0;
-}
-
-.experience-timeline::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg, #ff0000, rgba(255, 0, 0, 0.3));
-}
-
-.timeline-item {
-    display: flex;
-    margin-bottom: 3rem;
-    position: relative;
-}
-
-.timeline-item:nth-child(odd) {
-    flex-direction: row;
-}
-
-.timeline-item:nth-child(even) {
-    flex-direction: row-reverse;
-}
-
-.timeline-year {
-    font-family: 'Big Shoulders Display', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #ff0000;
-    background: rgba(255, 0, 0, 0.1);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    border: 2px solid #ff0000;
-    align-self: flex-start;
-    min-width: 120px;
-    text-align: center;
-    position: relative;
-    z-index: 2;
-}
-
-.timeline-content {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 1.5rem;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    margin: 0 2rem;
-    backdrop-filter: blur(10px);
-}
-
-.timeline-content h4 {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 1.2rem;
-    color: #fff;
-    margin-bottom: 0.5rem;
-}
-
-.timeline-content p {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 1rem;
-    color: #ff0000;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-}
-
-.timeline-detail {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.8);
-    line-height: 1.5;
-}
-
-/* Skills Section */
-.skills-categories {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-}
-
-.skill-category {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 2rem;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-}
-
-.skill-category h4 {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 1.2rem;
-    color: #ff0000;
-    margin-bottom: 1.5rem;
-}
-
-.skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem;
-}
-
-.skill-tag {
-    background: rgba(255, 0, 0, 0.1);
-    border: 1px solid rgba(255, 0, 0, 0.3);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.9);
-    transition: all 0.3s ease;
-}
-
-.skill-tag:hover {
-    background: rgba(255, 0, 0, 0.2);
-    border-color: #ff0000;
-    color: #fff;
-    transform: translateY(-2px);
-}
-
-/* Projects Part Styles */
-.projects-part {
-    min-height: 100vh;
-    padding: 4rem 2rem;
-    position: relative;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 20, 20, 0.9) 100%);
-}
-
-.projects-content {
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.combined-section.active .projects-content {
-    opacity: 1;
-    transform: translateY(0);
-    transition-delay: 0.3s;
-}
-
-.projects-intro {
-    text-align: center;
-    margin-bottom: 4rem;
-}
-
-.projects-title {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: clamp(3rem, 8vw, 6rem);
-    margin-bottom: 1rem;
-    color: #fff;
-    background: linear-gradient(135deg, #fff 0%, #ff0000 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.projects-subtitle {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 2rem;
-}
-
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 2rem;
-    margin-bottom: 4rem;
-}
-
-.project-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 2rem;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #ff0000, transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.project-card:hover {
-    transform: translateY(-10px);
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 0, 0, 0.3);
-}
-
-.project-card:hover::before {
-    opacity: 1;
-}
-
-.featured-project {
-    grid-column: span 2;
-    background: rgba(255, 0, 0, 0.05);
-    border-color: rgba(255, 0, 0, 0.2);
-}
-
-.project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.project-title {
-    font-family: 'Playwrite AU SA', serif;
     font-size: 1.5rem;
-    color: #fff;
-    margin: 0;
-}
-
-.project-status {
-    background: rgba(255, 0, 0, 0.2);
-    color: #ff0000;
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-family: 'Playwrite AU SA', serif;
-    font-weight: 600;
-    border: 1px solid rgba(255, 0, 0, 0.3);
-}
-
-.project-description {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.9);
     margin-bottom: 1.5rem;
+    color: #fff;
 }
 
-.project-features {
-    display: flex;
-    flex-wrap: wrap;
+.skills-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.skill-item {
+    display: grid;
     gap: 0.5rem;
-    margin-bottom: 1rem;
 }
 
-.feature-tag {
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.8);
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
+.skill-name {
     font-family: 'Playwrite AU SA', serif;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
-}
-
-.feature-tag:hover {
-    background: rgba(255, 255, 255, 0.2);
+    font-size: 1rem;
     color: #fff;
 }
 
-.project-tech {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 1rem;
-    line-height: 1.5;
+
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .about-title {
+        font-size: 3rem;
+    }
+
+    .about-subtitle {
+        font-size: 1.5rem;
+    }
 }
 
-.project-tech strong {
-    color: #ff0000;
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.project-impact {
-    display: flex;
-    gap: 2rem;
-    margin-top: 1rem;
-}
+/* About section styles end */
 
-.impact-stat {
-    text-align: center;
-}
-
-.impact-number {
-    font-family: 'Big Shoulders Display', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #ff0000;
-    display: block;
-}
-
-.impact-label {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.6);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-/* Research Highlight */
-.projects-research-highlight {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 3rem;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    text-align: center;
-    margin-top: 3rem;
-}
-
-.research-title {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 2rem;
-    color: #fff;
-    margin-bottom: 2rem;
-    position: relative;
-}
-
-.research-title::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #ff0000, transparent);
-}
-
-.research-content {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.research-description {
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 2rem;
-}
-
-.research-description strong {
-    color: #ff0000;
-    font-weight: 600;
-}
-
-.research-keywords {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-}
-
-.keyword {
-    background: rgba(255, 0, 0, 0.1);
-    color: #ff0000;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 0.9rem;
-    border: 1px solid rgba(255, 0, 0, 0.3);
-    transition: all 0.3s ease;
-}
-
-.keyword:hover {
-    background: rgba(255, 0, 0, 0.2);
-    transform: translateY(-2px);
-}
 
 /* Article section styles */
 .article {
@@ -958,10 +481,12 @@ body {
         text-shadow: none;
     }
 }
+/* Article section styles end */
 
 /* Falling prisms background styles */
+
 .falling-prisms-bg {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -970,14 +495,161 @@ body {
     pointer-events: auto;
 }
 
+.about-section {
+    background: transparent !important;
+}
+/* Falling prisms background styles end */
+
+
+/* Projects section styles */
+.projects-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    z-index: 3;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 6rem 2rem;
+}
+
+.projects-content {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
+    animation-delay: 0.2s;
+    position: relative;
+    z-index: 2;
+}
+
+.projects-title {
+    font-family: 'Playwrite AU SA', serif;
+    font-size: 9.2rem;
+    margin-bottom: 3rem;
+    color: #fff;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.project-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.project-title {
+    font-family: 'Playwrite AU SA', serif;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.project-description {
+    font-family: 'Playwrite AU SA', serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+}
+
 #projects-prisms-container {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: 1;
     pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+    .projects-title {
+        font-size: 3rem;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* First, update the section transitions in CSS */
+.about-section,
+.projects-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    z-index: 3;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(100%);
+    transition: opacity 0.8s ease, visibility 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 6rem 2rem;
+}
+
+.about-section.active,
+.projects-section.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.about-section.exit,
+.projects-section.exit {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+}
+
+/* Update the scroll container height to account for smooth transitions */
+.scroll-container {
+    height: 600vh; /* Increased to allow for smoother scrolling */
+}
+
+/* Update the content transitions */
+.about-content,
+.projects-content {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.about-section.active .about-content,
+.projects-section.active .projects-content {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .scroll-overlay {
@@ -986,185 +658,23 @@ body {
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(0, 0, 0, 1);
-    z-index: 3;
-    pointer-events: none;
+    background: rgba(0, 0, 0, 1); 
+    z-index: 3; /* three-container'ın üstünde olmalı */
+    pointer-events: none; /* Alt katmandaki elementlere tıklamayı engellememesi için */
     -webkit-mask: radial-gradient(circle at center, transparent var(--hole-size, 200px), black calc(var(--hole-size, 200px) + 100px));
     mask: radial-gradient(circle at center, transparent var(--hole-size, 200px), black calc(var(--hole-size, 200px) + 100px));
-    transition: --hole-size 0.3s ease;
+    transition: --hole-size 0.3s ease; /* Smooth geçiş efekti */
 }
 
+/* Z-index düzenlemeleri */
 #three-container {
     z-index: 1;
 }
 
 .content-wrapper {
-    z-index: 4;
+    z-index: 4; /* Overlay'in üstünde olmalı */
 }
 
 .navbar {
-    z-index: 5;
-}
-
-.scroll-marquee-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    z-index: 10;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.marquee {
-    display: flex;
-    padding: 15px 0;
-    margin: 5px 0;
-    white-space: nowrap;
-    color: #ffffff;
-    justify-content: flex-end;
-    background: rgba(17, 17, 17, 0.8);
-    backdrop-filter: blur(10px);
-    font-family: 'Playwrite AU SA', serif;
-    font-size: 2.5rem;
-    font-weight: 600;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.marquee[data-reversed="true"] {
-    justify-content: flex-start;
-    background: rgba(34, 34, 34, 0.8);
-}
-
-.marquee span {
-    display: block;
-    padding: 0 2ch;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    transition: color 0.3s ease;
-}
-
-.marquee span:hover {
-    color: #ff0000;
-}
-
-.combined-marquee {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-.combined-section.active .combined-marquee {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-
-    .about-part,
-    .projects-part {
-        padding: 2rem 1rem;
-    }
-
-    .about-main-content {
-        gap: 3rem;
-    }
-
-    .about-stats {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-        padding: 1.5rem;
-    }
-
-    .expertise-grid,
-    .skills-categories {
-        grid-template-columns: 1fr;
-    }
-
-    .projects-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .featured-project {
-        grid-column: span 1;
-    }
-
-    .timeline-item {
-        flex-direction: column !important;
-        align-items: center;
-    }
-
-    .timeline-content {
-        margin: 1rem 0 0 0;
-        width: 100%;
-    }
-
-    .experience-timeline::before {
-        display: none;
-    }
-
-    .marquee {
-        font-size: 1.5rem;
-        padding: 10px 0;
-        margin: 3px 0;
-    }
-
-    .marquee span {
-        padding: 0 1.5ch;
-    }
-}
-
-@media (max-width: 480px) {
-    .about-stats {
-        grid-template-columns: 1fr;
-    }
-
-    .stat-number {
-        font-size: 2rem;
-    }
-
-    .projects-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .project-impact {
-        gap: 1rem;
-    }
-
-    .marquee {
-        font-size: 1.2rem;
-        padding: 8px 0;
-        margin: 2px 0;
-    }
-
-    .marquee span {
-        padding: 0 1ch;
-    }
-}
-
-.scroll-marquee-container::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #ff0000, transparent);
-    animation: scroll-indicator 3s ease-in-out infinite;
-}
-
-@keyframes scroll-indicator {
-
-    0%,
-    100% {
-        opacity: 0.3;
-    }
-
-    50% {
-        opacity: 1;
-    }
+    z-index: 5; /* Her şeyin üstünde olmalı */
 }
