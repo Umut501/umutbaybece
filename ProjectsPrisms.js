@@ -74,10 +74,10 @@ class ProjectsPrisms {
 
         // Add invisible floor plane for collision
         const floorGeometry = new PlaneGeometry(50, 50);
-        const floorMaterial = new MeshStandardMaterial({ 
+        const floorMaterial = new MeshStandardMaterial({
             visible: false,
             transparent: true,
-            opacity: 0 
+            opacity: 0
         });
         this.floor = new Mesh(floorGeometry, floorMaterial);
         this.floor.rotation.x = -Math.PI / 2;
@@ -108,14 +108,14 @@ class ProjectsPrisms {
 
     createPrisms() {
         const geometry = new BoxGeometry(1, 2, 1);
-        const material = new MeshStandardMaterial({ 
+        const material = new MeshStandardMaterial({
             color: 0x000000,
             metalness: 0.1,
             roughness: 0.8
         });
 
         const edgesGeometry = new EdgesGeometry(geometry);
-        const edgesMaterial = new LineBasicMaterial({ 
+        const edgesMaterial = new LineBasicMaterial({
             color: 0xffffff,
             linewidth: 1
         });
@@ -168,7 +168,7 @@ class ProjectsPrisms {
             prism.position.y = this.floorY + 1;
             prism.userData.velocity.y = 0;
             prism.userData.settled = true;
-            
+
             // Add some random horizontal movement on impact
             prism.userData.velocity.x = (Math.random() - 0.5) * 0.1;
             prism.userData.velocity.z = (Math.random() - 0.5) * 0.1;

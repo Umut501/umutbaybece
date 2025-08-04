@@ -22,7 +22,7 @@ class FallingPrisms {
         this.mouse = new Vector2();
         this.raycaster = new Raycaster();
         this.init();
-        
+
         // Start animation immediately
         this.prisms.forEach(prism => {
             prism.position.y = (Math.random() - 0.5) * 20;
@@ -58,14 +58,14 @@ class FallingPrisms {
 
     createPrisms() {
         const geometry = new BoxGeometry(1, 2, 1);
-        const material = new MeshStandardMaterial({ 
+        const material = new MeshStandardMaterial({
             color: 0x000000,
             metalness: 0.1,
             roughness: 0.8
         });
 
         const edgesGeometry = new EdgesGeometry(geometry);
-        const edgesMaterial = new LineBasicMaterial({ 
+        const edgesMaterial = new LineBasicMaterial({
             color: 0xffffff,
             linewidth: 1
         });
@@ -74,18 +74,18 @@ class FallingPrisms {
             const prism = new Mesh(geometry, material);
             const edges = new LineSegments(edgesGeometry, edgesMaterial);
             prism.add(edges);
-            
+
             // Distribute prisms across viewport initially
             prism.position.x = (Math.random() - 0.5) * 20;
             prism.position.y = (Math.random() - 0.5) * 20;
             prism.position.z = (Math.random() - 0.5) * 20;
-            
+
             prism.rotation.x = Math.random() * Math.PI;
             prism.rotation.y = Math.random() * Math.PI;
-            
+
             prism.userData.velocity = new Vector3(0, -0.05 - Math.random() * 0.05, 0);
             prism.userData.originalY = prism.position.y;
-            
+
             this.prisms.push(prism);
             this.scene.add(prism);
         }

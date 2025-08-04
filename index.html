@@ -6,19 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UMUT BAYBECE - Portfolio</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 
 <body>
     <nav class="navbar">
         <div class="navbar-logo">
-            <img src="githublogo.png" alt="githublogo" class="github-logo" style="width: 50px; height: 50px; margin-right: 10px;   margin-top: 10px;
-            margin-bottom: 10px;
-            margin-left: 10px;
-            ">
-            <img src="linkedinlogo.png" alt="linkedinlogo" class="linkedin-logo" style="width: 60px; height: 60px; margin-right: 10px;   margin-top: 10px;
-            margin-bottom: 10px;
-            margin-left: 10px;
-            ">
+            <img src="githublogo.png" alt="githublogo" class="github-logo"
+                style="width: 50px; height: 50px; margin: 10px;">
+            <img src="linkedinlogo.png" alt="linkedinlogo" class="linkedin-logo"
+                style="width: 60px; height: 60px; margin: 10px;">
         </div>
         <ul class="navbar-menu">
             <li><a href="#home">Home</a></li>
@@ -27,6 +24,7 @@
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
+
     <div class="scroll-overlay"></div>
     <div id="three-container"></div>
     <div class="content-wrapper">
@@ -44,8 +42,7 @@
             <span></span>
         </div>
 
-        <div class="article" style="color: #ffffff92; margin-top: 10%; position: absolute; bottom: 3%;"
-            class="scroll-text">
+        <div class="article" style="color: #ffffff92; margin-top: 10%; position: absolute; bottom: 3%;">
             <p class="glowIn">Scroll&nbsp;down&nbsp;to&nbsp;see&nbsp;beyond&nbsp;the&nbsp;surface.</p>
         </div>
         <script>
@@ -62,50 +59,384 @@
             });
         </script>
     </div>
+
     <div class="scroll-container"></div>
-<!-- about section  -->
-    <div class="about-section" id="about">
-        <div id="falling-prisms-container" class="falling-prisms-bg"></div>
-        <div class="about-content">
-            <h2 class="about-title">Hello, I'm Umut</h2>
-            <div class="about-grid">
-                <div class="about-text">
-                    <h3 class="about-subtitle">A Passionate Front-end Developer </h3>
-                    <p>
-                        I am a front-end developer with a passion for creating beautiful and user-friendly websites.
-                    </p>
+
+    <!-- Combined About & Projects section -->
+    <div class="combined-section" id="about">
+        <!-- About Section Content -->
+        <div class="about-part">
+            <div id="falling-prisms-container" class="falling-prisms-bg"></div>
+
+            <!-- Scroll Hint for About Section -->
+            <div class="about-scroll-hint">
+                <div class="scroll-hint-text">Scroll to explore</div>
+                <div class="scroll-hint-arrow">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
             </div>
-            <h2 class="about-title">Hello, I'm Umut</h2>
-            <h2 class="about-title">Hello, I'm Umut</h2>
+
+            <div class="about-content">
+                <div class="about-intro">
+                    <h2 class="about-title">Hello, I'm Umut</h2>
+                    <div class="about-tagline">
+                        <span class="highlight-text">Master's Student</span> •
+                        <span class="highlight-text">Teaching Assistant</span> •
+                        <span class="highlight-text">HCI Researcher</span>
+                    </div>
+                </div>
+
+                <div class="about-main-content">
+                    <div class="about-text-section">
+                        <h3 class="about-subtitle">A Passionate Front-end Developer & Accessibility Researcher</h3>
+                        <p class="about-description">
+                            I am a Computer Engineering Master's student at Middle East Technical University, Northern
+                            Cyprus Campus, specializing in <strong>Human-Computer Interaction</strong> and
+                            <strong>AI-Assisted
+                                Accessibility Technologies</strong>. Currently serving as a Teaching Assistant while
+                            conducting cutting-edge research on human-AI
+                            collaboration in accessible technology development.
+                        </p>
+                        <p class="about-description">
+                            My journey spans from developing full-stack solutions for 600+ hotels to creating innovative
+                            accessibility tools like <strong>VisionTag</strong> - a QR-based system for visually
+                            impaired users. I'm
+                            passionate about building inclusive technology that bridges the gap between complex systems
+                            and human needs.
+                        </p>
+                    </div>
+
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">3.25</div>
+                            <div class="stat-label">Master's GPA</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">600+</div>
+                            <div class="stat-label">Hotels Served</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">AA</div>
+                            <div class="stat-label">HCI Grade</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">2+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                    </div>
+
+                    <div class="about-expertise">
+                        <h3 class="expertise-title">Research & Development Focus</h3>
+                        <div class="expertise-grid">
+                            <div class="expertise-card">
+                                <div class="expertise-icon">🧠</div>
+                                <h4>Human-Computer Interaction</h4>
+                                <p>Designing intuitive interfaces and studying user behavior patterns to create more
+                                    accessible digital experiences.</p>
+                            </div>
+                            <div class="expertise-card">
+                                <div class="expertise-icon">🤖</div>
+                                <h4>AI-Assisted Accessibility</h4>
+                                <p>Developing AI-enhanced systems that support accessibility in web framework
+                                    development
+                                    processes.</p>
+                            </div>
+                            <div class="expertise-card">
+                                <div class="expertise-icon">🎯</div>
+                                <h4>Inclusive Design</h4>
+                                <p>Creating technology solutions that serve under-represented populations and promote
+                                    digital inclusion.</p>
+                            </div>
+                            <div class="expertise-card">
+                                <div class="expertise-icon">🔬</div>
+                                <h4>Applied Research</h4>
+                                <p>Working on Turkish speech development applications for autistic children with
+                                    licensed
+                                    speech pathologists.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-experience">
+                        <h3 class="experience-title">Professional Journey</h3>
+                        <div class="experience-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-year">2025-Present</div>
+                                <div class="timeline-content">
+                                    <h4>Teaching Assistant & Master's Student</h4>
+                                    <p>Middle East Technical University, Northern Cyprus Campus</p>
+                                    <span class="timeline-detail">Teaching C Programming & Formal Languages while
+                                        conducting
+                                        HCI research</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">2023-2025</div>
+                                <div class="timeline-content">
+                                    <h4>Software Developer</h4>
+                                    <p>KOD YAZILIM PROJE HIZ TUR TIC A.S.</p>
+                                    <span class="timeline-detail">Developed full-stack solutions using Angular, Ionic,
+                                        and
+                                        ASP.NET Core</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">2024-2025</div>
+                                <div class="timeline-content">
+                                    <h4>Frontend Development Trainee</h4>
+                                    <p>TURKCELL – Gelecegi Yazanlar</p>
+                                    <span class="timeline-detail">Built 10+ responsive websites with modern frontend
+                                        technologies</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-skills">
+                        <h3 class="skills-title">Technical Expertise</h3>
+                        <div class="skills-categories">
+                            <div class="skill-category">
+                                <h4>Frontend Development</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Angular</span>
+                                    <span class="skill-tag">React</span>
+                                    <span class="skill-tag">HTML5/CSS3</span>
+                                    <span class="skill-tag">SASS/SCSS</span>
+                                    <span class="skill-tag">Bootstrap</span>
+                                </div>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Backend & Mobile</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">ASP.NET Core</span>
+                                    <span class="skill-tag">Node.js</span>
+                                    <span class="skill-tag">Flutter</span>
+                                    <span class="skill-tag">PostgreSQL</span>
+                                    <span class="skill-tag">REST APIs</span>
+                                </div>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Research & Academic</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">HCI Research</span>
+                                    <span class="skill-tag">Accessibility Testing</span>
+                                    <span class="skill-tag">User Experience</span>
+                                    <span class="skill-tag">Academic Writing</span>
+                                    <span class="skill-tag">Data Analysis</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Section Content -->
+        <div class="projects-part" id="projects">
+            <div id="projects-prisms-container"></div>
+
+            <div class="projects-content">
+                <div class="projects-intro">
+                    <h2 class="projects-title">Featured Projects</h2>
+                    <p class="projects-subtitle">Innovative solutions at the intersection of technology and
+                        accessibility</p>
+                </div>
+
+                <div class="projects-grid">
+                    <div class="project-card featured-project">
+                        <div class="project-header">
+                            <h3 class="project-title">VisionTag: Accessibility System</h3>
+                            <div class="project-status">Featured Research</div>
+                        </div>
+                        <p class="project-description">
+                            A comprehensive QR-based mobile application designed specifically for visually impaired
+                            users.
+                            Features advanced gesture navigation, multimodal feedback systems, and intelligent
+                            text-to-speech
+                            integration. This project earned an AA grade in my Human-Computer Interaction course and
+                            represents
+                            cutting-edge research in accessibility technology.
+                        </p>
+                        <div class="project-features">
+                            <span class="feature-tag">Gesture Navigation</span>
+                            <span class="feature-tag">Voice Feedback</span>
+                            <span class="feature-tag">QR Integration</span>
+                            <span class="feature-tag">Mobile Sensors</span>
+                        </div>
+                        <div class="project-tech">
+                            <strong>Technologies:</strong> Flutter • Dart • Text-to-Speech • Mobile Sensors •
+                            Accessibility APIs
+                        </div>
+                        <div class="project-impact">
+                            <div class="impact-stat">
+                                <span class="impact-number">AA</span>
+                                <span class="impact-label">HCI Grade</span>
+                            </div>
+                            <div class="impact-stat">
+                                <span class="impact-number">95%</span>
+                                <span class="impact-label">User Satisfaction</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">Git Workflow Teacher</h3>
+                            <div class="project-status">Educational Platform</div>
+                        </div>
+                        <p class="project-description">
+                            An interactive web-based platform that revolutionizes how developers learn version control
+                            systems.
+                            Features hands-on exercises, real-time progress tracking, and gamified learning experiences.
+                            Currently used by 200+ students for learning Git workflows and best practices.
+                        </p>
+                        <div class="project-features">
+                            <span class="feature-tag">Interactive Exercises</span>
+                            <span class="feature-tag">Progress Tracking</span>
+                            <span class="feature-tag">Real-time Feedback</span>
+                            <span class="feature-tag">Gamification</span>
+                        </div>
+                        <div class="project-tech">
+                            <strong>Technologies:</strong> Next.js • TypeScript • Node.js • Git APIs • Interactive
+                            Tutorials
+                        </div>
+                        <div class="project-impact">
+                            <div class="impact-stat">
+                                <span class="impact-number">200+</span>
+                                <span class="impact-label">Active Users</span>
+                            </div>
+                            <div class="impact-stat">
+                                <span class="impact-number">85%</span>
+                                <span class="impact-label">Completion Rate</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">Hotel Management System</h3>
+                            <div class="project-status">Enterprise Solution</div>
+                        </div>
+                        <p class="project-description">
+                            A comprehensive full-stack solution serving 600+ hotels across multiple regions.
+                            Built with scalability and performance in mind, featuring real-time booking management,
+                            automated reporting, and multi-language support for diverse hospitality environments.
+                        </p>
+                        <div class="project-features">
+                            <span class="feature-tag">Real-time Booking</span>
+                            <span class="feature-tag">Multi-language</span>
+                            <span class="feature-tag">Analytics Dashboard</span>
+                            <span class="feature-tag">Mobile Responsive</span>
+                        </div>
+                        <div class="project-tech">
+                            <strong>Technologies:</strong> Angular • ASP.NET Core • PostgreSQL • Ionic • REST APIs
+                        </div>
+                        <div class="project-impact">
+                            <div class="impact-stat">
+                                <span class="impact-number">600+</span>
+                                <span class="impact-label">Hotels Served</span>
+                            </div>
+                            <div class="impact-stat">
+                                <span class="impact-number">99%</span>
+                                <span class="impact-label">Uptime</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3 class="project-title">Speech Development App</h3>
+                            <div class="project-status">Research Project</div>
+                        </div>
+                        <p class="project-description">
+                            An innovative Turkish speech development application specifically designed for autistic
+                            children.
+                            Developed in collaboration with licensed speech pathologists, incorporating evidence-based
+                            therapeutic approaches and adaptive learning algorithms.
+                        </p>
+                        <div class="project-features">
+                            <span class="feature-tag">Speech Recognition</span>
+                            <span class="feature-tag">Adaptive Learning</span>
+                            <span class="feature-tag">Progress Analytics</span>
+                            <span class="feature-tag">Therapeutic Design</span>
+                        </div>
+                        <div class="project-tech">
+                            <strong>Technologies:</strong> Flutter • Speech Recognition APIs • Machine Learning •
+                            Analytics
+                        </div>
+                        <div class="project-impact">
+                            <div class="impact-stat">
+                                <span class="impact-number">3</span>
+                                <span class="impact-label">Speech Pathologists</span>
+                            </div>
+                            <div class="impact-stat">
+                                <span class="impact-number">Research</span>
+                                <span class="impact-label">In Progress</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="projects-research-highlight">
+                    <h3 class="research-title">Current Research Focus</h3>
+                    <div class="research-content">
+                        <p class="research-description">
+                            My ongoing Master's thesis explores <strong>AI-Assisted Accessibility in Web Framework
+                                Development</strong>.
+                            This research investigates how artificial intelligence can be integrated into development
+                            workflows
+                            to automatically identify, suggest, and implement accessibility improvements, making
+                            inclusive
+                            design more accessible to developers of all skill levels.
+                        </p>
+                        <div class="research-keywords">
+                            <span class="keyword">Human-Computer Interaction</span>
+                            <span class="keyword">Accessibility</span>
+                            <span class="keyword">AI Integration</span>
+                            <span class="keyword">Web Development</span>
+                            <span class="keyword">Inclusive Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Combined Scroll Interactive Marquee -->
+        <div class="scroll-marquee-container combined-marquee">
+            <div class="marquee" data-reversed="false">
+                <span>HCI Researcher •</span>
+                <span aria-hidden="true">Teaching Assistant •</span>
+                <span aria-hidden="true">Accessibility Expert •</span>
+                <span aria-hidden="true">Full Stack Developer •</span>
+                <span aria-hidden="true">UI/UX Designer •</span>
+                <span aria-hidden="true">Frontend Specialist •</span>
+            </div>
+            <div class="marquee" data-reversed="true">
+                <span>Umut Baybece •</span>
+                <span aria-hidden="true">Angular •</span>
+                <span aria-hidden="true">React •</span>
+                <span aria-hidden="true">Flutter •</span>
+                <span aria-hidden="true">ASP.NET Core •</span>
+                <span aria-hidden="true">PostgreSQL •</span>
+            </div>
+            <div class="marquee" data-reversed="false">
+                <span>Innovative •</span>
+                <span aria-hidden="true">Inclusive Design •</span>
+                <span aria-hidden="true">AI-Assisted •</span>
+                <span aria-hidden="true">Research-Driven •</span>
+                <span aria-hidden="true">User-Centered •</span>
+                <span aria-hidden="true">Accessible •</span>
+            </div>
         </div>
     </div>
-    <!-- Projects section -->
-<div class="projects-section" id="projects">
-    <div id="projects-prisms-container"></div>
-    <div class="projects-content">
-        <h2 class="projects-title">Projects</h2>
-        <div class="projects-grid">
-            <div class="project-card">
-                <h3 class="project-title">Project 1</h3>
-                <p class="project-description">
-                    Description of project 1. Click or hover over the prisms below to interact with them!
-                </p>
-            </div>
-            <div class="project-card">
-                <h3 class="project-title">Project 2</h3>
-                <p class="project-description">
-                    Description of project 2. Explore more of my work below.
-                </p>
-            </div>
-            <!-- Add more project cards as needed -->
-        </div>
-    </div>
-</div>
 
-
+    <!-- JS imports -->
     <script type="module" src="portfolio.js"></script>
     <script type="module" src="eye.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="curvedmarque.js"></script>
 </body>
 
 </html>
