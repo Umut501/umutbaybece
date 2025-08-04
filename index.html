@@ -1,29 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>UMUT BAYBECE - Portfolio</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+=======
+    <title>Portfolio</title>
+
+    <style>
+        @font-face {
+            font-family: 'KCStrikerSans';
+            src: url('KCStrikerSans.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background-color: #FFFF;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Fluid Canvas */
+        #fluid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-small {
+            color: #364182;
+            font-family: 'KCStrikerSans', Arial, sans-serif;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0px;
+        }
+
+        .nav-big {
+            color: #364182;
+            font-family: 'KCStrikerSans', 'Arial Black', Arial, sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-item:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-item:hover .nav-big {
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .name-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 100;
+            position: relative;
+        }
+
+        .name-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* Responsive ayarları */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .nav-big {
+                font-size: 24px;
+                letter-spacing: 1px;
+            }
+
+            .nav-small {
+                font-size: 10px;
+            }
+
+            .name-image {
+                max-width: 80vw;
+                max-height: 80vh;
+            }
+
+            #water-ripples-title h1 {
+                font-size: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 10px 15px;
+            }
+
+            .nav-big {
+                font-size: 18px;
+                letter-spacing: 0.5px;
+            }
+
+            .nav-small {
+                font-size: 8px;
+            }
+
+            .name-container {
+                padding: 10px;
+            }
+
+            .name-image {
+                max-width: 70vw;
+                max-height: 70vh;
+            }
+        }
+    </style>
+>>>>>>> ef46067c3094d142a6f22a396ffbdcde94809f15
 </head>
 
 <body>
+    <!-- Fluid Canvas (arka plan) -->
+    <canvas id="fluid"></canvas>
+
+    <!-- Navbar -->
     <nav class="navbar">
+<<<<<<< HEAD
         <div class="navbar-logo">
             <img src="githublogo.png" alt="githublogo" class="github-logo"
                 style="width: 50px; height: 50px; margin: 10px;">
             <img src="linkedinlogo.png" alt="linkedinlogo" class="linkedin-logo"
                 style="width: 60px; height: 60px; margin: 10px;">
+=======
+        <div class="nav-item">
+            <div class="nav-small">LEARN MORE</div>
+            <div class="nav-big">ABOUT ME</div>
         </div>
-        <ul class="navbar-menu">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <div class="nav-item">
+            <div class="nav-small">LOOK AT MY</div>
+            <div class="nav-big">PROJECTS</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-small">YOU CAN</div>
+            <div class="nav-big">CONTACT ME</div>
+>>>>>>> ef46067c3094d142a6f22a396ffbdcde94809f15
+        </div>
     </nav>
+<<<<<<< HEAD
 
     <div class="scroll-overlay"></div>
     <div id="three-container"></div>
@@ -437,6 +605,16 @@
     <script type="module" src="eye.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="curvedmarque.js"></script>
+=======
+
+    <div class="name-container">
+        <img src="isim.png" alt="UMUT BAYBECE Portfolio text" class="name-image">
+    </div>
+
+
+    <!-- JavaScript dosyaları -->
+    <script src="fluidcursor.js"></script>
+>>>>>>> ef46067c3094d142a6f22a396ffbdcde94809f15
 </body>
 
 </html>
