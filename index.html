@@ -4,439 +4,590 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UMUT BAYBECE - Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <title>Umut Baybece | HCI Researcher & Engineer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mr+De+Haviland&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-color: #080808;
+            --text-color: #f0f0f0;
+            --line-color: rgba(255, 255, 255, 0.15);
+            --accent-color: #e2ff00;
+            /* Neon Sarı (Görsellerden ilhamla) */
+            --font-display: 'Oswald', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-script: 'Mr De Haviland', cursive;
+            --stroke-width: 1px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- BACKGROUND GRID (SABİT) --- */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+            z-index: -1;
+            padding: 0 5vw;
+        }
+
+        .grid-line {
+            width: 1px;
+            height: 100%;
+            background: var(--line-color);
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 5vw;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(8, 8, 8, 0.95), transparent);
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-right: 30px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .brand-signature {
+            font-family: var(--font-script);
+            color: var(--accent-color);
+            font-size: 2.2rem;
+            transform: rotate(-5deg);
+        }
+
+        /* --- SHARED TYPOGRAPHY --- */
+        .section-header {
+            position: relative;
+            margin-bottom: 80px;
+            text-align: center;
+        }
+
+        /* Arkadaki devasa outline yazı */
+        .bg-title {
+            font-family: var(--font-display);
+            font-size: clamp(4rem, 12vw, 10rem);
+            line-height: 0.8;
+            text-transform: uppercase;
+            color: transparent;
+            -webkit-text-stroke: var(--stroke-width) var(--text-color);
+            white-space: nowrap;
+            opacity: 0.6;
+        }
+
+        /* Üstüne binen script yazı */
+        .fg-script {
+            font-family: var(--font-script);
+            font-size: clamp(4rem, 8vw, 7rem);
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-5deg);
+            z-index: 2;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            white-space: nowrap;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 5vw;
+            padding-top: 60px;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(5rem, 18vw, 16rem);
+            line-height: 0.85;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-row {
+            display: block;
+        }
+
+        .align-right {
+            text-align: right;
+        }
+
+        .fill {
+            color: var(--text-color);
+        }
+
+        .outline {
+            color: transparent;
+            -webkit-text-stroke: 2px var(--text-color);
+            transition: 0.3s;
+        }
+
+        .outline:hover {
+            color: var(--text-color);
+        }
+
+        /* --- ABOUT SECTION (Beyond Design Style) --- */
+        .about-section {
+            padding: 100px 5vw;
+            position: relative;
+        }
+
+        .bio-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .bio-lead {
+            font-family: var(--font-body);
+            font-size: clamp(1.2rem, 2.5vw, 2rem);
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+        }
+
+        .bio-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+        }
+
+        .bio-photo {
+            width: 250px;
+            height: 320px;
+            background: #222;
+            border: 1px solid var(--text-color);
+            object-fit: cover;
+            filter: grayscale(100%);
+        }
+
+        .bio-text {
+            flex: 1;
+            min-width: 300px;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ccc;
+        }
+
+        .btn-cv {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            border: 1px solid var(--text-color);
+            border-radius: 50px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .btn-cv:hover {
+            background: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        /* --- WORK SECTION (Grid Style) --- */
+        .work-section {
+            padding: 100px 5vw;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2px;
+            /* Grid çizgisi efekti için */
+            background: var(--line-color);
+            border: 1px solid var(--line-color);
+        }
+
+        .project-card {
+            background: var(--bg-color);
+            padding: 40px;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            background: #111;
+        }
+
+        .p-img-holder {
+            width: 100%;
+            height: 250px;
+            background: #1a1a1a;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #333;
+            transform: rotate(2deg);
+            /* Hafif yamukluk "editorial" havası verir */
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover .p-img-holder {
+            transform: rotate(0deg);
+        }
+
+        .p-title {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            line-height: 0.9;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .p-tags {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        /* --- RECOGNITION / LIST SECTION (Table Style) --- */
+        .list-section {
+            padding: 100px 5vw;
+        }
+
+        .list-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--line-color);
+            transition: padding 0.3s;
+        }
+
+        .list-row:hover {
+            padding-left: 20px;
+            padding-right: 20px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .list-left {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .list-center {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .list-right {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            text-align: right;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 100px 5vw;
+            border-top: 1px solid var(--line-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .footer-big {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 10vw, 8rem);
+            text-transform: uppercase;
+            color: var(--text-color);
+            text-decoration: none;
+            line-height: 0.8;
+        }
+
+        .footer-links a {
+            display: block;
+            color: var(--text-color);
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            text-align: right;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .bio-details {
+                flex-direction: column;
+            }
+
+            .bg-title {
+                font-size: 15vw;
+                white-space: normal;
+            }
+
+            .fg-script {
+                font-size: 15vw;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .list-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .list-right {
+                text-align: left;
+                color: var(--accent-color);
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="navbar-logo">
-            <img src="githublogo.png" alt="githublogo" class="github-logo"
-                style="width: 50px; height: 50px; margin: 10px;">
-            <img src="linkedinlogo.png" alt="linkedinlogo" class="linkedin-logo"
-                style="width: 60px; height: 60px; margin: 10px;">
+
+    <div class="bg-grid">
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+    </div>
+
+    <nav>
+        <div class="nav-links">
+            <a href="#work">WORK</a>
+            <a href="#about">ABOUT</a>
+            <a href="#awards">AWARDS</a>
         </div>
-        <ul class="navbar-menu">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <div class="brand-signature">by Umut Baybece</div>
     </nav>
 
-    <div class="scroll-overlay"></div>
-    <div id="three-container"></div>
-    <div class="content-wrapper">
-        <header class="headerContainer">
-            <h1 class="name-text playwrite-au-sa " style="display: inline;">
-                <span style="display: inline-block; position: relative;">
-                    <span class="eye-text">portf<span style="color: rgba(240, 248, 255, 0);">o</span>lio</span>
-                </span>
-            </h1>
-        </header>
+    <header class="hero">
+        <div class="hero-title hero-row fill">HCI / AI</div>
+        <div class="hero-title hero-row align-right fill">RESEARCHER</div>
+        <div class="hero-title hero-row outline">ENGINEER</div>
+    </header>
 
-        <div class="scroll-down">
-            <span></span>
-            <span></span>
-            <span></span>
+    <section id="about" class="about-section">
+        <div class="section-header">
+            <div class="bg-title">BEYOND CODE</div>
+            <div class="fg-script">About Me</div>
         </div>
 
-        <div class="article" style="color: #ffffff92; margin-top: 10%; position: absolute; bottom: 3%;">
-            <p class="glowIn">Scroll&nbsp;down&nbsp;to&nbsp;see&nbsp;beyond&nbsp;the&nbsp;surface.</p>
-        </div>
-        <script>
-            let glowInTexts = document.querySelectorAll(".glowIn");
-            glowInTexts.forEach(glowInText => {
-                let letters = glowInText.textContent.split("");
-                glowInText.textContent = "";
-                letters.forEach((letter, i) => {
-                    let span = document.createElement("span");
-                    span.textContent = letter;
-                    span.style.animationDelay = `${i * 0.02}s`;
-                    glowInText.append(span);
-                });
-            });
-        </script>
-    </div>
+        <div class="bio-container">
+            <p class="bio-lead">
+                FOR THE PAST FEW YEARS, I'VE BEEN BRIDGING THE GAP BETWEEN <span
+                    style="color:var(--accent-color)">ARTIFICIAL INTELLIGENCE</span> AND HUMAN NEEDS ✦.
+            </p>
+            <div class="bio-details">
+                <img src="https://placehold.co/400x500/1a1a1a/FFF?text=UB" alt="Umut Baybece" class="bio-photo">
 
-    <div class="scroll-container"></div>
-
-    <!-- Combined About & Projects section -->
-    <div class="combined-section" id="about">
-        <!-- About Section Content -->
-        <div class="about-part">
-            <div id="falling-prisms-container" class="falling-prisms-bg"></div>
-
-            <!-- Scroll Hint for About Section -->
-            <div class="about-scroll-hint">
-                <div class="scroll-hint-text">Scroll to explore</div>
-                <div class="scroll-hint-arrow">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-
-            <div class="about-content">
-                <div class="about-intro">
-                    <h2 class="about-title">Hello, I'm Umut</h2>
-                    <div class="about-tagline">
-                        <span class="highlight-text">Master's Student</span> •
-                        <span class="highlight-text">Teaching Assistant</span> •
-                        <span class="highlight-text">HCI Researcher</span>
-                    </div>
-                </div>
-
-                <div class="about-main-content">
-                    <div class="about-text-section">
-                        <h3 class="about-subtitle">A Passionate Front-end Developer & Accessibility Researcher</h3>
-                        <p class="about-description">
-                            I am a Computer Engineering Master's student at Middle East Technical University, Northern
-                            Cyprus Campus, specializing in <strong>Human-Computer Interaction</strong> and
-                            <strong>AI-Assisted
-                                Accessibility Technologies</strong>. Currently serving as a Teaching Assistant while
-                            conducting cutting-edge research on human-AI
-                            collaboration in accessible technology development.
-                        </p>
-                        <p class="about-description">
-                            My journey spans from developing full-stack solutions for 600+ hotels to creating innovative
-                            accessibility tools like <strong>VisionTag</strong> - a QR-based system for visually
-                            impaired users. I'm
-                            passionate about building inclusive technology that bridges the gap between complex systems
-                            and human needs.
-                        </p>
-                    </div>
-
-                    <div class="about-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">3.25</div>
-                            <div class="stat-label">Master's GPA</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">600+</div>
-                            <div class="stat-label">Hotels Served</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">AA</div>
-                            <div class="stat-label">HCI Grade</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">2+</div>
-                            <div class="stat-label">Years Experience</div>
-                        </div>
-                    </div>
-
-                    <div class="about-expertise">
-                        <h3 class="expertise-title">Research & Development Focus</h3>
-                        <div class="expertise-grid">
-                            <div class="expertise-card">
-                                <div class="expertise-icon">🧠</div>
-                                <h4>Human-Computer Interaction</h4>
-                                <p>Designing intuitive interfaces and studying user behavior patterns to create more
-                                    accessible digital experiences.</p>
-                            </div>
-                            <div class="expertise-card">
-                                <div class="expertise-icon">🤖</div>
-                                <h4>AI-Assisted Accessibility</h4>
-                                <p>Developing AI-enhanced systems that support accessibility in web framework
-                                    development
-                                    processes.</p>
-                            </div>
-                            <div class="expertise-card">
-                                <div class="expertise-icon">🎯</div>
-                                <h4>Inclusive Design</h4>
-                                <p>Creating technology solutions that serve under-represented populations and promote
-                                    digital inclusion.</p>
-                            </div>
-                            <div class="expertise-card">
-                                <div class="expertise-icon">🔬</div>
-                                <h4>Applied Research</h4>
-                                <p>Working on Turkish speech development applications for autistic children with
-                                    licensed
-                                    speech pathologists.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="about-experience">
-                        <h3 class="experience-title">Professional Journey</h3>
-                        <div class="experience-timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-year">2025-Present</div>
-                                <div class="timeline-content">
-                                    <h4>Teaching Assistant & Master's Student</h4>
-                                    <p>Middle East Technical University, Northern Cyprus Campus</p>
-                                    <span class="timeline-detail">Teaching C Programming & Formal Languages while
-                                        conducting
-                                        HCI research</span>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-year">2023-2025</div>
-                                <div class="timeline-content">
-                                    <h4>Software Developer</h4>
-                                    <p>KOD YAZILIM PROJE HIZ TUR TIC A.S.</p>
-                                    <span class="timeline-detail">Developed full-stack solutions using Angular, Ionic,
-                                        and
-                                        ASP.NET Core</span>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-year">2024-2025</div>
-                                <div class="timeline-content">
-                                    <h4>Frontend Development Trainee</h4>
-                                    <p>TURKCELL – Gelecegi Yazanlar</p>
-                                    <span class="timeline-detail">Built 10+ responsive websites with modern frontend
-                                        technologies</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="about-skills">
-                        <h3 class="skills-title">Technical Expertise</h3>
-                        <div class="skills-categories">
-                            <div class="skill-category">
-                                <h4>Frontend Development</h4>
-                                <div class="skill-tags">
-                                    <span class="skill-tag">Angular</span>
-                                    <span class="skill-tag">React</span>
-                                    <span class="skill-tag">HTML5/CSS3</span>
-                                    <span class="skill-tag">SASS/SCSS</span>
-                                    <span class="skill-tag">Bootstrap</span>
-                                </div>
-                            </div>
-                            <div class="skill-category">
-                                <h4>Backend & Mobile</h4>
-                                <div class="skill-tags">
-                                    <span class="skill-tag">ASP.NET Core</span>
-                                    <span class="skill-tag">Node.js</span>
-                                    <span class="skill-tag">Flutter</span>
-                                    <span class="skill-tag">PostgreSQL</span>
-                                    <span class="skill-tag">REST APIs</span>
-                                </div>
-                            </div>
-                            <div class="skill-category">
-                                <h4>Research & Academic</h4>
-                                <div class="skill-tags">
-                                    <span class="skill-tag">HCI Research</span>
-                                    <span class="skill-tag">Accessibility Testing</span>
-                                    <span class="skill-tag">User Experience</span>
-                                    <span class="skill-tag">Academic Writing</span>
-                                    <span class="skill-tag">Data Analysis</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="bio-text">
+                    <p>
+                        Currently a Master's Student at <strong>METU NCC</strong>. My focus isn't just writing code;
+                        it's about creating frameworks where accessibility is foundational, not an afterthought.
+                    </p>
+                    <br>
+                    <p>
+                        From developing "Super-Vision" for medical imaging to creating gesture-based navigation tools
+                        for the visually impaired, I use technology to solve real human problems.
+                    </p>
+                    <a href="#" class="btn-cv">DOWNLOAD CV ↓</a>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Projects Section Content -->
-        <div class="projects-part" id="projects">
-            <div id="projects-prisms-container"></div>
-
-            <div class="projects-content">
-                <div class="projects-intro">
-                    <h2 class="projects-title">Featured Projects</h2>
-                    <p class="projects-subtitle">Innovative solutions at the intersection of technology and
-                        accessibility</p>
-                </div>
-
-                <div class="projects-grid">
-                    <div class="project-card featured-project">
-                        <div class="project-header">
-                            <h3 class="project-title">VisionTag: Accessibility System</h3>
-                            <div class="project-status">Featured Research</div>
-                        </div>
-                        <p class="project-description">
-                            A comprehensive QR-based mobile application designed specifically for visually impaired
-                            users.
-                            Features advanced gesture navigation, multimodal feedback systems, and intelligent
-                            text-to-speech
-                            integration. This project earned an AA grade in my Human-Computer Interaction course and
-                            represents
-                            cutting-edge research in accessibility technology.
-                        </p>
-                        <div class="project-features">
-                            <span class="feature-tag">Gesture Navigation</span>
-                            <span class="feature-tag">Voice Feedback</span>
-                            <span class="feature-tag">QR Integration</span>
-                            <span class="feature-tag">Mobile Sensors</span>
-                        </div>
-                        <div class="project-tech">
-                            <strong>Technologies:</strong> Flutter • Dart • Text-to-Speech • Mobile Sensors •
-                            Accessibility APIs
-                        </div>
-                        <div class="project-impact">
-                            <div class="impact-stat">
-                                <span class="impact-number">AA</span>
-                                <span class="impact-label">HCI Grade</span>
-                            </div>
-                            <div class="impact-stat">
-                                <span class="impact-number">95%</span>
-                                <span class="impact-label">User Satisfaction</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card">
-                        <div class="project-header">
-                            <h3 class="project-title">Git Workflow Teacher</h3>
-                            <div class="project-status">Educational Platform</div>
-                        </div>
-                        <p class="project-description">
-                            An interactive web-based platform that revolutionizes how developers learn version control
-                            systems.
-                            Features hands-on exercises, real-time progress tracking, and gamified learning experiences.
-                            Currently used by 200+ students for learning Git workflows and best practices.
-                        </p>
-                        <div class="project-features">
-                            <span class="feature-tag">Interactive Exercises</span>
-                            <span class="feature-tag">Progress Tracking</span>
-                            <span class="feature-tag">Real-time Feedback</span>
-                            <span class="feature-tag">Gamification</span>
-                        </div>
-                        <div class="project-tech">
-                            <strong>Technologies:</strong> Next.js • TypeScript • Node.js • Git APIs • Interactive
-                            Tutorials
-                        </div>
-                        <div class="project-impact">
-                            <div class="impact-stat">
-                                <span class="impact-number">200+</span>
-                                <span class="impact-label">Active Users</span>
-                            </div>
-                            <div class="impact-stat">
-                                <span class="impact-number">85%</span>
-                                <span class="impact-label">Completion Rate</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card">
-                        <div class="project-header">
-                            <h3 class="project-title">Hotel Management System</h3>
-                            <div class="project-status">Enterprise Solution</div>
-                        </div>
-                        <p class="project-description">
-                            A comprehensive full-stack solution serving 600+ hotels across multiple regions.
-                            Built with scalability and performance in mind, featuring real-time booking management,
-                            automated reporting, and multi-language support for diverse hospitality environments.
-                        </p>
-                        <div class="project-features">
-                            <span class="feature-tag">Real-time Booking</span>
-                            <span class="feature-tag">Multi-language</span>
-                            <span class="feature-tag">Analytics Dashboard</span>
-                            <span class="feature-tag">Mobile Responsive</span>
-                        </div>
-                        <div class="project-tech">
-                            <strong>Technologies:</strong> Angular • ASP.NET Core • PostgreSQL • Ionic • REST APIs
-                        </div>
-                        <div class="project-impact">
-                            <div class="impact-stat">
-                                <span class="impact-number">600+</span>
-                                <span class="impact-label">Hotels Served</span>
-                            </div>
-                            <div class="impact-stat">
-                                <span class="impact-number">99%</span>
-                                <span class="impact-label">Uptime</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card">
-                        <div class="project-header">
-                            <h3 class="project-title">Speech Development App</h3>
-                            <div class="project-status">Research Project</div>
-                        </div>
-                        <p class="project-description">
-                            An innovative Turkish speech development application specifically designed for autistic
-                            children.
-                            Developed in collaboration with licensed speech pathologists, incorporating evidence-based
-                            therapeutic approaches and adaptive learning algorithms.
-                        </p>
-                        <div class="project-features">
-                            <span class="feature-tag">Speech Recognition</span>
-                            <span class="feature-tag">Adaptive Learning</span>
-                            <span class="feature-tag">Progress Analytics</span>
-                            <span class="feature-tag">Therapeutic Design</span>
-                        </div>
-                        <div class="project-tech">
-                            <strong>Technologies:</strong> Flutter • Speech Recognition APIs • Machine Learning •
-                            Analytics
-                        </div>
-                        <div class="project-impact">
-                            <div class="impact-stat">
-                                <span class="impact-number">3</span>
-                                <span class="impact-label">Speech Pathologists</span>
-                            </div>
-                            <div class="impact-stat">
-                                <span class="impact-number">Research</span>
-                                <span class="impact-label">In Progress</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="projects-research-highlight">
-                    <h3 class="research-title">Current Research Focus</h3>
-                    <div class="research-content">
-                        <p class="research-description">
-                            My ongoing Master's thesis explores <strong>AI-Assisted Accessibility in Web Framework
-                                Development</strong>.
-                            This research investigates how artificial intelligence can be integrated into development
-                            workflows
-                            to automatically identify, suggest, and implement accessibility improvements, making
-                            inclusive
-                            design more accessible to developers of all skill levels.
-                        </p>
-                        <div class="research-keywords">
-                            <span class="keyword">Human-Computer Interaction</span>
-                            <span class="keyword">Accessibility</span>
-                            <span class="keyword">AI Integration</span>
-                            <span class="keyword">Web Development</span>
-                            <span class="keyword">Inclusive Design</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section id="work" class="work-section">
+        <div class="section-header">
+            <div class="bg-title">FEATURED WORK</div>
+            <div class="fg-script" style="transform: translate(-50%, -50%) rotate(5deg);">Selected Projects</div>
         </div>
 
-        <!-- Combined Scroll Interactive Marquee -->
-        <div class="scroll-marquee-container combined-marquee">
-            <div class="marquee" data-reversed="false">
-                <span>HCI Researcher •</span>
-                <span aria-hidden="true">Teaching Assistant •</span>
-                <span aria-hidden="true">Accessibility Expert •</span>
-                <span aria-hidden="true">Full Stack Developer •</span>
-                <span aria-hidden="true">UI/UX Designer •</span>
-                <span aria-hidden="true">Frontend Specialist •</span>
+        <div class="project-grid">
+            <div class="project-card">
+                <div>
+                    <div class="p-tags">[ FLUTTER / DART / SENSORS ]</div>
+                    <div class="p-title">VISION<br>TAG</div>
+                </div>
+                <div class="p-img-holder">
+                    <span style="color:#555">APP INTERFACE</span>
+                </div>
+                <p>QR-based accessibility system for visually impaired users. Features gesture-based navigation and
+                    multimodal feedback.</p>
             </div>
-            <div class="marquee" data-reversed="true">
-                <span>Umut Baybece •</span>
-                <span aria-hidden="true">Angular •</span>
-                <span aria-hidden="true">React •</span>
-                <span aria-hidden="true">Flutter •</span>
-                <span aria-hidden="true">ASP.NET Core •</span>
-                <span aria-hidden="true">PostgreSQL •</span>
+
+            <div class="project-card">
+                <div>
+                    <div class="p-tags">[ AI / PYTHON / IMAGE PROCESSING ]</div>
+                    <div class="p-title">SUPER<br>VISION</div>
+                </div>
+                <div class="p-img-holder">
+                    <span style="color:#555">MEDICAL SCAN</span>
+                </div>
+                <p>Enhancement pipeline for hairline fractures. 71.3% preference rate among medical professionals.</p>
             </div>
-            <div class="marquee" data-reversed="false">
-                <span>Innovative •</span>
-                <span aria-hidden="true">Inclusive Design •</span>
-                <span aria-hidden="true">AI-Assisted •</span>
-                <span aria-hidden="true">Research-Driven •</span>
-                <span aria-hidden="true">User-Centered •</span>
-                <span aria-hidden="true">Accessible •</span>
+
+            <div class="project-card">
+                <div>
+                    <div class="p-tags">[ NEXT.JS / TYPESCRIPT ]</div>
+                    <div class="p-title">GIT FLOW<br>TEACHER</div>
+                </div>
+                <div class="p-img-holder">
+                    <span style="color:#555">WEB PLATFORM</span>
+                </div>
+                <p>Interactive educational tool for version control systems. Gamified learning for complex Git
+                    scenarios.</p>
+            </div>
+
+            <div class="project-card">
+                <div>
+                    <div class="p-tags">[ FULL STACK / .NET CORE ]</div>
+                    <div class="p-title">HOTEL<br>SYSTEMS</div>
+                </div>
+                <div class="p-img-holder">
+                    <span style="color:#555">SYSTEM ARCHITECTURE</span>
+                </div>
+                <p>Scalable backend serving 600+ hotels. Refactored PostgreSQL schemas for high efficiency.</p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- JS imports -->
-    <script type="module" src="portfolio.js"></script>
-    <script type="module" src="eye.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="curvedmarque.js"></script>
+    <section id="awards" class="list-section">
+        <div class="section-header">
+            <div class="bg-title">COMMUNITY</div>
+            <div class="fg-script">Service & Awards</div>
+        </div>
+
+        <div class="list-row">
+            <div class="list-left">W4A 2026</div>
+            <div class="list-center">Web for All Conference</div>
+            <div class="list-right">PUBLICITY CHAIR</div>
+        </div>
+
+        <div class="list-row">
+            <div class="list-left">HCI BOOTCAMP</div>
+            <div class="list-center">METU NCC ACM Chapter</div>
+            <div class="list-right">INSTRUCTOR</div>
+        </div>
+
+        <div class="list-row">
+            <div class="list-left">VISIONTAG PROJECT</div>
+            <div class="list-center">Academic Grading</div>
+            <div class="list-right">GRADE: AA</div>
+        </div>
+
+        <div class="list-row">
+            <div class="list-left">IBM DATA SCIENCE</div>
+            <div class="list-center">Professional Certification</div>
+            <div class="list-right">CERTIFIED (2024)</div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div>
+            <a href="mailto:baybece.umut@metu.edu.tr" class="footer-big">LET'S<br>COLLAB</a>
+        </div>
+        <div class="footer-links">
+            <a href="#">LINKEDIN ↗</a>
+            <a href="#">GITHUB ↗</a>
+            <a href="#">SCHOLAR ↗</a>
+        </div>
+    </footer>
+
+    <button id="a11yBtn"
+        style="position:fixed; bottom:20px; left:20px; z-index:999; background:white; color:black; border:none; padding:10px 15px; font-weight:bold; border-radius:50px; cursor:pointer;">
+        👁 A11Y
+    </button>
+
+    <script>
+        // Basit High Contrast Toggle
+        const btn = document.getElementById('a11yBtn');
+        let isHighContrast = false;
+
+        btn.addEventListener('click', () => {
+            isHighContrast = !isHighContrast;
+            if (isHighContrast) {
+                document.documentElement.style.setProperty('--bg-color', '#ffffff');
+                document.documentElement.style.setProperty('--text-color', '#000000');
+                document.documentElement.style.setProperty('--line-color', 'rgba(0,0,0,0.2)');
+                document.documentElement.style.setProperty('--accent-color', '#0000ff');
+                // Outline yazıları siyaha çevir
+                const outlines = document.querySelectorAll('.outline, .bg-title');
+                outlines.forEach(el => el.style.webkitTextStroke = '1px #000');
+            } else {
+                document.documentElement.style.removeProperty('--bg-color');
+                document.documentElement.style.removeProperty('--text-color');
+                document.documentElement.style.removeProperty('--line-color');
+                document.documentElement.style.removeProperty('--accent-color');
+                const outlines = document.querySelectorAll('.outline, .bg-title');
+                outlines.forEach(el => el.style.webkitTextStroke = '');
+            }
+        });
+    </script>
 </body>
 
 </html>
