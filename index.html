@@ -2,591 +2,255 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umut Baybece | HCI Researcher & Engineer</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Mr+De+Haviland&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <style>
-        /* --- CSS VARIABLES & RESET --- */
-        :root {
-            --bg-color: #080808;
-            --text-color: #f0f0f0;
-            --line-color: rgba(255, 255, 255, 0.15);
-            --accent-color: #e2ff00;
-            /* Neon Sarı (Görsellerden ilhamla) */
-            --font-display: 'Oswald', sans-serif;
-            --font-body: 'Inter', sans-serif;
-            --font-script: 'Mr De Haviland', cursive;
-            --stroke-width: 1px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: var(--font-body);
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* --- BACKGROUND GRID (SABİT) --- */
-        .bg-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: space-between;
-            pointer-events: none;
-            z-index: -1;
-            padding: 0 5vw;
-        }
-
-        .grid-line {
-            width: 1px;
-            height: 100%;
-            background: var(--line-color);
-        }
-
-        /* --- NAVIGATION --- */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 5vw;
-            z-index: 100;
-            background: linear-gradient(to bottom, rgba(8, 8, 8, 0.95), transparent);
-        }
-
-        .nav-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            margin-right: 30px;
-            font-family: var(--font-display);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-color);
-        }
-
-        .brand-signature {
-            font-family: var(--font-script);
-            color: var(--accent-color);
-            font-size: 2.2rem;
-            transform: rotate(-5deg);
-        }
-
-        /* --- SHARED TYPOGRAPHY --- */
-        .section-header {
-            position: relative;
-            margin-bottom: 80px;
-            text-align: center;
-        }
-
-        /* Arkadaki devasa outline yazı */
-        .bg-title {
-            font-family: var(--font-display);
-            font-size: clamp(4rem, 12vw, 10rem);
-            line-height: 0.8;
-            text-transform: uppercase;
-            color: transparent;
-            -webkit-text-stroke: var(--stroke-width) var(--text-color);
-            white-space: nowrap;
-            opacity: 0.6;
-        }
-
-        /* Üstüne binen script yazı */
-        .fg-script {
-            font-family: var(--font-script);
-            font-size: clamp(4rem, 8vw, 7rem);
-            color: #fff;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-5deg);
-            z-index: 2;
-            text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-            white-space: nowrap;
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 5vw;
-            padding-top: 60px;
-        }
-
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(5rem, 18vw, 16rem);
-            line-height: 0.85;
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-
-        .hero-row {
-            display: block;
-        }
-
-        .align-right {
-            text-align: right;
-        }
-
-        .fill {
-            color: var(--text-color);
-        }
-
-        .outline {
-            color: transparent;
-            -webkit-text-stroke: 2px var(--text-color);
-            transition: 0.3s;
-        }
-
-        .outline:hover {
-            color: var(--text-color);
-        }
-
-        /* --- ABOUT SECTION (Beyond Design Style) --- */
-        .about-section {
-            padding: 100px 5vw;
-            position: relative;
-        }
-
-        .bio-container {
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .bio-lead {
-            font-family: var(--font-body);
-            font-size: clamp(1.2rem, 2.5vw, 2rem);
-            font-weight: 600;
-            line-height: 1.4;
-            margin-bottom: 50px;
-            text-transform: uppercase;
-        }
-
-        .bio-details {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 40px;
-            align-items: center;
-            justify-content: center;
-            text-align: left;
-        }
-
-        .bio-photo {
-            width: 250px;
-            height: 320px;
-            background: #222;
-            border: 1px solid var(--text-color);
-            object-fit: cover;
-            filter: grayscale(100%);
-        }
-
-        .bio-text {
-            flex: 1;
-            min-width: 300px;
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #ccc;
-        }
-
-        .btn-cv {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 15px 40px;
-            border: 1px solid var(--text-color);
-            border-radius: 50px;
-            color: var(--text-color);
-            text-decoration: none;
-            font-family: var(--font-display);
-            font-weight: 600;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-        }
-
-        .btn-cv:hover {
-            background: var(--text-color);
-            color: var(--bg-color);
-        }
-
-        /* --- WORK SECTION (Grid Style) --- */
-        .work-section {
-            padding: 100px 5vw;
-        }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2px;
-            /* Grid çizgisi efekti için */
-            background: var(--line-color);
-            border: 1px solid var(--line-color);
-        }
-
-        .project-card {
-            background: var(--bg-color);
-            padding: 40px;
-            min-height: 500px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: background 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card:hover {
-            background: #111;
-        }
-
-        .p-img-holder {
-            width: 100%;
-            height: 250px;
-            background: #1a1a1a;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #333;
-            transform: rotate(2deg);
-            /* Hafif yamukluk "editorial" havası verir */
-            transition: transform 0.3s;
-        }
-
-        .project-card:hover .p-img-holder {
-            transform: rotate(0deg);
-        }
-
-        .p-title {
-            font-family: var(--font-display);
-            font-size: 3.5rem;
-            line-height: 0.9;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .p-tags {
-            font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-        }
-
-        /* --- RECOGNITION / LIST SECTION (Table Style) --- */
-        .list-section {
-            padding: 100px 5vw;
-        }
-
-        .list-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 0;
-            border-bottom: 1px solid var(--line-color);
-            transition: padding 0.3s;
-        }
-
-        .list-row:hover {
-            padding-left: 20px;
-            padding-right: 20px;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .list-left {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .list-center {
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .list-right {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            text-align: right;
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            padding: 100px 5vw;
-            border-top: 1px solid var(--line-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .footer-big {
-            font-family: var(--font-display);
-            font-size: clamp(3rem, 10vw, 8rem);
-            text-transform: uppercase;
-            color: var(--text-color);
-            text-decoration: none;
-            line-height: 0.8;
-        }
-
-        .footer-links a {
-            display: block;
-            color: var(--text-color);
-            text-decoration: none;
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            text-align: right;
-        }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 768px) {
-            .bio-details {
-                flex-direction: column;
-            }
-
-            .bg-title {
-                font-size: 15vw;
-                white-space: normal;
-            }
-
-            .fg-script {
-                font-size: 15vw;
-            }
-
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .list-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .list-right {
-                text-align: left;
-                color: var(--accent-color);
-            }
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio — umut baybece</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=Syne:wght@400;700;800&family=Cormorant+Garamond:ital,wght@0,300;1,400&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="Switzer_Complete/WEB/css/switzer.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 </head>
 
 <body>
 
-    <div class="bg-grid">
-        <div class="grid-line"></div>
-        <div class="grid-line"></div>
-        <div class="grid-line"></div>
-        <div class="grid-line"></div>
-        <div class="grid-line"></div>
-    </div>
+    <svg class="svgf">
+        <filter id="f0" color-interpolation-filters="sRGB">
+            <feImage result="m" />
+            <feDisplacementMap in="SourceGraphic" in2="m" xChannelSelector="R" yChannelSelector="G" scale="-180" />
+        </filter>
+        <filter id="f1" color-interpolation-filters="sRGB">
+            <feImage result="m" />
+            <feDisplacementMap in="SourceGraphic" in2="m" xChannelSelector="R" yChannelSelector="G" scale="-180" />
+        </filter>
+        <filter id="f2" color-interpolation-filters="sRGB">
+            <feImage result="m" />
+            <feDisplacementMap in="SourceGraphic" in2="m" xChannelSelector="R" yChannelSelector="G" scale="-180" />
+        </filter>
+        <filter id="f3" color-interpolation-filters="sRGB">
+            <feImage result="m" />
+            <feDisplacementMap in="SourceGraphic" in2="m" xChannelSelector="R" yChannelSelector="G" scale="-180" />
+        </filter>
+        <filter id="f4" color-interpolation-filters="sRGB">
+            <feImage result="m" />
+            <feDisplacementMap in="SourceGraphic" in2="m" xChannelSelector="R" yChannelSelector="G" scale="-180" />
+        </filter>
+        <filter id="f5" color-interpolation-filters="sRGB">
+            <feImage result="m" />
+            <feDisplacementMap in="SourceGraphic" in2="m" xChannelSelector="R" yChannelSelector="G" scale="-180" />
+        </filter>
+        <filter id="f6" color-interpolation-filters="sRGB">
+            <feImage result="m" />
+            <feDisplacementMap in="SourceGraphic" in2="m" xChannelSelector="R" yChannelSelector="G" scale="-180" />
+        </filter>
+        <filter id="f7" color-interpolation-filters="sRGB">
+            <feImage result="m" />
+            <feDisplacementMap in="SourceGraphic" in2="m" xChannelSelector="R" yChannelSelector="G" scale="-180" />
+        </filter>
+    </svg>
 
-    <nav>
-        <div class="nav-links">
-            <a href="#work">WORK</a>
-            <a href="#about">ABOUT</a>
-            <a href="#awards">AWARDS</a>
+    <div id="cdot"></div>
+    <div id="cring"></div>
+
+    <nav id="gnav">
+        <a href="#s2" class="nav-logo"><b>umut</b>.baybece</a>
+        <ul class="nav-links">
+            <li><a href="#s2" data-s="s2">Home</a></li>
+            <li><a href="#s3" data-s="s3">About</a></li>
+            <li><a href="#s4" data-s="s4">Projects</a></li>
+            <li><a href="#s5" data-s="s5">Contact</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="https://github.com" target="_blank" class="lgb" data-fi="0"
+                style="backdrop-filter:url(#f0) saturate(1.5)">GitHub</a>
+            <a href="#s5" class="lgb wat" data-fi="1" style="backdrop-filter:url(#f1) saturate(1.5)">Get in Touch ↗</a>
         </div>
-        <div class="brand-signature">by Umut Baybece</div>
     </nav>
 
-    <header class="hero">
-        <div class="hero-title hero-row fill">HCI / AI</div>
-        <div class="hero-title hero-row align-right fill">RESEARCHER</div>
-        <div class="hero-title hero-row outline">ENGINEER</div>
-    </header>
+    <section class="sec" id="s2">
+        <canvas id="s2-canvas"></canvas>
+        <div id="s2-ui">
+            <div class="hero">
+                <h1 class="hero-title">
+                    <span>umut&nbsp;<i>baybece</i></span>
+                </h1>
+                <div class="meander-frame-container">
+                    <iframe src="meander.html" frameborder="0"></iframe>
+                </div>
 
-    <section id="about" class="about-section">
-        <div class="section-header">
-            <div class="bg-title">BEYOND CODE</div>
-            <div class="fg-script">About Me</div>
+            </div>
+
+
         </div>
+    </section>
 
-        <div class="bio-container">
-            <p class="bio-lead">
-                FOR THE PAST FEW YEARS, I'VE BEEN BRIDGING THE GAP BETWEEN <span
-                    style="color:var(--accent-color)">ARTIFICIAL INTELLIGENCE</span> AND HUMAN NEEDS ✦.
+
+
+    <section class="sec" id="s3">
+        <div id="s3-mount"></div>
+        <div class="marquee-wrap">
+            <div class="marquee-track" id="mq-track"></div>
+        </div>
+        <div id="s3-text">
+            <p class="abt-eyebrow">about me</p>
+
+
+            <h2 class="abt-name">YOUR<em> NAME</em></h2>
+            <div class="abt-rule"></div>
+            <p class="abt-bio">
+                Master's student in Computer Engineering at Middle East Technical University.
+                I build things at the intersection of hardware and software — from embedded systems
+                to interactive web experiences. Passionate about elegant code and beautiful interfaces.
             </p>
-            <div class="bio-details">
-                <img src="https://placehold.co/400x500/1a1a1a/FFF?text=UB" alt="Umut Baybece" class="bio-photo">
-
-                <div class="bio-text">
-                    <p>
-                        Currently a Master's Student at <strong>METU NCC</strong>. My focus isn't just writing code;
-                        it's about creating frameworks where accessibility is foundational, not an afterthought.
-                    </p>
-                    <br>
-                    <p>
-                        From developing "Super-Vision" for medical imaging to creating gesture-based navigation tools
-                        for the visually impaired, I use technology to solve real human problems.
-                    </p>
-                    <a href="#" class="btn-cv">DOWNLOAD CV ↓</a>
-                </div>
+            <div class="abt-tags">
+                <span class="abt-tag">METU</span>
+                <span class="abt-tag">Embedded Systems</span>
+                <span class="abt-tag">WebGL · Three.js</span>
+                <span class="abt-tag">Signal Processing</span>
+                <span class="abt-tag">Machine Learning</span>
+                <span class="abt-tag">FPGA · VHDL</span>
             </div>
         </div>
+        <p id="s3-hint">drag to rotate</p>
     </section>
 
-    <section id="work" class="work-section">
-        <div class="section-header">
-            <div class="bg-title">FEATURED WORK</div>
-            <div class="fg-script" style="transform: translate(-50%, -50%) rotate(5deg);">Selected Projects</div>
+    <section class="sec" id="s4">
+        <div class="prj-head">
+            <p class="prj-eyebrow">selected work</p>
+            <h2 class="prj-title">Projects</h2>
         </div>
-
-        <div class="project-grid">
-            <div class="project-card">
-                <div>
-                    <div class="p-tags">[ FLUTTER / DART / SENSORS ]</div>
-                    <div class="p-title">VISION<br>TAG</div>
+        <div id="s4-hover-mount"></div>
+        <div class="prj-list">
+            <div class="prj-inner">
+                <div class="prj-item" data-pid="pp1">
+                    <span class="prj-num">01</span><span class="prj-name">Embedded Vision System</span><span
+                        class="prj-side">FPGA · Computer Vision</span>
                 </div>
-                <div class="p-img-holder">
-                    <span style="color:#555">APP INTERFACE</span>
+                <div class="prj-item" data-pid="pp2">
+                    <span class="prj-num">02</span><span class="prj-name">Real-Time Signal Processor</span><span
+                        class="prj-side">DSP · C++ · RTOS</span>
                 </div>
-                <p>QR-based accessibility system for visually impaired users. Features gesture-based navigation and
-                    multimodal feedback.</p>
-            </div>
-
-            <div class="project-card">
-                <div>
-                    <div class="p-tags">[ AI / PYTHON / IMAGE PROCESSING ]</div>
-                    <div class="p-title">SUPER<br>VISION</div>
+                <div class="prj-item" data-pid="pp3">
+                    <span class="prj-num">03</span><span class="prj-name">Interactive Portfolio</span><span
+                        class="prj-side">Three.js · WebGL · GSAP</span>
                 </div>
-                <div class="p-img-holder">
-                    <span style="color:#555">MEDICAL SCAN</span>
+                <div class="prj-item" data-pid="pp4">
+                    <span class="prj-num">04</span><span class="prj-name">Neural Network Accelerator</span><span
+                        class="prj-side">Hardware · ML · VHDL</span>
                 </div>
-                <p>Enhancement pipeline for hairline fractures. 71.3% preference rate among medical professionals.</p>
-            </div>
-
-            <div class="project-card">
-                <div>
-                    <div class="p-tags">[ NEXT.JS / TYPESCRIPT ]</div>
-                    <div class="p-title">GIT FLOW<br>TEACHER</div>
+                <div class="prj-item" data-pid="pp5">
+                    <span class="prj-num">05</span><span class="prj-name">Sensor Fusion Platform</span><span
+                        class="prj-side">IoT · Kalman Filter</span>
                 </div>
-                <div class="p-img-holder">
-                    <span style="color:#555">WEB PLATFORM</span>
-                </div>
-                <p>Interactive educational tool for version control systems. Gamified learning for complex Git
-                    scenarios.</p>
-            </div>
-
-            <div class="project-card">
-                <div>
-                    <div class="p-tags">[ FULL STACK / .NET CORE ]</div>
-                    <div class="p-title">HOTEL<br>SYSTEMS</div>
-                </div>
-                <div class="p-img-holder">
-                    <span style="color:#555">SYSTEM ARCHITECTURE</span>
-                </div>
-                <p>Scalable backend serving 600+ hotels. Refactored PostgreSQL schemas for high efficiency.</p>
             </div>
         </div>
+        <div style="display:none">
+            <img id="pp1-img" src="https://images.unsplash.com/photo-1740220501390-90302389b06a?q=80&w=900" />
+            <img id="pp2-img" src="https://images.unsplash.com/photo-1695374688656-212722801e40?q=80&w=900" />
+            <img id="pp3-img" src="https://images.unsplash.com/photo-1714859100393-ddecc4e306f9?q=80&w=900" />
+            <img id="pp4-img" src="https://images.unsplash.com/photo-1448932223592-d1fc686e76ea?q=80&w=900" />
+            <img id="pp5-img" src="https://images.unsplash.com/photo-1547331942-d21ad99c22ae?q=80&w=900" />
+        </div>
+        <div id="prj-vcursor"><span>View</span></div>
     </section>
 
-    <section id="awards" class="list-section">
-        <div class="section-header">
-            <div class="bg-title">COMMUNITY</div>
-            <div class="fg-script">Service & Awards</div>
+    <section class="sec" id="s5" style="height:auto;min-height:100vh;">
+        <p class="con-eyebrow">let's connect</p>
+        <h2 class="con-title">Get In<em> Touch</em></h2>
+        <p class="con-sub">Open to research collaborations, internships &amp; new opportunities.</p>
+        <div class="con-btns">
+            <a href="mailto:you@metu.edu.tr" class="lgb wat" data-fi="4"
+                style="backdrop-filter:url(#f4) saturate(1.5)">✉ Email Me</a>
+            <a href="https://linkedin.com" target="_blank" class="lgb" data-fi="5"
+                style="backdrop-filter:url(#f5) saturate(1.5)">LinkedIn</a>
+            <a href="https://github.com" target="_blank" class="lgb" data-fi="6"
+                style="backdrop-filter:url(#f6) saturate(1.5)">GitHub</a>
+            <a href="#" class="lgb drk" data-fi="7" style="backdrop-filter:url(#f7) saturate(1.5)">Download CV</a>
         </div>
-
-        <div class="list-row">
-            <div class="list-left">W4A 2026</div>
-            <div class="list-center">Web for All Conference</div>
-            <div class="list-right">PUBLICITY CHAIR</div>
-        </div>
-
-        <div class="list-row">
-            <div class="list-left">HCI BOOTCAMP</div>
-            <div class="list-center">METU NCC ACM Chapter</div>
-            <div class="list-right">INSTRUCTOR</div>
-        </div>
-
-        <div class="list-row">
-            <div class="list-left">VISIONTAG PROJECT</div>
-            <div class="list-center">Academic Grading</div>
-            <div class="list-right">GRADE: AA</div>
-        </div>
-
-        <div class="list-row">
-            <div class="list-left">IBM DATA SCIENCE</div>
-            <div class="list-center">Professional Certification</div>
-            <div class="list-right">CERTIFIED (2024)</div>
-        </div>
+        <footer>
+            <a href="#s1" class="foot-logo"><b>umut</b>.baybece</a>
+            <p>© 2025 · Computer Engineering · METU · Built with water &amp; code</p>
+        </footer>
     </section>
 
-    <footer id="contact">
-        <div>
-            <a href="mailto:baybece.umut@metu.edu.tr" class="footer-big">LET'S<br>COLLAB</a>
-        </div>
-        <div class="footer-links">
-            <a href="#">LINKEDIN ↗</a>
-            <a href="#">GITHUB ↗</a>
-            <a href="#">SCHOLAR ↗</a>
-        </div>
-    </footer>
-
-    <button id="a11yBtn"
-        style="position:fixed; bottom:20px; left:20px; z-index:999; background:white; color:black; border:none; padding:10px 15px; font-weight:bold; border-radius:50px; cursor:pointer;">
-        👁 A11Y
-    </button>
-
+    <script src="script.js"></script>
     <script>
-        // Basit High Contrast Toggle
-        const btn = document.getElementById('a11yBtn');
-        let isHighContrast = false;
+        /* ════════════════════════════════════════════════════
+           1. LENIS — aynı kalsın
+        ════════════════════════════════════════════════════ */
+        gsap.registerPlugin(ScrollTrigger);
 
-        btn.addEventListener('click', () => {
-            isHighContrast = !isHighContrast;
-            if (isHighContrast) {
-                document.documentElement.style.setProperty('--bg-color', '#ffffff');
-                document.documentElement.style.setProperty('--text-color', '#000000');
-                document.documentElement.style.setProperty('--line-color', 'rgba(0,0,0,0.2)');
-                document.documentElement.style.setProperty('--accent-color', '#0000ff');
-                // Outline yazıları siyaha çevir
-                const outlines = document.querySelectorAll('.outline, .bg-title');
-                outlines.forEach(el => el.style.webkitTextStroke = '1px #000');
-            } else {
-                document.documentElement.style.removeProperty('--bg-color');
-                document.documentElement.style.removeProperty('--text-color');
-                document.documentElement.style.removeProperty('--line-color');
-                document.documentElement.style.removeProperty('--accent-color');
-                const outlines = document.querySelectorAll('.outline, .bg-title');
-                outlines.forEach(el => el.style.webkitTextStroke = '');
+        const lenis = new Lenis({
+            duration: 0.8,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false
+        });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0);
+
+        /* ════════════════════════════════════════════════════
+           2. MEANDER EXPAND — iframe scroll ile büyür, tam sayfa olur
+        ════════════════════════════════════════════════════ */
+        const frame = document.querySelector(".meander-frame-container");
+
+        // Başlangıç: iframe küçük, ortada, yuvarlak köşe
+        gsap.set(frame, {
+            width: "min(50vw, 500px)",
+            height: "min(50vh, 500px)",
+            xPercent: -50,
+            yPercent: -50,
+            left: "50%",
+            top: "75%",
+            borderRadius: "20px",
+            transformOrigin: "center center"
+        });
+
+        const meanderTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#s2",
+                start: "top top",
+                end: "+=150%",
+                scrub: 1.2,
+                pin: true,
+                snap: {
+                    snapTo: [0, 1],
+                    duration: { min: 1.2, max: 1.8 },
+                    delay: 0.05,
+                    ease: "power3.inOut"
+                }
             }
         });
+
+        // Hero başlığı yukarı çekil + kaybol
+        meanderTl.to(".hero-title", {
+            y: -120,
+            opacity: 0,
+            duration: 0.25,
+            ease: "power2.in"
+        }, 0);
+
+        // iframe tam sayfa olacak şekilde büyüsün
+        meanderTl.to(frame, {
+            width: "100vw",
+            height: "100vh",
+            top: "50%",
+            borderRadius: "0px",
+            boxShadow: "none",
+            border: "none",
+            duration: 0.75,
+            ease: "power2.inOut"
+        }, 0);
     </script>
 </body>
 
