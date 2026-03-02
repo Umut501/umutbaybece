@@ -431,7 +431,6 @@ body.cursor-drag #cring {
     color: var(--water);
 }
 
-/* 1. Hero kapsayıcısını en alta yaslanacak şekilde ayarla */
 .hero {
     z-index: 20;
     flex: 1;
@@ -439,22 +438,17 @@ body.cursor-drag #cring {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    margin-top: 20vh;
+    justify-content: flex-end;
+    margin-top: 0;
     text-align: center;
     padding: 0;
     padding-bottom: 40px;
-    /* Yazının alt kısmı için güvenli boşluk */
     gap: 0;
 }
 
 .hero-title {
     position: relative;
-    /* z-index değerinin çalışması için şarttır */
     z-index: 20;
-    /* İframe'in z-index: 10 değerinden daha büyük bir değer */
-
-    /* Aşağıdakiler senin zaten var olan kodların, onlara dokunma: */
     width: 100%;
     font-size: 16vw;
     font-weight: 900;
@@ -471,10 +465,8 @@ body.cursor-drag #cring {
     text-shadow: 0 20px 80px rgba(0, 0, 0, 0.3);
 }
 
-/* Harfler çok uzadığı için üstteki butonlarla çakışmaması için mesafe: */
 .hero-cta {
     margin-bottom: 12rem;
-    /* Uzayan harflere yer açmak için bu değeri artırdık */
     z-index: 20;
 }
 
@@ -856,43 +848,4 @@ footer p {
     height: 0;
     pointer-events: none;
     overflow: hidden;
-}
-
-/* ══════════════════════════════
-   MEANDER IFRAME CONTAINER
-══════════════════════════════ */
-.meander-frame-container {
-    position: absolute;
-    /* Kaydırma animasyonu için serbest bırakıyoruz */
-    top: 75%;
-    /* Başlığın (Umut Baybece) altında durması için */
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /* Tam merkeze hizalar */
-    width: 300px;
-    height: 300px;
-    border-radius: 20px;
-    overflow: hidden;
-    z-index: 2;
-    pointer-events: auto;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    will-change: width, height, transform;
-    /* Animasyon performansı için */
-}
-
-.meander-frame-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-    background: transparent;
-}
-
-@media (min-width: 768px) {
-    .meander-frame-container {
-        width: 50vw;
-        /* vh yerine vw kullanmak ekran oranları için daha iyi */
-        height: 50vh;
-    }
 }
